@@ -14,7 +14,6 @@ Suggests:
 Imports:
     glyclean,
     glydet,
-    glydraw,
     glyenzy,
     glyexp,
     glymotif,
@@ -31,7 +30,6 @@ URL: https://glycoverse.github.io/glycoverse/
 Remotes: 
     glycoverse/glyclean@*release,
     glycoverse/glydet@*release,
-    glycoverse/glydraw@*release,
     glycoverse/glyenzy@*release,
     glycoverse/glyexp@*release,
     glycoverse/glymotif@*release,
