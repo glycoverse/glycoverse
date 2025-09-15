@@ -15,7 +15,8 @@ Suggests:
     testthat (>= 3.0.0),
     tidyverse,
     limma,
-    factoextra
+    factoextra,
+    clusterProfiler
 Imports:
     cli,
     dplyr,
