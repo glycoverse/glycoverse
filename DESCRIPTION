@@ -13,7 +13,9 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    tidyverse
+    tidyverse,
+    limma,
+    factoextra
 Imports:
     cli,
     dplyr,
