@@ -10,7 +10,10 @@ Description: The 'glycoverse' is a set of packages that together form a
     'glycoverse' packages in a single step.
 License: MIT + file LICENSE
 Suggests: 
-    testthat (>= 3.0.0)
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    tidyverse
 Imports:
     cli,
     dplyr,
@@ -45,3 +48,4 @@ Remotes:
     glycoverse/glyrepr@*release,
     glycoverse/glystats@*release,
     glycoverse/glyvis@*release
+VignetteBuilder: knitr
