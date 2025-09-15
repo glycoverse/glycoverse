@@ -16,7 +16,8 @@ Suggests:
     tidyverse,
     limma,
     factoextra,
-    clusterProfiler
+    clusterProfiler,
+    org.Hs.eg.db
 Imports:
     cli,
     dplyr,
