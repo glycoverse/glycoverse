@@ -40,6 +40,15 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+## Documentation
+
+We have two case studies that showcase the basic workflow of `glycoverse`:
+
+- [Case Study: Glycoproteomics](https://glycoverse.github.io/glycoverse/articles/case-study-1.html)
+- [Case Study: Glycomics](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
+
+Choose one of them to get started, and then refer to the documentation of the individual packages for more details.
+
 ## Usage
 
 `library(glycoverse)` will load all the core packages in the `glycoverse` ecosystem:

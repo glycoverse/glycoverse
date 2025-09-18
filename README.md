@@ -35,6 +35,19 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+## Documentation
+
+We have two case studies that showcase the basic workflow of
+`glycoverse`:
+
+-   [Case Study:
+    Glycoproteomics](https://glycoverse.github.io/glycoverse/articles/case-study-1.html)
+-   [Case Study:
+    Glycomics](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
+
+Choose one of them to get started, and then refer to the documentation
+of the individual packages for more details.
+
 ## Usage
 
 `library(glycoverse)` will load all the core packages in the
@@ -69,11 +82,11 @@ have loaded:
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.1.0 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.0.0.9000 ──
 #> ✔ glyclean 0.6.4     ✔ glyparse 0.4.4
-#> ✔ glydet   0.1.1     ✔ glyread  0.6.1
+#> ✔ glydet   0.2.0     ✔ glyread  0.6.1
 #> ✔ glyenzy  0.2.2     ✔ glyrepr  0.7.2
-#> ✔ glyexp   0.8.0     ✔ glystats 0.4.2
+#> ✔ glyexp   0.9.1     ✔ glystats 0.4.2
 #> ✔ glymotif 0.7.0     ✔ glyvis   0.1.2
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
