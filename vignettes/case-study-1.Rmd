@@ -250,6 +250,8 @@ The same principle applies to samples—the "sample" column in sample info
 matches the expression matrix column names.
 This is how `experiment()` keeps all three data components perfectly synchronized.
 
+![](experiment.png)
+
 Of course, synchronization only matters when you're actually manipulating data.
 `glyexp` provides a full suite of `dplyr`-style functions for data manipulation.
 They work just like regular `dplyr` functions, but with helpful suffixes:
