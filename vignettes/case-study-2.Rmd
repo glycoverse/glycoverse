@@ -36,17 +36,17 @@ Quick readiness check:
 
 ## Loading the Packages
 
+We first load the `tidyverse` package, as usual.
+
+```{r}
+library(tidyverse)
+```
+
 Just like `tidyverse`, `glycoverse` is a meta-package that loads
 a collection of specialized packages all at once.
 
 ```{r}
 library(glycoverse)
-```
-
-We'll also need the `tidyverse` packages for this analysis.
-
-```{r}
-library(tidyverse)
 ```
 
 ## Reading the Data
