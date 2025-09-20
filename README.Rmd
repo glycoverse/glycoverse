@@ -57,19 +57,19 @@ This includes:
 
 **Omics data analysis**
 
-- [glyexp](glycoverse.github.io/glyexp/), for data management
-- [glyread](glycoverse.github.io/glyread/), for data import
-- [glyclean](glycoverse.github.io/glyclean/), for data cleaning and preprocessing
-- [glystats](glycoverse.github.io/glystats/), for statistical analysis
-- [glyvis](glycoverse.github.io/glyvis/), for data visualization
+- [glyexp](https://glycoverse.github.io/glyexp/), for data management
+- [glyread](https://glycoverse.github.io/glyread/), for data import
+- [glyclean](https://glycoverse.github.io/glyclean/), for data cleaning and preprocessing
+- [glystats](https://glycoverse.github.io/glystats/), for statistical analysis
+- [glyvis](https://glycoverse.github.io/glyvis/), for data visualization
 
 **Glycan structure analysis**
 
-- [glyrepr](glycoverse.github.io/glyrepr/), for glycan structure representation
-- [glyparse](glycoverse.github.io/glyparse/), for glycan structure parsing
-- [glymotif](glycoverse.github.io/glymotif/), for glycan structure motif analysis
-- [glydet](glycoverse.github.io/glydet/), for glycan derived trait analysis
-- [glyenzy](glycoverse.github.io/glyenzy/), for glycan biosynthesis pathway analysis
+- [glyrepr](https://glycoverse.github.io/glyrepr/), for glycan structure representation
+- [glyparse](https://glycoverse.github.io/glyparse/), for glycan structure parsing
+- [glymotif](https://glycoverse.github.io/glymotif/), for glycan structure motif analysis
+- [glydet](https://glycoverse.github.io/glydet/), for glycan derived trait analysis
+- [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan biosynthesis pathway analysis
 
 You also get a condensed summary of conflicts with other packages you have loaded:
 

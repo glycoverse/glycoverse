@@ -57,25 +57,27 @@ This includes:
 
 **Omics data analysis**
 
--   [glyexp](glycoverse.github.io/glyexp/), for data management
--   [glyread](glycoverse.github.io/glyread/), for data import
--   [glyclean](glycoverse.github.io/glyclean/), for data cleaning and
-    preprocessing
--   [glystats](glycoverse.github.io/glystats/), for statistical analysis
--   [glyvis](glycoverse.github.io/glyvis/), for data visualization
+-   [glyexp](https://glycoverse.github.io/glyexp/), for data management
+-   [glyread](https://glycoverse.github.io/glyread/), for data import
+-   [glyclean](https://glycoverse.github.io/glyclean/), for data
+    cleaning and preprocessing
+-   [glystats](https://glycoverse.github.io/glystats/), for statistical
+    analysis
+-   [glyvis](https://glycoverse.github.io/glyvis/), for data
+    visualization
 
 **Glycan structure analysis**
 
--   [glyrepr](glycoverse.github.io/glyrepr/), for glycan structure
-    representation
--   [glyparse](glycoverse.github.io/glyparse/), for glycan structure
-    parsing
--   [glymotif](glycoverse.github.io/glymotif/), for glycan structure
-    motif analysis
--   [glydet](glycoverse.github.io/glydet/), for glycan derived trait
-    analysis
--   [glyenzy](glycoverse.github.io/glyenzy/), for glycan biosynthesis
-    pathway analysis
+-   [glyrepr](https://glycoverse.github.io/glyrepr/), for glycan
+    structure representation
+-   [glyparse](https://glycoverse.github.io/glyparse/), for glycan
+    structure parsing
+-   [glymotif](https://glycoverse.github.io/glymotif/), for glycan
+    structure motif analysis
+-   [glydet](https://glycoverse.github.io/glydet/), for glycan derived
+    trait analysis
+-   [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan
+    biosynthesis pathway analysis
 
 You also get a condensed summary of conflicts with other packages you
 have loaded:
@@ -84,10 +86,10 @@ have loaded:
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.0.0.9000 ──
 #> ✔ glyclean 0.6.4     ✔ glyparse 0.4.4
-#> ✔ glydet   0.2.0     ✔ glyread  0.6.1
-#> ✔ glyenzy  0.2.2     ✔ glyrepr  0.7.2
+#> ✔ glydet   0.3.0     ✔ glyread  0.6.1
+#> ✔ glyenzy  0.2.2     ✔ glyrepr  0.7.3
 #> ✔ glyexp   0.9.1     ✔ glystats 0.4.2
-#> ✔ glymotif 0.7.0     ✔ glyvis   0.1.2
+#> ✔ glymotif 0.8.0     ✔ glyvis   0.1.2
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
