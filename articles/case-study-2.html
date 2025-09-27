@@ -84,14 +84,49 @@ Science</a>. Trust us, it’s worth the investment!</p>
 <li>What makes data “tidy”?</li>
 </ul>
 <div class="section level2">
+<h2 id="tldr">TL;DR<a class="anchor" aria-label="anchor" href="#tldr"></a>
+</h2>
+<p>In case you’re in a hurry…</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load the packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preprocess the data</span></span>
+<span><span class="va">clean_exp</span> <span class="op">&lt;-</span> <span class="fu">auto_clean</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform PCA</span></span>
+<span><span class="va">pca_res</span> <span class="op">&lt;-</span> <span class="fu">gly_pca</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform differential expression analysis</span></span>
+<span><span class="va">limma_res</span> <span class="op">&lt;-</span> <span class="fu">gly_limma</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
+<span><span class="va">limma_res</span><span class="op">$</span><span class="va">tidy_result</span></span>
+<span></span>
+<span><span class="co"># Perform motif analysis</span></span>
+<span><span class="va">motifs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  motif1 <span class="op">=</span> <span class="st">"Neu5Ac(??-?)Gal(??-?)GlcNAc(??-"</span>,</span>
+<span>  motif2 <span class="op">=</span> <span class="st">"Gal(??-?)GlcNAc(??-"</span>,</span>
+<span>  motif3 <span class="op">=</span> <span class="st">"GlcNAc(??-"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">motif_exp</span> <span class="op">&lt;-</span> <span class="fu">quantify_motifs</span><span class="op">(</span><span class="va">clean_exp</span>, <span class="va">motifs</span><span class="op">)</span></span>
+<span><span class="va">motif_anova_res</span> <span class="op">&lt;-</span> <span class="fu">gly_anova</span><span class="op">(</span><span class="va">motif_exp</span><span class="op">)</span></span>
+<span><span class="va">motif_anova_res</span><span class="op">$</span><span class="va">tidy_result</span><span class="op">$</span><span class="va">main_test</span></span>
+<span></span>
+<span><span class="co"># Perform derived trait analysis</span></span>
+<span><span class="va">trait_exp</span> <span class="op">&lt;-</span> <span class="fu">derive_traits</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
+<span><span class="va">trait_anova_res</span> <span class="op">&lt;-</span> <span class="fu">gly_anova</span><span class="op">(</span><span class="va">trait_exp</span><span class="op">)</span></span>
+<span><span class="va">trait_anova_res</span><span class="op">$</span><span class="va">tidy_result</span><span class="op">$</span><span class="va">main_test</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="loading-the-packages">Loading the Packages<a class="anchor" aria-label="anchor" href="#loading-the-packages"></a>
 </h2>
 <p>We first load the <code>tidyverse</code> package, as usual.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ──────────────────────── tidyverse 2.0.0 ──</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr    </span> 1.1.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr    </span> 2.1.5</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.5.2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.5.2</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2  </span> 4.0.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble   </span> 3.3.0</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">lubridate</span> 1.9.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr    </span> 1.3.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr    </span> 1.1.0     </span></span>
@@ -102,13 +137,13 @@ Science</a>. Trust us, it’s worth the investment!</p>
 <p>Just like <code>tidyverse</code>, <code>glycoverse</code> is a
 meta-package that loads a collection of specialized packages all at
 once.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core glycoverse packages</span> ────────────────────── glycoverse 0.1.0 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.6.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.4.5</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.4.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.6.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.2.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.9.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.4.2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.6.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.5.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.5.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.6.1</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.2.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.4</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.9.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.4.2</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.8.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.2.0</span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyclean</span>::<span style="color: #00BB00;">aggregate()</span>  masks <span style="color: #0000BB;">stats</span>::aggregate()</span></span>
@@ -129,10 +164,10 @@ tutorial, we’ll use the <code>real_experiment2</code> dataset that comes
 with <code>glyexp</code>. This is a real-world N-glycomics dataset from
 144 patients across four liver conditions: healthy controls (H),
 hepatitis (M), cirrhosis (Y), and hepatocellular carcinoma (C).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">real_experiment2</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Experiment</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Glycomics Experiment</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Expression matrix: <span style="color: #0000BB;">144</span> samples, <span style="color: #0000BB;">67</span> variables</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Variable information fields: <span style="color: #00BB00;">glycan_composition</span> <span style="color: #0000BB;">&lt;comp&gt;</span>, <span style="color: #00BB00;">glycan_structure</span> <span style="color: #0000BB;">&lt;struct&gt;</span></span></span></code></pre></div>
@@ -158,7 +193,7 @@ metadata (glycan compositions, glycan structures, etc.)</li>
 <p>You can get these data components by using
 <code>get_expr_mat()</code>, <code>get_sample_info()</code>, and
 <code>get_var_info()</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_expr_mat</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="co">#&gt;          S1       S2       S3       S4       S5</span></span>
 <span><span class="co">#&gt; V1 1354.352 1884.387 1389.444 2034.693 1472.504</span></span>
@@ -166,7 +201,7 @@ metadata (glycan compositions, glycan structures, etc.)</li>
 <span><span class="co">#&gt; V3 6940.940 5911.016 1686.319 4071.061 4349.991</span></span>
 <span><span class="co">#&gt; V4 4437.816 7535.886 2053.077 4773.249 3142.817</span></span>
 <span><span class="co">#&gt; V5 1346.274 1663.375 1043.464 1765.550 1184.083</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_sample_info</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 144 × 2</span></span></span>
 <span><span class="co">#&gt;    sample group</span></span>
@@ -182,7 +217,7 @@ metadata (glycan compositions, glycan structures, etc.)</li>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> S9     M    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> S10    M    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 134 more rows</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_var_info</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 67 × 3</span></span></span>
 <span><span class="co">#&gt;    variable glycan_composition                  </span></span>
@@ -226,13 +261,13 @@ making you implement these tedious steps manually, <code>glyclean</code>
 provides a comprehensive preprocessing pipeline. Just call
 <code>auto_clean()</code> on your <code>experiment()</code> object and
 you’re good to go.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span> <span class="op">&lt;-</span> <span class="fu">auto_clean</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Normalizing data (Median Quotient)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Median Quotient) <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Median Quotient) <span style="color: #B2B2B2;">[19ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Removing variables with &gt;50% missing values</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Removing variables with &gt;50% missing values <span style="color: #B2B2B2;">[19ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Removing variables with &gt;50% missing values <span style="color: #B2B2B2;">[29ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Imputing missing values</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample size &gt; 100, using MissForest imputation</span></span>
@@ -252,7 +287,7 @@ use <code>glystats</code> for the number crunching and
 <code>glyvis</code> to make sense of the results visually.</p>
 <p>Let’s kick off with PCA to get a bird’s-eye view of our data
 structure.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plot_pca</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glyvis`</span></span></code></pre></div>
 <p><img src="case-study-2_files/figure-html/unnamed-chunk-9-1.png" width="384"></p>
 <p><code>glyvis</code> isn’t designed for publication-ready figures, but
@@ -260,7 +295,7 @@ it’s perfect for quick exploratory visualization. Behind the scenes,
 <code>plot_pca()</code> calls <code>gly_pca()</code> from
 <code>glystats</code> and renders the results.</p>
 <p>You can also break this down into separate steps:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca_res</span> <span class="op">&lt;-</span> <span class="fu">gly_pca</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">)</span>  <span class="co"># from `glyvis`</span></span></code></pre></div>
 <p><img src="case-study-2_files/figure-html/unnamed-chunk-10-1.png" width="384"></p>
@@ -288,7 +323,7 @@ advanced analyses.</li>
 </ul>
 <p>Let’s peek inside the <code>pca_res</code> object we just
 created:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pca_res</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ tidy_result:List of 3</span></span>
@@ -312,7 +347,7 @@ tibbles, while <code>pca_res$raw_result</code> holds the original
 <code>prcomp</code> object from <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">stats::prcomp()</a></code>. Check
 <code>?gly_pca</code> for the complete breakdown.</p>
 <p>Here’s what the <code>samples</code> tibble looks like:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pca_res</span><span class="op">$</span><span class="va">tidy_result</span><span class="op">$</span><span class="va">samples</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,488 × 4</span></span></span>
 <span><span class="co">#&gt;    sample group    PC  value</span></span>
@@ -339,7 +374,7 @@ win any beauty contests, but they’ll get your data insights across
 fast.</p>
 <p>Now let’s dive into differential expression analysis using the
 tried-and-true <code>limma</code> package.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">limma_res</span> <span class="op">&lt;-</span> <span class="fu">gly_limma</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"C"</span>, <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, and <span style="color: #0000BB;">"Y"</span></span></span>
@@ -363,7 +398,7 @@ tried-and-true <code>limma</code> package.</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   t &lt;dbl&gt;, p &lt;dbl&gt;, p_adj &lt;dbl&gt;, b &lt;dbl&gt;, contrast &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Excellent! Now let’s identify significantly differentially expressed
 glycans between HCC and healthy samples.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">limma_res</span><span class="op">$</span><span class="va">tidy_result</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, <span class="va">contrast</span> <span class="op">==</span> <span class="st">"C_vs_H"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">glycan_composition</span>, <span class="va">p_adj</span>, <span class="va">log2fc</span><span class="op">)</span></span>
@@ -394,7 +429,7 @@ Started with glyvis</a>.</p>
 </h2>
 <p>We want to subset the experiment to keep only “H” or “C” samples, and
 only the significant glycans above.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sig_vars</span> <span class="op">&lt;-</span> <span class="va">limma_res</span><span class="op">$</span><span class="va">tidy_result</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, <span class="va">contrast</span> <span class="op">==</span> <span class="st">"C_vs_H"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span></span>
@@ -405,7 +440,7 @@ only the significant glycans above.</p>
 <span></span>
 <span><span class="va">sub_exp</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Experiment</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Glycomics Experiment</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Expression matrix: <span style="color: #0000BB;">73</span> samples, <span style="color: #0000BB;">15</span> variables</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Variable information fields: <span style="color: #00BB00;">glycan_composition</span> <span style="color: #0000BB;">&lt;comp&gt;</span>, <span style="color: #00BB00;">glycan_structure</span> <span style="color: #0000BB;">&lt;struct&gt;</span></span></span></code></pre></div>
@@ -414,11 +449,11 @@ features. Let’s take a moment to understand what’s really happening
 under the hood.</p>
 <p>First, what exactly are those <code>sig_vars</code>? At first glance,
 they look pretty cryptic:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sig_vars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "V19" "V20" "V21" "V27" "V32"</span></span></code></pre></div>
 <p>Let’s revisit the variable information tibble:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_var_info</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
 <span><span class="co">#&gt;   variable glycan_composition            </span></span>
@@ -432,7 +467,7 @@ they look pretty cryptic:</p>
 <p>See that first “variable” column? That’s the index column that keeps
 everything synchronized. It links the variable information tibble to the
 expression matrix. Take a look at the expression matrix row names:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_expr_mat</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="co">#&gt;              S1           S2          S3           S4           S5</span></span>
 <span><span class="co">#&gt; V1 0.0008735189 0.0010297263 0.001797452 0.0010678250 0.0008232803</span></span>
@@ -454,7 +489,7 @@ like regular <code>dplyr</code> functions, but with helpful suffixes:
 <code>xxx_var()</code> functions work with variables (features).</p>
 <p>For instance, let’s filter to just the healthy samples using
 <code>filter_obs()</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Filter the data</span></span>
 <span><span class="va">exp_h</span> <span class="op">&lt;-</span> <span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">filter_obs</span><span class="op">(</span><span class="va">group</span> <span class="op">==</span> <span class="st">"H"</span><span class="op">)</span></span></code></pre></div>
@@ -462,7 +497,7 @@ like regular <code>dplyr</code> functions, but with helpful suffixes:
 <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter()</a></code>. The magic happens behind the scenes—the
 expression matrix updates automatically. Let’s verify the filtering
 worked by checking the dimensions:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Before filtering</span></span>
 <span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Number of rows in sample information tibble: {nrow(get_sample_info(clean_exp))}"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Number of rows in sample information tibble: 144</span></span>
@@ -485,7 +520,7 @@ the same for variables. For the complete catalog of
 <code>dplyr</code>-style functions, check out <a href="https://glycoverse.github.io/glyexp/articles/dplyr-style-functions.html" class="external-link">this
 vignette</a>.</p>
 <p>Now that code snippet should make perfect sense:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sig_vars</span> <span class="op">&lt;-</span> <span class="va">limma_res</span><span class="op">$</span><span class="va">tidy_result</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, <span class="va">contrast</span> <span class="op">==</span> <span class="st">"C_vs_H"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">variable</span><span class="op">)</span></span>
@@ -502,7 +537,7 @@ vignette</a>.</p>
 shines when it comes to advanced glycan structure analysis.</p>
 <p>Before diving into motifs, let’s get acquainted with
 <code><a href="https://glycoverse.github.io/glyrepr/reference/glycan_structure.html" class="external-link">glyrepr::glycan_structure()</a></code> vectors.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span><span class="op">$</span><span class="va">var_info</span><span class="op">[[</span><span class="st">"glycan_structure"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; &lt;glycan_structure[52]&gt;</span></span>
 <span><span class="co">#&gt; [1] <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>(?1-?)[<span style="color: #00AF5F;">Man</span>(?1-?)]<span style="color: #00AF5F;">Man</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>(<span style="color: #B2B2B2;">?1-</span></span></span>
@@ -549,7 +584,7 @@ guide</a> to get started—it’s easier than it looks!</p>
 </ol>
 <p><img src="branch_motifs.png"></p>
 <p>Here’s how we express these motifs in IUPAC-condensed notation:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motifs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  motif1 <span class="op">=</span> <span class="st">"Neu5Ac(??-?)Gal(??-?)GlcNAc(??-"</span>,</span>
 <span>  motif2 <span class="op">=</span> <span class="st">"Gal(??-?)GlcNAc(??-"</span>,</span>
@@ -562,7 +597,7 @@ differential expression across conditions?</strong> Without
 <code>glycoverse</code>, this would be a nightmare to tackle manually.
 Take a moment to imagine the pain of doing this by hand!</p>
 <p>Now, the <code>glycoverse</code> solution:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motif_anova_res</span> <span class="op">&lt;-</span> <span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">quantify_motifs</span><span class="op">(</span><span class="va">motifs</span>, alignments <span class="op">=</span> <span class="st">"terminal"</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># quantify these motifs</span></span>
 <span>  <span class="fu">gly_anova</span><span class="op">(</span><span class="op">)</span>  <span class="co"># and perform ANOVA</span></span>
@@ -584,7 +619,7 @@ work seamlessly—including <code>gly_anova()</code>.</p>
 <p>Now we can answer our question using standard <code>tidyverse</code>
 operations, since <code>motif_anova_res$tidy_result$main_test</code> is
 just a regular tibble:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motif_anova_res</span><span class="op">$</span><span class="va">tidy_result</span><span class="op">$</span><span class="va">main_test</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
@@ -596,7 +631,7 @@ motifs appears the most in all glycans?</strong></p>
 <p>For this analysis, we don’t need motif quantification—we just need to
 know which glycans have these motifs.
 <code><a href="https://glycoverse.github.io/glymotif/reference/add_motifs_int.html" class="external-link">glymotif::add_motifs_lgl()</a></code> is perfect for this.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">add_motifs_lgl</span><span class="op">(</span><span class="va">motifs</span>, alignments <span class="op">=</span> <span class="st">"terminal"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_var_info</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -629,11 +664,11 @@ Classic examples include:</p>
 </ul>
 <p><code>glydet</code> calculates derived traits in a flash. Using it
 couldn’t be simpler:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_exp</span> <span class="op">&lt;-</span> <span class="fu">derive_traits</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glydet`</span></span>
 <span><span class="va">trait_exp</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Experiment</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Traitomics Experiment</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Expression matrix: <span style="color: #0000BB;">144</span> samples, <span style="color: #0000BB;">14</span> variables</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Variable information fields: <span style="color: #00BB00;">trait</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span></code></pre></div>
@@ -641,7 +676,7 @@ couldn’t be simpler:</p>
 <code>derive_traits()</code> creates a new <code>experiment()</code>
 object, but now with trait values per sample.</p>
 <p>The variable information shows what we’re working with:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_var_info</span><span class="op">(</span><span class="va">trait_exp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 2</span></span></span>
 <span><span class="co">#&gt;    variable trait</span></span>
@@ -710,7 +745,7 @@ glycans</li>
 literature.</p>
 <p>Let’s identify traits with significantly different values across
 conditions:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_anova_res</span> <span class="op">&lt;-</span> <span class="fu">gly_anova</span><span class="op">(</span><span class="va">trait_exp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"C"</span>, <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, and <span style="color: #0000BB;">"Y"</span></span></span>
