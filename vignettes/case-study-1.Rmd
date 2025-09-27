@@ -34,6 +34,42 @@ Quick readiness check:
 - What's the `%>%` operator? Do we still need it?
 - What makes data "tidy"?
 
+## TL;DR
+
+In case you're in a hurry...
+
+```R
+# Load the packages
+library(tidyverse)
+library(glycoverse)
+
+# Preprocess the data
+clean_exp <- auto_clean(real_experiment)
+
+# Perform PCA
+pca_res <- gly_pca(clean_exp)
+autoplot(pca_res)
+
+# Perform differential expression analysis
+limma_res <- gly_limma(clean_exp)
+limma_res$tidy_result
+
+# Perform motif analysis
+motifs <- c(
+  lewis_by = "dHex(??-?)Hex(??-?)[dHex(??-?)]HexNAc(??-",
+  lewis_ax = "Hex(??-?)[dHex(??-?)]HexNAc(??-",
+  sia_lewis_ax = "NeuAc(??-?)Hex(??-?)[dHex(??-?)]HexNAc(??-"
+)
+motif_exp <- quantify_motifs(clean_exp, motifs)
+motif_anova_res <- gly_anova(motif_exp)
+motif_anova_res$tidy_result$main_test
+
+# Perform derived trait analysis
+trait_exp <- derive_traits(clean_exp)
+trait_anova_res <- gly_anova(trait_exp)
+trait_anova_res$tidy_result$main_test
+```
+
 ## Loading the Packages
 
 We first load the `tidyverse` package, as usual.
