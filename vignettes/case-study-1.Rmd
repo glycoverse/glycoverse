@@ -126,18 +126,6 @@ get_sample_info(real_experiment)
 get_var_info(real_experiment)
 ```
 
-What makes `experiment()` objects so powerful?
-
-1. **Universal compatibility**: All `glycoverse` functions speak the same language.
-   They automatically know where to find what they need in an `experiment()` object,
-   which eliminates the biggest headache in data analysis:
-   constantly reformatting data to meet different function requirements.
-   
-2. **Synchronized operations**: You can use familiar `dplyr`-style functions
-   to filter, select, and modify your data, and everything stays in sync automatically.
-   No more worrying about mismatched sample names or lost metadata!
-
-We'll see these benefits in action throughout this tutorial.
 For a deeper dive into `experiment()` objects, check out [Get Started with glyexp](https://glycoverse.github.io/glyexp/articles/glyexp.html).
 
 ## Data Preprocessing
@@ -200,20 +188,12 @@ The return format is consistent across all functions—a list with two component
 - **`raw_result`**: the original statistical objects.
   These are available when you need to dig deeper or perform advanced analyses.
 
-Let's peek inside the `pca_res` object we just created:
+`glystats` provides two helper functions to get the tidy result tibble and the raw result list from a glystats result object:
+`get_tidy_result()` and `get_raw_result()`.
+Let's now see what the `samples` tibble looks like:
 
 ```{r}
-str(pca_res, max.level = 2)
-```
-
-As you can see, `pca_res$tidy_result` contains three tidy tibbles,
-while `pca_res$raw_result` holds the original `prcomp` object from `stats::prcomp()`.
-Check `?gly_pca` for the complete breakdown.
-
-Here's what the `samples` tibble looks like:
-
-```{r}
-pca_res$tidy_result$samples
+get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
 ```
 
 Notice the "group" column? That's `glystats` being helpful—
@@ -229,8 +209,8 @@ The PCA clearly shows that our samples cluster nicely by condition—always a go
 Now let's dive into differential expression analysis using the tried-and-true `limma` package.
 
 ```{r}
-limma_res <- gly_limma(clean_exp)  # from `glystats`
-limma_res$tidy_result
+limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
+get_tidy_result(limma_res)  # only one tibble here
 ```
 
 Excellent! Now let's identify significantly differentially expressed glycoforms
@@ -239,102 +219,19 @@ between HCC and healthy samples, then see what biological pathways they're invol
 ```{r}
 #| fig-width: 6
 #| fig-height: 6
-sig_vars <- limma_res$tidy_result |>
-  filter(p_adj < 0.05, contrast == "C_vs_H") |>
-  pull(variable)
 
-go_res <- clean_exp |>
-  filter_var(variable %in% sig_vars) |>
-  gly_enrich_go()
-
-autoplot(go_res)
+clean_exp |>
+  filter_sig_vars(limma_res, p_adj_cutoff = 0.05, fc_cutoff = 2) |>
+  gly_enrich_go() |>
+  autoplot()
 ```
 
 And that's it—pathway enrichment in just a few lines!
+Here we filtered the experiment to keep only significant variables and then performed pathway enrichment.
+As this operation is so common, `glystats` provides a dedicated function for it: `filter_sig_vars()`.
+
 For the full statistical arsenal, check out [Get Started with glystats](https://glycoverse.github.io/glystats/articles/glystats.html)
 and [Get Started with glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html).
-
-## Understanding Your Data Better
-
-That last code chunk showcased some powerful `glyexp` features.
-Let's take a moment to understand what's really happening under the hood.
-
-First, what exactly are those `sig_vars`?
-At first glance, they look pretty cryptic:
-
-```{r}
-sig_vars[1:5]
-```
-
-Let's revisit the variable information tibble:
-
-```{r}
-get_var_info(clean_exp)[1:5, ]
-```
-
-See that first "variable" column?
-That's the index column that keeps everything synchronized.
-It links the variable information tibble to the expression matrix.
-Take a look at the expression matrix row names:
-
-```{r}
-get_expr_mat(clean_exp)[1:5, 1:5]
-```
-
-Notice how the row names match the "variable" column exactly, in the same order?
-The same principle applies to samples—the "sample" column in sample info
-matches the expression matrix column names.
-This is how `experiment()` keeps all three data components perfectly synchronized.
-
-![](experiment.png)
-
-Of course, synchronization only matters when you're actually manipulating data.
-`glyexp` provides a full suite of `dplyr`-style functions for data manipulation.
-They work just like regular `dplyr` functions, but with helpful suffixes:
-`xxx_obs()` functions operate on samples (observations),
-and `xxx_var()` functions work with variables (features).
-
-For instance, let's filter to just the healthy samples using `filter_obs()`:
-
-```{r}
-# Filter the data
-exp_h <- clean_exp |>
-  filter_obs(group == "H")
-```
-
-The syntax should feel familiar if you know `dplyr::filter()`.
-The magic happens behind the scenes—the expression matrix updates automatically.
-Let's verify the filtering worked by checking the dimensions:
-
-```{r}
-# Before filtering
-cli::cli_text("Number of rows in sample information tibble: {nrow(get_sample_info(clean_exp))}")
-cli::cli_text("Number of rows in variable information tibble: {nrow(get_var_info(clean_exp))}")
-cli::cli_text("Dimensions of expression matrix: {ncol(get_expr_mat(clean_exp))} x {nrow(get_expr_mat(clean_exp))}")
-
-# After filtering
-cli::cli_text("Number of rows in sample information tibble: {nrow(get_sample_info(exp_h))}")
-cli::cli_text("Number of rows in variable information tibble: {nrow(get_var_info(exp_h))}")
-cli::cli_text("Dimensions of expression matrix: {ncol(get_expr_mat(exp_h))} x {nrow(get_expr_mat(exp_h))}")
-```
-
-In essence, `filter_obs()` applies `dplyr::filter()` to the sample information
-and automatically updates the expression matrix to match.
-`filter_var()` does the same for variables.
-For the complete catalog of `dplyr`-style functions,
-check out [this vignette](https://glycoverse.github.io/glyexp/articles/dplyr-style-functions.html).
-
-Now that code snippet should make perfect sense:
-
-```R
-sig_vars <- limma_res$tidy_result |>
-  filter(p_adj < 0.05, contrast == "C_vs_H") |>
-  pull(variable)
-
-go_res <- clean_exp |>
-  filter_var(variable %in% sig_vars) |>
-  gly_enrich_go()
-```
 
 ## Advanced Motif Analysis
 
@@ -345,7 +242,9 @@ it truly shines when it comes to advanced glycan structure analysis.
 Before diving into motifs, let's get acquainted with `glyrepr::glycan_structure()` vectors.
 
 ```{r}
-clean_exp$var_info[["glycan_structure"]]
+clean_exp |>
+  get_var_info() |>
+  pull(glycan_structure)
 ```
 
 Just like `integer()` and `character()`, `glycan_structure()` is a specialized vector type.
@@ -400,7 +299,7 @@ motif_anova_res <- clean_exp |>
   quantify_motifs(motifs) |>  # quantify these motifs
   gly_anova()  # and perform ANOVA
 
-motif_anova_res$tidy_result$main_test
+get_tidy_result(motif_anova_res, "main_test")
 ```
 
 `quantify_motifs()` transforms your data into a new `experiment()` object.
@@ -412,7 +311,8 @@ Now we can answer our question using standard `tidyverse` operations,
 since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 
 ```{r}
-motif_anova_res$tidy_result$main_test |>
+motif_anova_res |>
+  get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
   group_by(motif) |>
   count()
@@ -421,7 +321,8 @@ motif_anova_res$tidy_result$main_test |>
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
 
 ```{r}
-motif_anova_res$tidy_result$main_test |>
+motif_anova_res |>
+  get_tidy_result("main_test") |>
   filter(p_adj < 0.05, motif == "lewis_ax") |>
   select(protein, protein_site)
 ```
@@ -507,9 +408,11 @@ These represent the most widely used traits in glycomics literature.
 Let's identify glycosites with significantly different core-fucosylation levels (TFc) across conditions:
 
 ```{r}
-trait_anova_res <- gly_anova(trait_exp)
-trait_anova_res$tidy_result$main_test |>
-  filter(trait == "TFc", p_adj < 0.05)
+trait_exp |>
+  filter_var(trait == "TFc") |>  # from `glyexp`
+  gly_anova() |>
+  get_tidy_result("main_test") |>
+  filter(p_adj < 0.05)
 ```
 
 Once again, it's just that straightforward.
