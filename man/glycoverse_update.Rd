@@ -14,9 +14,9 @@ glycoverse packages.}
 Defaults to \code{getOption("repos")}.}
 }
 \description{
-This will check to see if all glycoverse packages (and optionally, their
-dependencies) are up-to-date, and will install after an interactive
-confirmation.
+This checks GitHub releases for all glycoverse packages (and optionally,
+their dependencies) and reports which ones have newer versions available.
+You can then choose to update from CRAN or GitHub as appropriate.
 }
 \examples{
 \dontrun{

@@ -25,6 +25,7 @@ Imports:
     purrr,
     rlang,
     rstudioapi,
+    jsonlite,
     tibble,
     glyclean (>= 0.6.4),
     glydet (>= 0.2.0),
