@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">glycoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,12 +139,12 @@ meta-package that loads a collection of specialized packages all at
 once.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core glycoverse packages</span> ────────────────────── glycoverse 0.1.0 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.6.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.5.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.5.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.6.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.2.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.4</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.9.2     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.5.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.8.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.2.1</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core glycoverse packages</span> ────────────────────── glycoverse 0.1.1 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.7.1      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.5.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.6.2      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.6.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.2.2      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.4 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.10.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.5.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.9.1      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.3.1 </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyclean</span>::<span style="color: #00BB00;">aggregate()</span>  masks <span style="color: #0000BB;">stats</span>::aggregate()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span>        masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
@@ -169,7 +169,7 @@ hepatitis (M), cirrhosis (Y), and hepatocellular carcinoma (C).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Glycomics Experiment</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Expression matrix: <span style="color: #0000BB;">144</span> samples, <span style="color: #0000BB;">67</span> variables</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;fct&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Variable information fields: <span style="color: #00BB00;">glycan_composition</span> <span style="color: #0000BB;">&lt;comp&gt;</span>, <span style="color: #00BB00;">glycan_structure</span> <span style="color: #0000BB;">&lt;struct&gt;</span></span></span></code></pre></div>
 <p>For your own glycomics projects, you can create an
 <code>experiment()</code> object manually. See <a href="https://glycoverse.github.io/glyexp/articles/glyexp.html#building-your-own-data-empire" class="external-link">this
@@ -205,7 +205,7 @@ metadata (glycan compositions, glycan structures, etc.)</li>
 <code class="sourceCode R"><span><span class="fu">get_sample_info</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 144 × 2</span></span></span>
 <span><span class="co">#&gt;    sample group</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> S1     H    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> S2     H    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> S3     Y    </span></span>
@@ -254,11 +254,11 @@ you’re good to go.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Median Quotient) <span style="color: #B2B2B2;">[17ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Removing variables with &gt;50% missing values</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Removing variables with &gt;50% missing values <span style="color: #B2B2B2;">[20ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Removing variables with &gt;50% missing values <span style="color: #B2B2B2;">[19ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Imputing missing values</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample size &gt; 100, using MissForest imputation</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Imputing missing values<span style="color: #00BB00;">✔</span> Imputing missing values <span style="color: #B2B2B2;">[14.1s]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Imputing missing values<span style="color: #00BB00;">✔</span> Imputing missing values <span style="color: #B2B2B2;">[14.3s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Normalizing data (Total Area)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Total Area) <span style="color: #B2B2B2;">[14ms]</span></span></span></code></pre></div>
@@ -316,7 +316,7 @@ now see what the <code>samples</code> tibble looks like:</p>
 <code class="sourceCode R"><span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">pca_res</span>, <span class="st">"samples"</span><span class="op">)</span>  <span class="co"># many tibbles, so we specify one of them</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,488 × 4</span></span></span>
 <span><span class="co">#&gt;    sample    PC  value group</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> S1         1  1.17  H    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> S1         2  1.17  H    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> S1         3 -<span style="color: #BB0000;">1.18</span>  H    </span></span>
@@ -342,7 +342,7 @@ tried-and-true <code>limma</code> package.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">limma_res</span> <span class="op">&lt;-</span> <span class="fu">gly_limma</span><span class="op">(</span><span class="va">clean_exp</span>, contrasts <span class="op">=</span> <span class="st">"H_vs_C"</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"C"</span>, <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, and <span style="color: #0000BB;">"Y"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, <span style="color: #0000BB;">"Y"</span>, and <span style="color: #0000BB;">"C"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Pairwise comparisons will be performed, with levels coming first as reference groups.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Performing multi-group limma analysis with 4 groups</span></span>
 <span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">limma_res</span><span class="op">)</span>  <span class="co"># only one tibble here</span></span>
@@ -466,7 +466,7 @@ Take a moment to imagine the pain of doing this by hand!</p>
 <span>  <span class="fu">quantify_motifs</span><span class="op">(</span><span class="va">motifs</span>, alignments <span class="op">=</span> <span class="st">"terminal"</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># quantify these motifs</span></span>
 <span>  <span class="fu">gly_anova</span><span class="op">(</span><span class="op">)</span>  <span class="co"># and perform ANOVA</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"C"</span>, <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, and <span style="color: #0000BB;">"Y"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, <span style="color: #0000BB;">"Y"</span>, and <span style="color: #0000BB;">"C"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Pairwise comparisons will be performed, with levels coming first as reference groups.</span></span>
 <span></span>
 <span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">motif_anova_res</span>, <span class="st">"main_test"</span><span class="op">)</span></span>
@@ -475,7 +475,7 @@ Take a moment to imagine the pain of doing this by hand!</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> V1       group     3 0.020<span style="text-decoration: underline;">9</span> 0.006<span style="text-decoration: underline;">95</span>      1.18 0.319    0.319   <span style="color: #BB0000;">NA</span>        moti…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> V2       group     3 0.025<span style="text-decoration: underline;">7</span> 0.008<span style="text-decoration: underline;">56</span>      1.93 0.128    0.192   <span style="color: #BB0000;">NA</span>        moti…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> V3       group     3 0.102  0.034<span style="text-decoration: underline;">1</span>       5.90 0.000<span style="text-decoration: underline;">808</span> 0.002<span style="text-decoration: underline;">42</span> C_vs_H;C… moti…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> V3       group     3 0.102  0.034<span style="text-decoration: underline;">1</span>       5.90 0.000<span style="text-decoration: underline;">808</span> 0.002<span style="text-decoration: underline;">42</span> H_vs_Y;H… moti…</span></span></code></pre></div>
 <p><code>quantify_motifs()</code> transforms your data into a new
 <code>experiment()</code> object. Instead of quantification of glycans,
 you now have motif abundances across samples. Since it’s still an
@@ -491,7 +491,7 @@ just a regular tibble:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
 <span><span class="co">#&gt;   variable term     df sumsq meansq statistic    p_val   p_adj post_hoc    motif</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> V3       group     3 0.102 0.034<span style="text-decoration: underline;">1</span>      5.90 0.000<span style="text-decoration: underline;">808</span> 0.002<span style="text-decoration: underline;">42</span> C_vs_H;C_v… moti…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> V3       group     3 0.102 0.034<span style="text-decoration: underline;">1</span>      5.90 0.000<span style="text-decoration: underline;">808</span> 0.002<span style="text-decoration: underline;">42</span> H_vs_Y;H_v… moti…</span></span></code></pre></div>
 <p>Here’s another common question: <strong>Which of the three branching
 motifs appears the most in all glycans?</strong></p>
 <p>For this analysis, we don’t need motif quantification—we just need to
@@ -536,7 +536,7 @@ couldn’t be simpler:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Traitomics Experiment</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Expression matrix: <span style="color: #0000BB;">144</span> samples, <span style="color: #0000BB;">14</span> variables</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample information fields: <span style="color: #00BB00;">group</span> <span style="color: #0000BB;">&lt;fct&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Variable information fields: <span style="color: #00BB00;">trait</span> <span style="color: #0000BB;">&lt;chr&gt;</span></span></span></code></pre></div>
 <p>That’s it! Just like <code>quantify_motifs()</code>,
 <code>derive_traits()</code> creates a new <code>experiment()</code>
@@ -558,8 +558,8 @@ object, but now with trait values per sample.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> V9       TFc  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> V10      TFa  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> V11      TB   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> V12      SG   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> V13      GA   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> V12      GS   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> V13      AG   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> V14      TS</span></span></code></pre></div>
 <p>The “trait” column lists all the derived traits we can analyze.</p>
 <p><code>glydet</code> comes with a comprehensive set of built-in
@@ -617,19 +617,19 @@ conditions:</p>
 <span>  <span class="fu">get_tidy_result</span><span class="op">(</span><span class="st">"main_test"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"C"</span>, <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, and <span style="color: #0000BB;">"Y"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, <span style="color: #0000BB;">"Y"</span>, and <span style="color: #0000BB;">"C"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Pairwise comparisons will be performed, with levels coming first as reference groups.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 10</span></span></span>
 <span><span class="co">#&gt;   variable term     df    sumsq  meansq statistic   p_val   p_adj post_hoc trait</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> V10      group     3  1.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 4.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      7.85 6.99<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> C_vs_H;… TFa  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> V10      group     3  1.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 4.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      7.85 6.99<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> H_vs_C;… TFa  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> V11      group     3  1.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 3.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      3.59 1.55<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 2.71<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> H_vs_Y   TB   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> V13      group     3  5.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      3.85 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 2.20<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> C_vs_H   GA   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> V5       group     3  8.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.70 1.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> C_vs_M;… CA2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> V6       group     3  2.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 7.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.63 1.13<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> C_vs_M;… CA3  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> V7       group     3  6.94<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 2.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      6.08 6.42<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 2.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> C_vs_M   CA4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> V8       group     3  1.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.88 6.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> C_vs_H;… TF   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> V9       group     3  1.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.88 6.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> C_vs_H;… TFc</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> V13      group     3  5.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.78<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      3.85 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 2.20<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> H_vs_C   AG   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> V5       group     3  8.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.70 1.04<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> M_vs_C;… CA2  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> V6       group     3  2.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 7.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.63 1.13<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> M_vs_C;… CA3  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> V7       group     3  6.94<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 2.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      6.08 6.42<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 2.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> M_vs_C   CA4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> V8       group     3  1.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.88 6.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> H_vs_Y;… TF   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> V9       group     3  1.08<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.88 6.81<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span> 3.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> H_vs_Y;… TFc</span></span></code></pre></div>
 <p>Once again, it’s just that straightforward.</p>
 <p>This just scratches the surface of <code>glydet</code>’s
 capabilities. The real power lies in defining custom traits tailored to
