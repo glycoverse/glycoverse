@@ -35,6 +35,13 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+## Important Note
+
+`glycoverse` before v0.1.1 had serious bugs in dependency management. We
+recommend all users to update to the latest version of `glycoverse`, and
+call `glycoverse::glycoverse_update()` to update all the packages in the
+`glycoverse` ecosystem.
+
 ## Documentation
 
 We have two case studies that showcase the basic workflow of
@@ -84,12 +91,12 @@ have loaded:
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.0.0.9000 ──
-#> ✔ glyclean 0.6.4     ✔ glyparse 0.4.4
-#> ✔ glydet   0.3.0     ✔ glyread  0.6.1
-#> ✔ glyenzy  0.2.2     ✔ glyrepr  0.7.3
-#> ✔ glyexp   0.9.1     ✔ glystats 0.4.2
-#> ✔ glymotif 0.8.0     ✔ glyvis   0.1.2
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.2.9000 ──
+#> ✔ glyclean 0.8.1          ✔ glyparse 0.5.2     
+#> ✔ glydet   0.6.4          ✔ glyread  0.8.1     
+#> ✔ glyenzy  0.3.1          ✔ glyrepr  0.7.5.9000
+#> ✔ glyexp   0.10.1         ✔ glystats 0.5.3     
+#> ✔ glymotif 0.11.1         ✔ glyvis   0.4.0     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors

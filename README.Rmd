@@ -40,6 +40,12 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+## Important Note
+
+`glycoverse` before v0.1.1 had serious bugs in dependency management.
+We recommend all users to update to the latest version of `glycoverse`,
+and call `glycoverse::glycoverse_update()` to update all the packages in the `glycoverse` ecosystem.
+
 ## Documentation
 
 We have two case studies that showcase the basic workflow of `glycoverse`:
