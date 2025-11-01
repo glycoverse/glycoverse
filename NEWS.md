@@ -1,3 +1,7 @@
+# glycoverse 0.1.2
+
+* Use the CRAN version of glyrepr.
+
 # glycoverse 0.1.1
 
 * Fix a bug in `glycoverse_update()` where the upstream packages were not set correctly (CRAN, instead of GitHub).
