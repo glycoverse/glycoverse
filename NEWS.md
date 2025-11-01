@@ -1,3 +1,5 @@
+# glycoverse (development version)
+
 # glycoverse 0.1.2
 
 * Use the CRAN version of glyrepr.
