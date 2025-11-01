@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">glycoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,12 +139,12 @@ meta-package that loads a collection of specialized packages all at
 once.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core glycoverse packages</span> ────────────────────── glycoverse 0.1.1 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.8.0      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.5.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.6.3      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.8.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.3.0      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.10.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.5.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.11.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.4.0 </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core glycoverse packages</span> ───────────────── glycoverse 0.1.2.<span style="color: #BB0000;">9000</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.8.1      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.5.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.6.4      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.8.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyenzy </span> 0.3.1      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.7.5 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.10.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.5.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.11.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.4.0 </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyclean</span>::<span style="color: #00BB00;">aggregate()</span>  masks <span style="color: #0000BB;">stats</span>::aggregate()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span>        masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
@@ -250,7 +250,7 @@ you’re good to go.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span> <span class="op">&lt;-</span> <span class="fu">auto_clean</span><span class="op">(</span><span class="va">real_experiment2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Normalizing data (Median Quotient)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Median Quotient) <span style="color: #B2B2B2;">[18ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Median Quotient) <span style="color: #B2B2B2;">[17ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Removing variables with &gt;50% missing values</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Removing variables with &gt;50% missing values <span style="color: #B2B2B2;">[19ms]</span></span></span>
@@ -260,7 +260,7 @@ you’re good to go.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Imputing missing values<span style="color: #00BB00;">✔</span> Imputing missing values <span style="color: #B2B2B2;">[5.2s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Normalizing data (Total Area)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Total Area) <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Normalizing data (Total Area) <span style="color: #B2B2B2;">[14ms]</span></span></span></code></pre></div>
 <p>Your data is now analysis-ready!</p>
 <p>Want to customize the preprocessing steps? See <a href="https://glycoverse.github.io/glyclean/articles/glyclean.html" class="external-link">Get
 Started with glyclean</a> for the full toolkit.</p>
