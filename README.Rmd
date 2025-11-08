@@ -46,6 +46,11 @@ remotes::install_github("glycoverse/glycoverse")
 We recommend all users to update to the latest version of `glycoverse`,
 and call `glycoverse::glycoverse_update()` to update all the packages in the `glycoverse` ecosystem.
 
+Besides, we are progressively uploading glycoverse packages to CRAN.
+Every time a package is shifted to CRAN, we will update the `glycoverse` meta-package
+to depend on the CRAN version of that package.
+So come back from time to time to check if you have the latest version of `glycoverse`!
+
 ## Documentation
 
 We have two case studies that showcase the basic workflow of `glycoverse`:
