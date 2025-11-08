@@ -79,7 +79,7 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
+#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.1.3 ──
 #> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
 #> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
 #> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
@@ -202,7 +202,7 @@ clean_exp <- auto_clean(real_experiment2)
 #> 
 #> ℹ Imputing missing values
 #> ℹ Sample size > 100, using MissForest imputation
-#> ℹ Imputing missing values✔ Imputing missing values [5.1s]
+#> ℹ Imputing missing values✔ Imputing missing values [5s]
 #> 
 #> ℹ Normalizing data (Total Area)
 #> ✔ Normalizing data (Total Area) [14ms]

@@ -79,7 +79,7 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
+#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.1.3 ──
 #> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
 #> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
 #> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
@@ -203,20 +203,20 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 ``` r
 clean_exp <- auto_clean(real_experiment)
 #> ℹ Normalizing data (Median)
-#> ✔ Normalizing data (Median) [138ms]
+#> ✔ Normalizing data (Median) [144ms]
 #> 
 #> ℹ Removing variables with >50% missing values
 #> ✔ Removing variables with >50% missing values [23ms]
 #> 
 #> ℹ Imputing missing values
 #> ℹ Sample size <= 30, using sample minimum imputation
-#> ℹ Imputing missing values✔ Imputing missing values [31ms]
+#> ℹ Imputing missing values✔ Imputing missing values [32ms]
 #> 
 #> ℹ Aggregating data
 #> ✔ Aggregating data [1s]
 #> 
 #> ℹ Normalizing data again
-#> ✔ Normalizing data again [16ms]
+#> ✔ Normalizing data again [17ms]
 ```
 
 Your data is now analysis-ready!

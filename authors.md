@@ -8,12 +8,12 @@
 ## Citation
 
 Fu B (2025). *glycoverse: Easy Install and Load the 'Glycoverse'*. R
-package version 0.1.3.9000, <https://glycoverse.github.io/glycoverse/>.
+package version 0.1.3, <https://glycoverse.github.io/glycoverse/>.
 
     @Manual{,
       title = {glycoverse: Easy Install and Load the `Glycoverse`},
       author = {Bin Fu},
       year = {2025},
-      note = {R package version 0.1.3.9000},
+      note = {R package version 0.1.3},
       url = {https://glycoverse.github.io/glycoverse/},
     }
