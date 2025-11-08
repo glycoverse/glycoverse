@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">glycoverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,6 +74,11 @@
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/glycoverse"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="important-note">Important Note<a class="anchor" aria-label="anchor" href="#important-note"></a>
+</h2>
+<p><code>glycoverse</code> before v0.1.1 had serious bugs in dependency management. We recommend all users to update to the latest version of <code>glycoverse</code>, and call <code><a href="reference/glycoverse_update.html">glycoverse::glycoverse_update()</a></code> to update all the packages in the <code>glycoverse</code> ecosystem.</p>
+</div>
+<div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
 <p>We have two case studies that showcase the basic workflow of <code>glycoverse</code>:</p>
@@ -117,12 +122,12 @@
 <p>You also get a condensed summary of conflicts with other packages you have loaded:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.0.0.9000 ──</span></span>
-<span><span class="co">#&gt; ✔ glyclean 0.6.4     ✔ glyparse 0.4.4</span></span>
-<span><span class="co">#&gt; ✔ glydet   0.3.0     ✔ glyread  0.6.1</span></span>
-<span><span class="co">#&gt; ✔ glyenzy  0.2.2     ✔ glyrepr  0.7.3</span></span>
-<span><span class="co">#&gt; ✔ glyexp   0.9.1     ✔ glystats 0.4.2</span></span>
-<span><span class="co">#&gt; ✔ glymotif 0.8.0     ✔ glyvis   0.1.2</span></span>
+<span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.2.9000 ──</span></span>
+<span><span class="co">#&gt; ✔ glyclean 0.8.1          ✔ glyparse 0.5.2     </span></span>
+<span><span class="co">#&gt; ✔ glydet   0.6.4          ✔ glyread  0.8.1     </span></span>
+<span><span class="co">#&gt; ✔ glyenzy  0.3.1          ✔ glyrepr  0.7.5.9000</span></span>
+<span><span class="co">#&gt; ✔ glyexp   0.10.1         ✔ glystats 0.5.3     </span></span>
+<span><span class="co">#&gt; ✔ glymotif 0.11.1         ✔ glyvis   0.4.0     </span></span>
 <span><span class="co">#&gt; ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; ✖ glyclean::aggregate() masks stats::aggregate()</span></span>
 <span><span class="co">#&gt; ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</span></span></code></pre></div>
@@ -182,7 +187,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

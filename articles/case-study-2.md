@@ -1,0 +1,638 @@
+# Case Study: Glycomics
+
+This vignette walks you through a complete glycomics analysis using
+`glycoverse`. We’ll explore the full spectrum of glycomics data
+analysis, from data loading and preprocessing to statistical analysis
+and visualization. We’ll also dive into advanced glycan structure
+analysis, including motif quantification and derived trait analysis.
+Ready to dive in? Let’s go!
+
+**Heads up:** `glycoverse` is built on `tidy` principles throughout. If
+you’re new to `tidyverse` data analysis, we highly recommend checking
+out Hadley Wickham’s excellent [R for Data
+Science](https://r4ds.hadley.nz). Trust us, it’s worth the investment!
+
+Quick readiness check:
+
+- What’s a `tibble`?
+- How do you filter rows in a `tibble`?
+- What’s the modern alternative to `for` loops?
+- What’s the `%>%` operator? Do we still need it?
+- What makes data “tidy”?
+
+## TL;DR
+
+In case you’re in a hurry…
+
+``` r
+# Load the packages
+library(tidyverse)
+library(glycoverse)
+
+# Preprocess the data
+clean_exp <- auto_clean(real_experiment2)
+
+# Perform PCA
+pca_res <- gly_pca(clean_exp)
+autoplot(pca_res)
+
+# Perform differential expression analysis
+limma_res <- gly_limma(clean_exp)
+get_tidy_result(limma_res)
+
+# Perform motif analysis
+motifs <- c(
+  motif1 = "Neu5Ac(??-?)Gal(??-?)GlcNAc(??-",
+  motif2 = "Gal(??-?)GlcNAc(??-",
+  motif3 = "GlcNAc(??-"
+)
+motif_exp <- quantify_motifs(clean_exp, motifs)
+motif_anova_res <- gly_anova(motif_exp)
+get_tidy_result(motif_anova_res, "main_test")
+
+# Perform derived trait analysis
+trait_exp <- derive_traits(clean_exp)
+trait_anova_res <- gly_anova(trait_exp)
+get_tidy_result(trait_anova_res, "main_test")
+```
+
+## Loading the Packages
+
+We first load the `tidyverse` package, as usual.
+
+``` r
+library(tidyverse)
+#> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
+#> ✔ forcats   1.0.1     ✔ stringr   1.6.0
+#> ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+#> ✔ purrr     1.2.0     
+#> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
+#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+Just like `tidyverse`, `glycoverse` is a meta-package that loads a
+collection of specialized packages all at once.
+
+``` r
+library(glycoverse)
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.2.9000 ──
+#> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
+#> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
+#> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
+#> ✔ glyexp   0.10.1     ✔ glystats 0.5.3 
+#> ✔ glymotif 0.11.2     ✔ glyvis   0.4.0 
+#> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
+#> ✖ glyclean::aggregate()  masks stats::aggregate()
+#> ✖ dplyr::filter()        masks stats::filter()
+#> ✖ lubridate::intersect() masks dplyr::intersect(), base::intersect()
+#> ✖ dplyr::lag()           masks stats::lag()
+#> ✖ glyexp::select_var()   masks dplyr::select_var()
+#> ✖ lubridate::setdiff()   masks dplyr::setdiff(), base::setdiff()
+#> ✖ dplyr::setequal()      masks base::setequal()
+#> ✖ lubridate::union()     masks dplyr::union(), base::union()
+#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+## Reading the Data
+
+Data import is typically your first step in any analysis. For this
+tutorial, we’ll use the `real_experiment2` dataset that comes with
+`glyexp`. This is a real-world N-glycomics dataset from 144 patients
+across four liver conditions: healthy controls (H), hepatitis (M),
+cirrhosis (Y), and hepatocellular carcinoma (C).
+
+``` r
+real_experiment2
+#> 
+#> ── Glycomics Experiment ────────────────────────────────────────────────────────
+#> ℹ Expression matrix: 144 samples, 67 variables
+#> ℹ Sample information fields: group <fct>
+#> ℹ Variable information fields: glycan_composition <comp>, glycan_structure <struct>
+```
+
+For your own glycomics projects, you can create an `experiment()` object
+manually. See [this
+document](https://glycoverse.github.io/glyexp/articles/glyexp.html#building-your-own-data-empire)
+for more details.
+
+The `real_experiment2` object is an `experiment()` object. If you’ve
+worked with `SummarizedExperiment` from Bioconductor, think of
+`experiment()` as its tidy cousin. Essentially, it’s a smart data
+container that manages three key components:
+
+- **Expression matrix**: quantitative data with samples as columns and
+  variables as rows
+- **Sample information**: a tibble with sample metadata (group, batch,
+  demographics, etc.)
+- **Variable information**: a tibble with feature metadata (glycan
+  compositions, glycan structures, etc.)
+
+You can get these data components by using `get_expr_mat()`,
+`get_sample_info()`, and `get_var_info()`.
+
+``` r
+get_expr_mat(real_experiment2)[1:5, 1:5]
+#>          S1       S2       S3       S4       S5
+#> V1 1354.352 1884.387 1389.444 2034.693 1472.504
+#> V2 3315.779 2500.308 1247.036 3102.668 2903.602
+#> V3 6940.940 5911.016 1686.319 4071.061 4349.991
+#> V4 4437.816 7535.886 2053.077 4773.249 3142.817
+#> V5 1346.274 1663.375 1043.464 1765.550 1184.083
+```
+
+``` r
+get_sample_info(real_experiment2)
+#> # A tibble: 144 × 2
+#>    sample group
+#>    <chr>  <fct>
+#>  1 S1     H    
+#>  2 S2     H    
+#>  3 S3     Y    
+#>  4 S4     C    
+#>  5 S5     H    
+#>  6 S6     C    
+#>  7 S7     M    
+#>  8 S8     C    
+#>  9 S9     M    
+#> 10 S10    M    
+#> # ℹ 134 more rows
+```
+
+``` r
+get_var_info(real_experiment2)
+#> # A tibble: 67 × 3
+#>    variable glycan_composition                   glycan_structure               
+#>    <chr>    <comp>                               <struct>                       
+#>  1 V1       Man(3)GlcNAc(3)                      GlcNAc(?1-?)Man(?1-?)[Man(?1-?…
+#>  2 V2       Man(3)GlcNAc(7)                      GlcNAc(?1-?)[GlcNAc(?1-?)]Man(…
+#>  3 V3       Man(5)GlcNAc(2)                      Man(?1-?)[Man(?1-?)]Man(?1-?)[…
+#>  4 V4       Man(4)Gal(2)GlcNAc(4)Neu5Ac(2)       Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
+#>  5 V5       Man(3)Gal(1)GlcNAc(3)                Gal(?1-?)GlcNAc(?1-?)Man(?1-?)…
+#>  6 V6       Man(3)Gal(2)GlcNAc(4)Fuc(2)          Gal(?1-?)GlcNAc(?1-?)Man(?1-?)…
+#>  7 V7       Man(3)GlcNAc(3)Fuc(1)                GlcNAc(?1-?)Man(?1-?)[Man(?1-?…
+#>  8 V8       Man(3)GlcNAc(4)                      GlcNAc(?1-?)Man(?1-?)[GlcNAc(?…
+#>  9 V9       Man(3)Gal(2)GlcNAc(5)Neu5Ac(1)       Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
+#> 10 V10      Man(3)Gal(1)GlcNAc(5)Fuc(1)Neu5Ac(1) Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
+#> # ℹ 57 more rows
+```
+
+For a deeper dive into `experiment()` objects, check out [Get Started
+with glyexp](https://glycoverse.github.io/glyexp/articles/glyexp.html).
+
+## Data Preprocessing
+
+Raw quantification data needs preprocessing before analysis—that’s just
+a fact of life in omics. Typical steps include normalization, missing
+value imputation, and batch effect correction. Rather than making you
+implement these tedious steps manually, `glyclean` provides a
+comprehensive preprocessing pipeline. Just call `auto_clean()` on your
+`experiment()` object and you’re good to go.
+
+``` r
+clean_exp <- auto_clean(real_experiment2)
+#> ℹ Normalizing data (Median Quotient)
+#> ✔ Normalizing data (Median Quotient) [18ms]
+#> 
+#> ℹ Removing variables with >50% missing values
+#> ✔ Removing variables with >50% missing values [20ms]
+#> 
+#> ℹ Imputing missing values
+#> ℹ Sample size > 100, using MissForest imputation
+#> ℹ Imputing missing values✔ Imputing missing values [5.1s]
+#> 
+#> ℹ Normalizing data (Total Area)
+#> ✔ Normalizing data (Total Area) [14ms]
+```
+
+Your data is now analysis-ready!
+
+Want to customize the preprocessing steps? See [Get Started with
+glyclean](https://glycoverse.github.io/glyclean/articles/glyclean.html)
+for the full toolkit.
+
+## Statistical Analysis and Visualization
+
+Time for the fun part—statistical analysis and visualization! We’ll use
+`glystats` for the number crunching and `glyvis` to make sense of the
+results visually.
+
+Let’s kick off with PCA to get a bird’s-eye view of our data structure.
+
+``` r
+plot_pca(clean_exp)  # from `glyvis`
+```
+
+![](case-study-2_files/figure-html/unnamed-chunk-9-1.png)
+
+`glyvis` isn’t designed for publication-ready figures, but it’s perfect
+for quick exploratory visualization. Behind the scenes, `plot_pca()`
+calls `gly_pca()` from `glystats` and renders the results.
+
+You can also break this down into separate steps:
+
+``` r
+pca_res <- gly_pca(clean_exp)  # from `glystats`
+autoplot(pca_res)  # from `glyvis`
+```
+
+![](case-study-2_files/figure-html/unnamed-chunk-10-1.png)
+
+We actually recommend the two-step approach, since it gives you more
+flexibility with the results. You can create custom `ggplot2`
+visualizations for publications or extract the underlying data when
+reviewers ask for it.
+
+`glystats` covers virtually all standard omics analyses. All functions
+follow the same naming pattern: `gly_xxx()`—think `gly_anova()`,
+`gly_ttest()`, `gly_roc()`, `gly_cox()`, `gly_wgcna()`, and so on. They
+all take an `experiment()` object as their first argument.
+
+The return format is consistent across all functions—a list with two
+components:
+
+- **`tidy_result`**: cleaned-up tibbles in tidy format. We’ve done the
+  heavy lifting of organizing messy statistical output for you.
+- **`raw_result`**: the original statistical objects. These are
+  available when you need to dig deeper or perform advanced analyses.
+
+`glystats` provides two helper functions to get the tidy result tibble
+and the raw result list from a glystats result object:
+`get_tidy_result()` and `get_raw_result()`. Let’s now see what the
+`samples` tibble looks like:
+
+``` r
+get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
+#> # A tibble: 7,488 × 4
+#>    sample    PC  value group
+#>    <chr>  <dbl>  <dbl> <fct>
+#>  1 S1         1 -1.13  H    
+#>  2 S1         2  1.69  H    
+#>  3 S1         3 -0.183 H    
+#>  4 S1         4 -1.76  H    
+#>  5 S1         5  1.48  H    
+#>  6 S1         6 -2.66  H    
+#>  7 S1         7 -1.02  H    
+#>  8 S1         8 -1.54  H    
+#>  9 S1         9 -1.54  H    
+#> 10 S1        10 -0.370 H    
+#> # ℹ 7,478 more rows
+```
+
+Notice the “group” column? That’s `glystats` being helpful— it
+automatically pulls relevant metadata from your `experiment()` object
+and includes it in the results wherever it makes sense.
+
+Back to that
+[`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+magic we saw earlier. It automatically recognizes different `glystats`
+result types and plots accordingly— no manual specification needed. The
+plots won’t win any beauty contests, but they’ll get your data insights
+across fast.
+
+Now let’s dive into differential expression analysis using the
+tried-and-true `limma` package.
+
+``` r
+limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
+#> ℹ Number of groups: 4
+#> ℹ Groups: "H", "M", "Y", and "C"
+#> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
+#> ℹ Performing multi-group limma analysis with 4 groups
+get_tidy_result(limma_res)  # only one tibble here
+#> # A tibble: 52 × 11
+#>    variable     log2fc  AveExpr      t  p_val  p_adj      b ref_group test_group
+#>    <chr>         <dbl>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <chr>     <chr>     
+#>  1 V1       -0.000260  0.00144  -1.44  0.152  0.282   -9.31 H         C         
+#>  2 V2       -0.000267  0.00263  -1.32  0.190  0.308   -9.48 H         C         
+#>  3 V3        0.000492  0.00570   0.914 0.363  0.524   -9.93 H         C         
+#>  4 V4       -0.00142   0.00450  -1.93  0.0551 0.137   -8.49 H         C         
+#>  5 V5       -0.000221  0.00134  -1.66  0.0987 0.205   -8.97 H         C         
+#>  6 V7       -0.000116  0.000879 -0.829 0.408  0.558  -10.0  H         C         
+#>  7 V8       -0.0000493 0.00110  -0.301 0.764  0.820  -10.3  H         C         
+#>  8 V9       -0.000567  0.0237   -0.697 0.487  0.603  -10.1  H         C         
+#>  9 V10       0.000883  0.00450   2.43  0.0165 0.0521  -7.44 H         C         
+#> 10 V11      -0.0000650 0.00128  -0.495 0.622  0.735  -10.2  H         C         
+#> # ℹ 42 more rows
+#> # ℹ 2 more variables: glycan_composition <comp>, glycan_structure <struct>
+```
+
+Excellent! Now let’s identify significantly differentially expressed
+glycans between HCC and healthy samples.
+
+``` r
+
+limma_res |>
+  get_tidy_result() |>
+  filter(p_adj < 0.05) |>
+  select(glycan_composition, p_adj, log2fc)
+#> # A tibble: 14 × 3
+#>    glycan_composition                          p_adj   log2fc
+#>    <comp>                                      <dbl>    <dbl>
+#>  1 Man(3)GlcNAc(4)Fuc(1)                0.000000441   0.0172 
+#>  2 Man(3)Gal(1)GlcNAc(5)Neu5Ac(1)       0.0292        0.00106
+#>  3 Man(3)GlcNAc(5)Fuc(1)                0.000479      0.00291
+#>  4 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00432       0.00494
+#>  5 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0443        0.0114 
+#>  6 Man(3)Gal(1)GlcNAc(5)                0.0187        0.00114
+#>  7 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.0169        0.0137 
+#>  8 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00349      -0.0141 
+#>  9 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.0000558    -0.00476
+#> 10 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000427   0.00409
+#> 11 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00107      -0.0264 
+#> 12 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0113        0.00129
+#> 13 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000234  0.0342 
+#> 14 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.000777      0.00189
+```
+
+For the full statistical arsenal, check out [Get Started with
+glystats](https://glycoverse.github.io/glystats/articles/glystats.html)
+and [Get Started with
+glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html).
+
+## Advanced Motif Analysis
+
+Up to now, we’ve covered standard glycomics workflows. While
+`glycoverse` certainly streamlines these analyses, it truly shines when
+it comes to advanced glycan structure analysis.
+
+Before diving into motifs, let’s get acquainted with
+[`glyrepr::glycan_structure()`](https://glycoverse.github.io/glyrepr/reference/glycan_structure.html)
+vectors.
+
+``` r
+clean_exp |>
+  get_var_info() |>
+  pull(glycan_structure)
+#> <glycan_structure[52]>
+#> [1] GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [2] GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)[GlcNAc(?1-?)][GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [3] Man(?1-?)[Man(?1-?)]Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [4] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)[Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)]Man(?1-?)[Man(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [5] Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [6] GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
+#> [7] GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [8] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)][Gal(?1-?)GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [9] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)][GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
+#> [10] Man(?1-?)[Man(?1-?)]Man(?1-?)[GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> ... (42 more not shown)
+#> # Unique structures: 52
+```
+
+Just like [`integer()`](https://rdrr.io/r/base/integer.html) and
+[`character()`](https://rdrr.io/r/base/character.html),
+`glycan_structure()` is a specialized vector type. Some software (like
+pGlyco3 and StrucGP) outputs structural information as text strings.
+When you import this data using `glyread`, the `glyparse` package
+automatically converts these strings into proper `glycan_structure()`
+vectors and stores them in the variable information tibble. Note that
+not all software provides structural data—some only give compositions.
+
+For glycomics data, this information is hard to come by automatically.
+You can do it manually by parsing the glycan structure strings using
+`glyparse` and using `left_join_var()` to join the parsed structures to
+the variable information tibble.
+
+Fortunately, our example dataset includes structural information,
+opening up a world of advanced analytical possibilities. Let’s explore
+motif analysis.
+
+**Quick note:** The printed structures use IUPAC-condensed notation,
+which we’ll also use for defining motifs below. Don’t worry if it looks
+intimidating—we’ll include visual diagrams to help. That said, if you’re
+planning to do serious structural analysis, learning IUPAC-condensed
+notation is worth the investment. Check out [this
+guide](https://glycoverse.github.io/glyrepr/articles/iupac.html) to get
+started—it’s easier than it looks!
+
+Human serum N-glycans can have three types of branch terminals (ignoring
+a1-3 Fuc):
+
+1.  A Sialyl-LacNAc motif
+2.  A LacNAc motif without sialic acids
+3.  Only a GlcNAc without further elongation
+
+![](branch_motifs.png)
+
+Here’s how we express these motifs in IUPAC-condensed notation:
+
+``` r
+motifs <- c(
+  motif1 = "Neu5Ac(??-?)Gal(??-?)GlcNAc(??-",
+  motif2 = "Gal(??-?)GlcNAc(??-",
+  motif3 = "GlcNAc(??-"
+)
+```
+
+The “??-?” represents unknown linkages—a common limitation in mass
+spectrometry data.
+
+Here’s our research question: **Which branching motif show differential
+expression across conditions?** Without `glycoverse`, this would be a
+nightmare to tackle manually. Take a moment to imagine the pain of doing
+this by hand!
+
+Now, the `glycoverse` solution:
+
+``` r
+motif_anova_res <- clean_exp |>
+  quantify_motifs(motifs, alignments = "terminal") |>  # quantify these motifs
+  gly_anova()  # and perform ANOVA
+#> ℹ Number of groups: 4
+#> ℹ Groups: "H", "M", "Y", and "C"
+#> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
+
+get_tidy_result(motif_anova_res, "main_test")
+#> # A tibble: 3 × 10
+#>   variable term     df  sumsq  meansq statistic    p_val   p_adj post_hoc  motif
+#>   <chr>    <chr> <dbl>  <dbl>   <dbl>     <dbl>    <dbl>   <dbl> <chr>     <chr>
+#> 1 V1       group     3 0.0205 0.00685      1.16 0.327    0.327   NA        moti…
+#> 2 V2       group     3 0.0257 0.00857      1.93 0.128    0.192   NA        moti…
+#> 3 V3       group     3 0.101  0.0338       5.82 0.000893 0.00268 H_vs_Y;H… moti…
+```
+
+`quantify_motifs()` transforms your data into a new `experiment()`
+object. Instead of quantification of glycans, you now have motif
+abundances across samples. Since it’s still an `experiment()` object,
+all `glystats` functions work seamlessly—including `gly_anova()`.
+
+Now we can answer our question using standard `tidyverse` operations,
+since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
+
+``` r
+motif_anova_res |>
+  get_tidy_result("main_test") |>
+  filter(p_adj < 0.05)
+#> # A tibble: 1 × 10
+#>   variable term     df sumsq meansq statistic    p_val   p_adj post_hoc    motif
+#>   <chr>    <chr> <dbl> <dbl>  <dbl>     <dbl>    <dbl>   <dbl> <chr>       <chr>
+#> 1 V3       group     3 0.101 0.0338      5.82 0.000893 0.00268 H_vs_Y;H_v… moti…
+```
+
+Here’s another common question: **Which of the three branching motifs
+appears the most in all glycans?**
+
+For this analysis, we don’t need motif quantification—we just need to
+know which glycans have these motifs.
+[`glymotif::add_motifs_lgl()`](https://glycoverse.github.io/glymotif/reference/add_motifs_int.html)
+is perfect for this.
+
+``` r
+clean_exp |>
+  add_motifs_lgl(motifs, alignments = "terminal") |>
+  get_var_info() |>
+  select(glycan_composition, motif1, motif2, motif3) |>
+  pivot_longer(-glycan_composition, names_to = "motif", values_to = "has_motif") |>
+  summarise(n = sum(has_motif), .by = "motif")
+#> # A tibble: 3 × 2
+#>   motif      n
+#>   <chr>  <int>
+#> 1 motif1    27
+#> 2 motif2    21
+#> 3 motif3    23
+```
+
+`add_motifs_lgl()` adds three new TRUE/FALSE columns (`motif1`,
+`motif2`, `motif3`) to the variable information.
+
+`glymotif` has much more to offer beyond these examples. Dive deeper
+with [Get Started with
+glymotif](https://glycoverse.github.io/glymotif/articles/glymotif.html).
+
+## Derived Trait Analysis
+
+Let’s wrap up with derived traits—a clever analytical approach developed
+by the N-glycomics community for glycome characterization. Classic
+examples include:
+
+- High-mannose glycan proportion
+- Core-fucosylation rate within complex glycans
+- Average sialylation per galactose residue
+
+`glydet` calculates derived traits in a flash. Using it couldn’t be
+simpler:
+
+``` r
+trait_exp <- derive_traits(clean_exp)  # from `glydet`
+trait_exp
+#> 
+#> ── Traitomics Experiment ───────────────────────────────────────────────────────
+#> ℹ Expression matrix: 144 samples, 14 variables
+#> ℹ Sample information fields: group <fct>
+#> ℹ Variable information fields: trait <chr>
+```
+
+That’s it! Just like `quantify_motifs()`, `derive_traits()` creates a
+new `experiment()` object, but now with trait values per sample.
+
+The variable information shows what we’re working with:
+
+``` r
+get_var_info(trait_exp)
+#> # A tibble: 14 × 2
+#>    variable trait
+#>    <chr>    <chr>
+#>  1 V1       TM   
+#>  2 V2       TH   
+#>  3 V3       TC   
+#>  4 V4       MM   
+#>  5 V5       CA2  
+#>  6 V6       CA3  
+#>  7 V7       CA4  
+#>  8 V8       TF   
+#>  9 V9       TFc  
+#> 10 V10      TFa  
+#> 11 V11      TB   
+#> 12 V12      GS   
+#> 13 V13      AG   
+#> 14 V14      TS
+```
+
+The “trait” column lists all the derived traits we can analyze.
+
+`glydet` comes with a comprehensive set of built-in traits:
+
+- **`TM`**: Proportion of high-mannose glycans
+- **`TH`**: Proportion of hybrid glycans  
+- **`TC`**: Proportion of complex glycans
+- **`MM`**: Average number of mannoses within high-mannose glycans
+- **`CA2`**: Proportion of bi-antennary glycans within complex glycans
+- **`CA3`**: Proportion of tri-antennary glycans within complex glycans
+- **`CA4`**: Proportion of tetra-antennary glycans within complex
+  glycans
+- **`TF`**: Proportion of fucosylated glycans
+- **`TFc`**: Proportion of core-fucosylated glycans
+- **`TFa`**: Proportion of arm-fucosylated glycans
+- **`TB`**: Proportion of glycans with bisecting GlcNAc
+- **`SG`**: Average degree of sialylation per galactose
+- **`GA`**: Average degree of galactosylation per antenna
+- **`TS`**: Proportion of sialylated glycans
+
+These represent the most widely used traits in glycomics literature.
+
+Let’s identify traits with significantly different values across
+conditions:
+
+``` r
+trait_exp |>
+  gly_anova() |>
+  get_tidy_result("main_test") |>
+  filter(p_adj < 0.05)
+#> ℹ Number of groups: 4
+#> ℹ Groups: "H", "M", "Y", and "C"
+#> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
+#> # A tibble: 8 × 10
+#>   variable term     df    sumsq  meansq statistic   p_val   p_adj post_hoc trait
+#>   <chr>    <chr> <dbl>    <dbl>   <dbl>     <dbl>   <dbl>   <dbl> <chr>    <chr>
+#> 1 V10      group     3  1.26e-4 4.21e-5      6.91 2.27e-4 1.06e-3 M_vs_C;… TFa  
+#> 2 V11      group     3  1.13e-2 3.78e-3      3.56 1.60e-2 2.80e-2 H_vs_Y   TB   
+#> 3 V13      group     3  5.29e-3 1.76e-3      3.79 1.18e-2 2.36e-2 H_vs_C   AG   
+#> 4 V5       group     3  8.67e-3 2.89e-3      5.72 1.01e-3 2.68e-3 M_vs_C;… CA2  
+#> 5 V6       group     3  2.19e-2 7.30e-3      5.62 1.15e-3 2.68e-3 M_vs_C;… CA3  
+#> 6 V7       group     3  6.79e-5 2.26e-5      5.73 1.00e-3 2.68e-3 M_vs_C   CA4  
+#> 7 V8       group     3  1.08e-1 3.61e-2      7.86 6.98e-5 4.89e-4 H_vs_Y;… TF   
+#> 8 V9       group     3  1.08e-1 3.61e-2      7.86 6.98e-5 4.89e-4 H_vs_Y;… TFc
+```
+
+Once again, it’s just that straightforward.
+
+This just scratches the surface of `glydet`’s capabilities. The real
+power lies in defining custom traits tailored to your research
+questions. Explore the possibilities in [Get Started with
+glydet](https://glycoverse.github.io/glydet/articles/glydet.html).
+
+## What’s Next?
+
+This vignette has given you a taste of `glycoverse` in action through a
+real-world glycomics workflow. But we’ve barely scratched the surface!
+Now that you’ve got the basics down, you’re ready to unlock the full
+potential of each package.
+
+Here’s your roadmap to mastering each component:
+
+- **[glyexp](https://glycoverse.github.io/glyexp/articles/glyexp.html)**
+  — Master experiment objects and data manipulation
+- **[glyread](https://glycoverse.github.io/glyread/articles/glyread.html)**
+  — Import and organize glycomics data
+- **[glyclean](https://glycoverse.github.io/glyclean/articles/glyclean.html)**
+  — Build custom preprocessing pipelines  
+- **[glystats](https://glycoverse.github.io/glystats/articles/glystats.html)**
+  — Explore the full statistical toolkit
+- **[glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html)**
+  — Create stunning visualizations
+- **[glymotif](https://glycoverse.github.io/glymotif/articles/glymotif.html)**
+  — Define and analyze custom motifs
+- **[glydet](https://glycoverse.github.io/glydet/articles/glydet.html)**
+  — Create powerful derived traits
+- **[glyenzy](https://glycoverse.github.io/glyenzy/articles/glyenzy.html)**
+  — Explore enzyme-substrate relationships (we didn’t cover this one,
+  but it’s fascinating!)
+- **[glyrepr](https://glycoverse.github.io/glyrepr/articles/glyrepr.html)**
+  — Master glycan structure representation
+- **[glyparse](https://glycoverse.github.io/glyparse/articles/glyparse.html)**
+  — Parse and convert structural formats
+
+Happy glycan hunting! 🧬
