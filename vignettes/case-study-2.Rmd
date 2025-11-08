@@ -52,7 +52,7 @@ autoplot(pca_res)
 
 # Perform differential expression analysis
 limma_res <- gly_limma(clean_exp)
-limma_res$tidy_result
+get_tidy_result(limma_res)
 
 # Perform motif analysis
 motifs <- c(
@@ -62,12 +62,12 @@ motifs <- c(
 )
 motif_exp <- quantify_motifs(clean_exp, motifs)
 motif_anova_res <- gly_anova(motif_exp)
-motif_anova_res$tidy_result$main_test
+get_tidy_result(motif_anova_res, "main_test")
 
 # Perform derived trait analysis
 trait_exp <- derive_traits(clean_exp)
 trait_anova_res <- gly_anova(trait_exp)
-trait_anova_res$tidy_result$main_test
+get_tidy_result(trait_anova_res, "main_test")
 ```
 
 ## Loading the Packages
