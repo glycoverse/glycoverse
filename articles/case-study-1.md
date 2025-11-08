@@ -79,7 +79,7 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.1.3 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
 #> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
 #> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
 #> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
@@ -203,20 +203,20 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 ``` r
 clean_exp <- auto_clean(real_experiment)
 #> ℹ Normalizing data (Median)
-#> ✔ Normalizing data (Median) [144ms]
+#> ✔ Normalizing data (Median) [133ms]
 #> 
 #> ℹ Removing variables with >50% missing values
-#> ✔ Removing variables with >50% missing values [23ms]
+#> ✔ Removing variables with >50% missing values [22ms]
 #> 
 #> ℹ Imputing missing values
 #> ℹ Sample size <= 30, using sample minimum imputation
-#> ℹ Imputing missing values✔ Imputing missing values [32ms]
+#> ℹ Imputing missing values✔ Imputing missing values [29ms]
 #> 
 #> ℹ Aggregating data
-#> ✔ Aggregating data [1s]
+#> ✔ Aggregating data [967ms]
 #> 
 #> ℹ Normalizing data again
-#> ✔ Normalizing data again [17ms]
+#> ✔ Normalizing data again [16ms]
 ```
 
 Your data is now analysis-ready!
@@ -453,7 +453,7 @@ get_tidy_result(motif_anova_res, "main_test")
 #> # A tibble: 822 × 13
 #>    variable term     df    sumsq   meansq statistic    p_val   p_adj post_hoc
 #>    <chr>    <chr> <dbl>    <dbl>    <dbl>     <dbl>    <dbl>   <dbl> <chr>   
-#>  1 V1       group     3 5.92e-31 1.97e-31     1.00    0.441    0.577 NA      
+#>  1 V1       group     3 6.38e-31 2.13e-31     1.00    0.441    0.577 NA      
 #>  2 V10      group     3 0        0          NaN     NaN      NaN     NA      
 #>  3 V100     group     3 0        0          NaN     NaN      NaN     NA      
 #>  4 V101     group     3 5.10e- 2 1.70e- 2     3.06    0.0916   0.231 NA      
