@@ -93,10 +93,12 @@ glycoverse_sitrep <- function() {
     )
   )
 
+  names(packages) <- deps$package
+
   cli::cat_rule("Core packages")
-  cli::cat_bullet(packages[deps$package %in% core])
+  cli::cat_bullet(packages[core[core %in% deps$package]])
   cli::cat_rule("Non-core packages")
-  cli::cat_bullet(packages[!deps$package %in% core])
+  cli::cat_bullet(packages[non_core[non_core %in% deps$package]])
 }
 
 #' List all glycoverse dependencies
@@ -122,7 +124,8 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
 
   installed_pkgs <- utils::installed.packages()
   deps <- tools::package_dependencies("glycoverse", installed_pkgs, recursive = recursive)
-  pkg_deps <- unique(sort(unlist(deps)))
+  pkg_deps <- unique(c(unlist(deps), core, non_core))
+  pkg_deps <- sort(pkg_deps)
 
   base_pkgs <- c(
     "base",

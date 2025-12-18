@@ -1,14 +1,21 @@
 core <- c(
-  "glyrepr",
   "glyexp",
-  "glyclean",
   "glyread",
+  "glyclean",
   "glystats",
   "glyvis",
+  "glyrepr",
   "glyparse",
   "glymotif",
   "glydet",
-  "glyenzy"
+  "glydraw"
+)
+
+non_core <- c(
+  "glyenzy",
+  "glydb",
+  "glyanno",
+  "glysmith"
 )
 
 core_unloaded <- function() {
