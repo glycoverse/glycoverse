@@ -53,6 +53,19 @@ of the individual packages for more details.
 [`library(glycoverse)`](https://glycoverse.github.io/glycoverse/) will
 load all the core packages in the `glycoverse` ecosystem:
 
+``` r
+library(glycoverse)
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
+#> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
+#> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
+#> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
+#> ✔ glyexp   0.10.4         ✔ glystats 0.5.5     
+#> ✔ glymotif 0.11.2         ✔ glyvis   0.4.1     
+#> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
+#> ✖ glyclean::aggregate() masks stats::aggregate()
+#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
 This includes:
 
 **Omics data analysis**
@@ -75,23 +88,71 @@ This includes:
   structure motif analysis
 - [glydet](https://glycoverse.github.io/glydet/), for glycan derived
   trait analysis
+- [glydraw](https://glycoverse.github.io/glydraw/), for glycan structure
+  visualization
+
+You can also install the non-core glycoverse packages if needed:
+
 - [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan
   biosynthesis pathway analysis
+- [glydb](https://glycoverse.github.io/glydb/), for glycan database
+- [glyanno](https://glycoverse.github.io/glyanno/), for glycan
+  annotation
+- [glysmith](https://glycoverse.github.io/glysmith/), for full
+  analytical pipeline
 
-You also get a condensed summary of conflicts with other packages you
-have loaded:
+You can get a situation report of all the packages in the `glycoverse`
+ecosystem with
+[`glycoverse_sitrep()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_sitrep.md):
 
 ``` r
-library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
-#> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
-#> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
-#> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
-#> ✔ glyexp   0.10.1     ✔ glystats 0.5.3 
-#> ✔ glymotif 0.11.2     ✔ glyvis   0.4.0 
-#> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
-#> ✖ glyclean::aggregate() masks stats::aggregate()
-#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+glycoverse_sitrep()
+#> ── R & RStudio ─────────────────────────────────────────────────────────────────
+#> • R: 4.5.1
+#> 'getOption("repos")' replaces Bioconductor standard repositories, see
+#> 'help("repositories", package = "BiocManager")' for details.
+#> Replacement repositories:
+#>     CRAN: https://cloud.r-project.org
+#> ── Core packages ───────────────────────────────────────────────────────────────
+#> • glyexp   (0.10.4)
+#> • glyread  (0.8.2)
+#> • glyclean (0.9.1)
+#> • glystats (0.5.5)
+#> • glyvis   (0.4.1)
+#> • glyrepr  (0.9.0)
+#> • glyparse (0.5.3)
+#> • glymotif (0.11.2)
+#> • glydet   (0.6.5)
+#> • glydraw  (0.0.0.9000)
+#> ── Non-core packages ───────────────────────────────────────────────────────────
+#> • glyenzy  (0.4.1)
+#> • glydb    (0.3.1)
+#> • glyanno  (0.1.0)
+#> • glysmith (0.0.0 < 0.0.0.9000)
+```
+
+To list all dependencies of glycoverse core packages, run:
+
+``` r
+glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of each package
+#> 'getOption("repos")' replaces Bioconductor standard repositories, see
+#> 'help("repositories", package = "BiocManager")' for details.
+#> Replacement repositories:
+#>     CRAN: https://cloud.r-project.org
+#> # A tibble: 118 × 6
+#>    package       source       remote upstream local   behind
+#>    <chr>         <chr>        <chr>  <chr>    <chr>   <lgl> 
+#>  1 ade4          cran         <NA>   1.7-23   1.7.23  FALSE 
+#>  2 AnnotationDbi bioconductor <NA>   1.72.0   1.72.0  FALSE 
+#>  3 askpass       cran         <NA>   1.2.1    1.2.1   FALSE 
+#>  4 backports     cran         <NA>   1.5.0    1.5.0   FALSE 
+#>  5 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
+#>  6 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
+#>  7 Biostrings    bioconductor <NA>   2.78.0   2.78.0  FALSE 
+#>  8 bit           cran         <NA>   4.6.0    4.6.0   FALSE 
+#>  9 bit64         cran         <NA>   4.6.0-1  4.6.0.1 FALSE 
+#> 10 blob          cran         <NA>   1.2.4    1.2.4   FALSE 
+#> # ℹ 108 more rows
 ```
 
 And you can update all the packages with
@@ -99,10 +160,4 @@ And you can update all the packages with
 
 ``` r
 glycoverse_update()
-#> The following package is out of date:
-#> 
-#> • purrr (1.1.0 -> 1.2.0)
-#> 
-#> Start a clean R session then run:
-#> install.packages("purrr")
 ```

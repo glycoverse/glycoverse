@@ -63,9 +63,9 @@ We first load the `tidyverse` package, as usual.
 ``` r
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
+#> ✔ dplyr     1.1.4     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
 #> ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 #> ✔ purrr     1.2.0     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -80,11 +80,11 @@ collection of specialized packages all at once.
 ``` r
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
-#> ✔ glyclean 0.8.1      ✔ glyparse 0.5.3 
-#> ✔ glydet   0.6.5      ✔ glyread  0.8.2 
-#> ✔ glyenzy  0.4.1      ✔ glyrepr  0.7.5 
-#> ✔ glyexp   0.10.1     ✔ glystats 0.5.3 
-#> ✔ glymotif 0.11.2     ✔ glyvis   0.4.0 
+#> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
+#> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
+#> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
+#> ✔ glyexp   0.10.4         ✔ glystats 0.5.5     
+#> ✔ glymotif 0.11.2         ✔ glyvis   0.4.1     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -202,21 +202,41 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 
 ``` r
 clean_exp <- auto_clean(real_experiment)
-#> ℹ Normalizing data (Median)
-#> ✔ Normalizing data (Median) [133ms]
 #> 
-#> ℹ Removing variables with >50% missing values
-#> ✔ Removing variables with >50% missing values [22ms]
+#> ── Normalizing data ──
 #> 
-#> ℹ Imputing missing values
-#> ℹ Sample size <= 30, using sample minimum imputation
-#> ℹ Imputing missing values✔ Imputing missing values [29ms]
+#> ℹ No QC samples found. Using default normalization method based on experiment type.
+#> ℹ Experiment type is "glycoproteomics". Using `normalize_median()`.
+#> ✔ Normalization completed.
 #> 
-#> ℹ Aggregating data
-#> ✔ Aggregating data [967ms]
+#> ── Removing variables with too many missing values ──
 #> 
-#> ℹ Normalizing data again
-#> ✔ Normalizing data again [16ms]
+#> ℹ No QC samples found. Using all samples.
+#> ℹ Applying preset "discovery"...
+#> ℹ Total removed: 24 (0.56%) variables.
+#> ✔ Variable removal completed.
+#> 
+#> ── Imputing missing values ──
+#> 
+#> ℹ No QC samples found. Using default imputation method based on sample size.
+#> ℹ Sample size <= 30, using `impute_sample_min()`.
+#> ✔ Imputation completed.
+#> 
+#> ── Aggregating data ──
+#> 
+#> ℹ Aggregating to "gfs" level
+#> ✔ Aggregation completed.
+#> 
+#> ── Normalizing data again ──
+#> 
+#> ℹ No QC samples found. Using default normalization method based on experiment type.
+#> ℹ Experiment type is "glycoproteomics". Using `normalize_median()`.
+#> ✔ Normalization completed.
+#> 
+#> ── Correcting batch effects ──
+#> 
+#> ℹ Batch column  not found in sample_info. Skipping batch correction.
+#> ✔ Batch correction completed.
 ```
 
 Your data is now analysis-ready!
@@ -278,18 +298,18 @@ and the raw result list from a glystats result object:
 ``` r
 get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
 #> # A tibble: 144 × 4
-#>    sample    PC   value group
-#>    <chr>  <dbl>   <dbl> <fct>
-#>  1 C1         1 -21.3   C    
-#>  2 C1         2  24.1   C    
-#>  3 C1         3   0.965 C    
-#>  4 C1         4   1.89  C    
-#>  5 C1         5 -11.2   C    
-#>  6 C1         6  25.8   C    
-#>  7 C1         7  -6.01  C    
-#>  8 C1         8  -5.10  C    
-#>  9 C1         9  27.8   C    
-#> 10 C1        10  -7.09  C    
+#>    sample group    PC  value
+#>    <chr>  <fct> <dbl>  <dbl>
+#>  1 C1     C         1 -21.7 
+#>  2 C1     C         2  24.7 
+#>  3 C1     C         3   1.89
+#>  4 C1     C         4   1.05
+#>  5 C1     C         5 -11.5 
+#>  6 C1     C         6  26.5 
+#>  7 C1     C         7   5.81
+#>  8 C1     C         8   5.21
+#>  9 C1     C         9 -27.8 
+#> 10 C1     C        10  -7.01
 #> # ℹ 134 more rows
 ```
 
@@ -313,24 +333,23 @@ limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> ℹ Performing multi-group limma analysis with 4 groups
 get_tidy_result(limma_res)  # only one tibble here
-#> # A tibble: 3,880 × 14
-#>    variable log2fc AveExpr      t   p_val  p_adj     b ref_group test_group
-#>    <chr>     <dbl>   <dbl>  <dbl>   <dbl>  <dbl> <dbl> <chr>     <chr>     
-#>  1 V1       -2.54     19.4 -2.28  0.0469  0.153  -4.23 H         C         
-#>  2 V2        7.94     25.5  4.07  0.00251 0.0272 -1.38 H         C         
-#>  3 V3       -0.834    29.0 -1.70  0.121   0.275  -5.10 H         C         
-#>  4 V4       -0.665    31.4 -1.58  0.148   0.309  -5.27 H         C         
-#>  5 V5       -1.62     25.0 -3.15  0.0110  0.0661 -2.84 H         C         
-#>  6 V6        0.340    33.7  0.665 0.522   0.693  -6.23 H         C         
-#>  7 V7        5.75     22.4  3.69  0.00462 0.0395 -1.98 H         C         
-#>  8 V8       -0.733    30.5 -1.34  0.211   0.384  -5.57 H         C         
-#>  9 V9       -1.68     25.6 -2.63  0.0263  0.111  -3.68 H         C         
-#> 10 V10      -1.66     28.1 -4.10  0.00241 0.0266 -1.34 H         C         
-#> # ℹ 3,870 more rows
-#> # ℹ 5 more variables: protein <chr>, glycan_composition <comp>,
-#> #   glycan_structure <struct>, protein_site <int>, gene <chr>
+#> # A tibble: 3,979 × 14
+#>    variable protein glycan_composition      glycan_structure  protein_site gene 
+#>    <chr>    <chr>   <comp>                  <struct>                 <int> <chr>
+#>  1 V1       P08185  Hex(5)HexNAc(4)NeuAc(2) NeuAc(??-?)Hex(?…          176 SERP…
+#>  2 V2       P04196  Hex(5)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
+#>  3 V3       P04196  Hex(5)HexNAc(4)         Hex(??-?)HexNAc(…          344 HRG  
+#>  4 V4       P04196  Hex(5)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
+#>  5 V5       P10909  Hex(6)HexNAc(5)         Hex(??-?)HexNAc(…          291 CLU  
+#>  6 V6       P04196  Hex(5)HexNAc(4)NeuAc(2) NeuAc(??-?)Hex(?…          344 HRG  
+#>  7 V7       P04196  Hex(5)HexNAc(4)         Hex(??-?)HexNAc(…          345 HRG  
+#>  8 V8       P04196  Hex(5)HexNAc(4)dHex(2)  dHex(??-?)Hex(??…          344 HRG  
+#>  9 V9       P04196  Hex(4)HexNAc(3)         Hex(??-?)HexNAc(…          344 HRG  
+#> 10 V10      P04196  Hex(4)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
+#> # ℹ 3,969 more rows
+#> # ℹ 8 more variables: log2fc <dbl>, AveExpr <dbl>, t <dbl>, p_val <dbl>,
+#> #   p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
 ```
 
 Excellent! Now let’s identify significantly differentially expressed
@@ -372,7 +391,7 @@ vectors.
 clean_exp |>
   get_var_info() |>
   pull(glycan_structure)
-#> <glycan_structure[3880]>
+#> <glycan_structure[3979]>
 #> [1] NeuAc(??-?)Hex(??-?)HexNAc(??-?)Hex(??-?)[NeuAc(??-?)Hex(??-?)HexNAc(??-?)Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
 #> [2] NeuAc(??-?)Hex(??-?)HexNAc(??-?)[HexNAc(??-?)]Hex(??-?)[Hex(??-?)Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
 #> [3] Hex(??-?)HexNAc(??-?)Hex(??-?)[Hex(??-?)HexNAc(??-?)Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
@@ -383,8 +402,8 @@ clean_exp |>
 #> [8] dHex(??-?)Hex(??-?)HexNAc(??-?)Hex(??-?)[dHex(??-?)Hex(??-?)HexNAc(??-?)Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
 #> [9] Hex(??-?)HexNAc(??-?)Hex(??-?)[Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
 #> [10] NeuAc(??-?)Hex(??-?)HexNAc(??-?)Hex(??-?)[HexNAc(??-?)Hex(??-?)]Hex(??-?)HexNAc(??-?)HexNAc(??-
-#> ... (3870 more not shown)
-#> # Unique structures: 951
+#> ... (3969 more not shown)
+#> # Unique structures: 967
 ```
 
 Just like [`integer()`](https://rdrr.io/r/base/integer.html) and
@@ -450,22 +469,21 @@ motif_anova_res <- clean_exp |>
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 
 get_tidy_result(motif_anova_res, "main_test")
-#> # A tibble: 822 × 13
-#>    variable term     df    sumsq   meansq statistic    p_val   p_adj post_hoc
-#>    <chr>    <chr> <dbl>    <dbl>    <dbl>     <dbl>    <dbl>   <dbl> <chr>   
-#>  1 V1       group     3 6.38e-31 2.13e-31     1.00    0.441    0.577 NA      
-#>  2 V10      group     3 0        0          NaN     NaN      NaN     NA      
-#>  3 V100     group     3 0        0          NaN     NaN      NaN     NA      
-#>  4 V101     group     3 5.10e- 2 1.70e- 2     3.06    0.0916   0.231 NA      
-#>  5 V102     group     3 7.81e- 3 2.60e- 3     3.75    0.0599   0.181 NA      
-#>  6 V103     group     3 0        0          NaN     NaN      NaN     NA      
-#>  7 V104     group     3 3.84e- 2 1.28e- 2     2.15    0.172    0.338 NA      
-#>  8 V105     group     3 1.08e- 2 3.60e- 3     2.18    0.168    0.335 NA      
-#>  9 V106     group     3 0        0          NaN     NaN      NaN     NA      
-#> 10 V107     group     3 3.55e- 4 1.18e- 4     0.133   0.938    0.945 NA      
-#> # ℹ 812 more rows
-#> # ℹ 4 more variables: protein <chr>, protein_site <int>, motif <chr>,
-#> #   gene <chr>
+#> # A tibble: 828 × 13
+#>    variable protein protein_site motif       gene  term     df    sumsq   meansq
+#>    <chr>    <chr>          <int> <chr>       <chr> <chr> <dbl>    <dbl>    <dbl>
+#>  1 V1       A6NJW9            49 lewis_by    CD8B2 group     3 5.92e-31 1.97e-31
+#>  2 V2       A6NJW9            49 lewis_ax    CD8B2 group     3 1.48e-31 4.93e-32
+#>  3 V3       A6NJW9            49 sia_lewis_… CD8B2 group     3 5.92e-31 1.97e-31
+#>  4 V4       O14786           150 lewis_by    NRP1  group     3 0        0       
+#>  5 V5       O14786           150 lewis_ax    NRP1  group     3 0        0       
+#>  6 V6       O14786           150 sia_lewis_… NRP1  group     3 0        0       
+#>  7 V7       O43866           226 lewis_by    CD5L  group     3 0        0       
+#>  8 V8       O43866           226 lewis_ax    CD5L  group     3 0        0       
+#>  9 V9       O43866           226 sia_lewis_… CD5L  group     3 0        0       
+#> 10 V10      O75437           244 lewis_by    ZNF2… group     3 0        0       
+#> # ℹ 818 more rows
+#> # ℹ 4 more variables: statistic <dbl>, p_val <dbl>, p_adj <dbl>, post_hoc <chr>
 ```
 
 `quantify_motifs()` transforms your data into a new `experiment()`
@@ -487,9 +505,9 @@ motif_anova_res |>
 #> # Groups:   motif [3]
 #>   motif            n
 #>   <chr>        <int>
-#> 1 lewis_ax        28
+#> 1 lewis_ax        27
 #> 2 lewis_by         9
-#> 3 sia_lewis_ax    29
+#> 3 sia_lewis_ax    28
 ```
 
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
@@ -499,20 +517,20 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05, motif == "lewis_ax") |>
   select(protein, protein_site)
-#> # A tibble: 28 × 2
+#> # A tibble: 27 × 2
 #>    protein protein_site
 #>    <chr>          <int>
-#>  1 P01011           271
-#>  2 P01042           294
-#>  3 P01877           205
-#>  4 P01877            92
-#>  5 P02675           394
-#>  6 P02679            78
-#>  7 P02749           162
-#>  8 P02763            93
-#>  9 P02790           240
-#> 10 P03952           494
-#> # ℹ 18 more rows
+#>  1 O75882           731
+#>  2 P00734           143
+#>  3 P00734           155
+#>  4 P00738           241
+#>  5 P01011           271
+#>  6 P01042           294
+#>  7 P01877           205
+#>  8 P01877            92
+#>  9 P02675           394
+#> 10 P02679            78
+#> # ℹ 17 more rows
 ```
 
 Here’s another common question: **Which pathways are enriched in
@@ -564,7 +582,7 @@ trait_exp <- derive_traits(clean_exp)  # from `glydet`
 trait_exp
 #> 
 #> ── Traitproteomics Experiment ──────────────────────────────────────────────────
-#> ℹ Expression matrix: 12 samples, 3836 variables
+#> ℹ Expression matrix: 12 samples, 3864 variables
 #> ℹ Sample information fields: group <fct>
 #> ℹ Variable information fields: protein <chr>, protein_site <int>, trait <chr>, gene <chr>
 ```
@@ -577,7 +595,7 @@ The variable information shows what we’re working with:
 
 ``` r
 get_var_info(trait_exp)
-#> # A tibble: 3,836 × 5
+#> # A tibble: 3,864 × 5
 #>    variable protein protein_site trait gene 
 #>    <chr>    <chr>          <int> <chr> <chr>
 #>  1 V1       A6NJW9            49 TM    CD8B2
@@ -590,7 +608,7 @@ get_var_info(trait_exp)
 #>  8 V8       A6NJW9            49 TF    CD8B2
 #>  9 V9       A6NJW9            49 TFc   CD8B2
 #> 10 V10      A6NJW9            49 TFa   CD8B2
-#> # ℹ 3,826 more rows
+#> # ℹ 3,854 more rows
 ```
 
 The “trait” column lists all the derived traits we can analyze.
@@ -628,30 +646,29 @@ trait_exp |>
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 #> # A tibble: 20 × 13
-#>    variable term     df     sumsq    meansq statistic     p_val   p_adj post_hoc
-#>    <chr>    <chr> <dbl>     <dbl>     <dbl>     <dbl>     <dbl>   <dbl> <chr>   
-#>  1 V1115    group     3 0.0000941 0.0000314     26.2    1.72e-4 3.46e-3 H_vs_M;…
-#>  2 V1227    group     3 0.0629    0.0210        14.0    1.50e-3 1.76e-2 H_vs_Y;…
-#>  3 V1353    group     3 0.00231   0.000770      19.3    5.05e-4 7.91e-3 H_vs_C;…
-#>  4 V1381    group     3 0.00640   0.00213       14.9    1.23e-3 1.74e-2 H_vs_Y;…
-#>  5 V1661    group     3 0.0299    0.00998       14.3    1.40e-3 1.76e-2 H_vs_M;…
-#>  6 V1675    group     3 0.0174    0.00581       43.1    2.78e-5 9.80e-4 H_vs_M;…
-#>  7 V1927    group     3 0.0549    0.0183         9.97   4.44e-3 4.34e-2 H_vs_Y;…
-#>  8 V2165    group     3 0.0174    0.00581      172.     1.34e-7 1.89e-5 H_vs_M;…
-#>  9 V2179    group     3 0.0000417 0.0000139      8.71   6.70e-3 4.93e-2 H_vs_Y;…
-#> 10 V247     group     3 0.0221    0.00735        9.20   5.68e-3 4.57e-2 H_vs_Y;…
-#> 11 V2487    group     3 0.0644    0.0215        74.1    3.53e-6 2.49e-4 H_vs_M;…
-#> 12 V2655    group     3 0.0305    0.0102         9.12   5.84e-3 4.57e-2 H_vs_Y;…
-#> 13 V2669    group     3 0.000519  0.000173       9.14   5.79e-3 4.57e-2 H_vs_C;…
-#> 14 V2837    group     3 0.00547   0.00182       27.5    1.45e-4 3.40e-3 H_vs_M;…
-#> 15 V401     group     3 0.0854    0.0285         8.58   6.99e-3 4.93e-2 H_vs_M;…
-#> 16 V415     group     3 0.000765  0.000255       9.85   4.61e-3 4.34e-2 H_vs_M;…
-#> 17 V457     group     3 0.000548  0.000183      52.2    1.34e-5 6.32e-4 H_vs_C;…
-#> 18 V709     group     3 0.0771    0.0257        22.4    3.00e-4 5.29e-3 H_vs_M;…
-#> 19 V863     group     3 0.00204   0.000680      10.3    4.00e-3 4.34e-2 H_vs_Y;…
-#> 20 V919     group     3 0.00365   0.00122       31.9    8.46e-5 2.39e-3 H_vs_C;…
-#> # ℹ 4 more variables: protein <chr>, protein_site <int>, trait <chr>,
-#> #   gene <chr>
+#>    variable protein protein_site trait gene   term     df     sumsq    meansq
+#>    <chr>    <chr>          <int> <chr> <chr>  <chr> <dbl>     <dbl>     <dbl>
+#>  1 V247     P00450           397 TFc   CP     group     3 0.0221    0.00735  
+#>  2 V401     P00738           211 TFc   HP     group     3 0.0853    0.0284   
+#>  3 V415     P00738           241 TFc   HP     group     3 0.000784  0.000261 
+#>  4 V457     P00748           249 TFc   F12    group     3 0.000548  0.000183 
+#>  5 V709     P01591            71 TFc   JCHAIN group     3 0.0771    0.0257   
+#>  6 V863     P01877            92 TFc   IGHA2  group     3 0.00202   0.000673 
+#>  7 V919     P02679            78 TFc   FGG    group     3 0.00365   0.00122  
+#>  8 V1115    P02765           176 TFc   AHSG   group     3 0.0000941 0.0000314
+#>  9 V1227    P02790           240 TFc   HPX    group     3 0.0629    0.0210   
+#> 10 V1353    P03952           494 TFc   KLKB1  group     3 0.00231   0.000770 
+#> 11 V1381    P04004            86 TFc   VTN    group     3 0.00650   0.00217  
+#> 12 V1661    P04278           396 TFc   SHBG   group     3 0.0299    0.00998  
+#> 13 V1675    P05090            98 TFc   APOD   group     3 0.0170    0.00568  
+#> 14 V1927    P06681           621 TFc   C2     group     3 0.0549    0.0183   
+#> 15 V2165    P0C0L4          1328 TFc   C4A    group     3 0.0174    0.00581  
+#> 16 V2179    P0C0L4          1391 TFc   C4A    group     3 0.0000417 0.0000139
+#> 17 V2515    P19652           103 TFc   ORM2   group     3 0.0644    0.0215   
+#> 18 V2683    P25311           112 TFc   AZGP1  group     3 0.0305    0.0102   
+#> 19 V2697    P25311           128 TFc   AZGP1  group     3 0.000519  0.000173 
+#> 20 V2865    P43652            33 TFc   AFM    group     3 0.00547   0.00182  
+#> # ℹ 4 more variables: statistic <dbl>, p_val <dbl>, p_adj <dbl>, post_hoc <chr>
 ```
 
 Once again, it’s just that straightforward.
@@ -691,5 +708,13 @@ Here’s your roadmap to mastering each component:
   — Master glycan structure representation
 - **[glyparse](https://glycoverse.github.io/glyparse/articles/glyparse.html)**
   — Parse and convert structural formats
+- **[glydraw](https://glycoverse.github.io/glydraw/articles/glydraw.html)**
+  — Draw glycan structures
+- **[glydb](https://glycoverse.github.io/glydb/articles/glydb.html)** —
+  Access glycan databases
+- **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)**
+  — Annotate glycan structures
+- **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)**
+  — Master the full analytical pipeline
 
 Happy glycan hunting! 🧬

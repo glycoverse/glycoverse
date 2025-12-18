@@ -18,8 +18,9 @@ glycoverse_packages(include_self = TRUE)
 
 ``` r
 glycoverse_packages()
-#>  [1] "cli"        "dplyr"      "purrr"      "rlang"      "rstudioapi"
-#>  [6] "jsonlite"   "tibble"     "glyclean"   "glydet"     "glyenzy"   
-#> [11] "glyexp"     "glymotif"   "glyparse"   "glyread"    "glyrepr"   
-#> [16] "glystats"   "glyvis"     "magrittr"   "glycoverse"
+#>  [1] "cli"         "dplyr"       "purrr"       "rlang"       "rstudioapi" 
+#>  [6] "jsonlite"    "tibble"      "glyclean"    "glydet"      "glyexp"     
+#> [11] "glymotif"    "glyparse"    "glyread"     "glyrepr"     "glystats"   
+#> [16] "glyvis"      "glydraw"     "magrittr"    "pak"         "BiocManager"
+#> [21] "glycoverse" 
 ```
