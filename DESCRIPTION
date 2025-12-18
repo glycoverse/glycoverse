@@ -53,10 +53,10 @@ Remotes:
     glycoverse/glyread@*release,
     glycoverse/glystats@*release,
     glycoverse/glyvis@*release,
-    glycoverse/glydraw@*release,
+    glycoverse/glydraw,
     glycoverse/glydb@*release,
     glycoverse/glyanno@*release,
-    glycoverse/glysmith@*release
+    glycoverse/glysmith
 Depends: 
     R (>= 4.1)
 VignetteBuilder: knitr
