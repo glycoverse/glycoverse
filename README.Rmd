@@ -64,6 +64,10 @@ Choose one of them to get started, and then refer to the documentation of the in
 
 `library(glycoverse)` will load all the core packages in the `glycoverse` ecosystem:
 
+```{r}
+library(glycoverse)
+```
+
 This includes:
 
 **Omics data analysis**
@@ -80,16 +84,29 @@ This includes:
 - [glyparse](https://glycoverse.github.io/glyparse/), for glycan structure parsing
 - [glymotif](https://glycoverse.github.io/glymotif/), for glycan structure motif analysis
 - [glydet](https://glycoverse.github.io/glydet/), for glycan derived trait analysis
-- [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan biosynthesis pathway analysis
+- [glydraw](https://glycoverse.github.io/glydraw/), for glycan structure visualization
 
-You also get a condensed summary of conflicts with other packages you have loaded:
+You can also install the non-core glycoverse packages if needed:
+
+- [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan biosynthesis pathway analysis
+- [glydb](https://glycoverse.github.io/glydb/), for glycan database
+- [glyanno](https://glycoverse.github.io/glyanno/), for glycan annotation
+- [glysmith](https://glycoverse.github.io/glysmith/), for full analytical pipeline
+
+You can get a situation report of all the packages in the `glycoverse` ecosystem with `glycoverse_sitrep()`:
 
 ```{r}
-library(glycoverse)
+glycoverse_sitrep()
+```
+
+To list all dependencies of glycoverse core packages, run:
+
+```{r}
+glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of each package
 ```
 
 And you can update all the packages with `glycoverse_update()`:
 
-```{r}
+```r
 glycoverse_update()
 ```
