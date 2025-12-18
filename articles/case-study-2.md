@@ -79,7 +79,7 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.0.9000 ──
 #> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
 #> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
 #> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
