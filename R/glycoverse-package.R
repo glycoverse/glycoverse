@@ -7,7 +7,6 @@
 ignore_unused_imports <- function() {
   glyclean::auto_clean
   glydet::derive_traits
-  glyenzy::all_enzymes
   glyexp::experiment
   glymotif::have_motif
   glyparse::auto_parse
@@ -15,4 +14,5 @@ ignore_unused_imports <- function() {
   glyrepr::glycan_structure
   glystats::gly_pca
   glyvis::plot_heatmap
+  glydraw::draw_cartoon
 }

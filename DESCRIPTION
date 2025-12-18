@@ -27,18 +27,19 @@ Imports:
     rstudioapi,
     jsonlite,
     tibble,
-    glyclean (>= 0.6.4),
-    glydet (>= 0.2.0),
-    glyenzy (>= 0.2.2),
-    glyexp (>= 0.9.1),
-    glymotif (>= 0.7.0),
-    glyparse (>= 0.4.4),
-    glyread (>= 0.6.1),
-    glyrepr (>= 0.7.2),
-    glystats (>= 0.4.2),
-    glyvis (>= 0.1.2),
+    glyclean (>= 0.9.1),
+    glydet (>= 0.6.5),
+    glyexp (>= 0.10.4),
+    glymotif (>= 0.11.2),
+    glyparse (>= 0.5.3),
+    glyread (>= 0.8.2),
+    glyrepr (>= 0.9.0),
+    glystats (>= 0.5.5),
+    glyvis (>= 0.4.1),
+    glydraw,
     magrittr,
-    pak
+    pak,
+    BiocManager
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
