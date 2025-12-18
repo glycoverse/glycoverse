@@ -183,7 +183,7 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
       if (is.na(up) || up == "") {
         FALSE
       } else {
-        package_version(up) > loc
+        numeric_version(up) > loc
       }
     }
   )
@@ -209,7 +209,7 @@ safe_package_version <- function(pkg) {
   if (rlang::is_installed(pkg)) {
     utils::packageVersion(pkg)
   } else {
-    package_version("0")
+    package_version("0.0.0")
   }
 }
 
