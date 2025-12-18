@@ -36,11 +36,17 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
   cli::cat_line("Start a clean R session then run:")
 
   cran_pkgs <- behind |> dplyr::filter(source == "cran")
+  bioc_pkgs <- behind |> dplyr::filter(source == "bioconductor")
   github_pkgs <- behind |> dplyr::filter(source == "github")
 
   if (nrow(cran_pkgs) > 0) {
     pkg_str <- paste0(deparse(cran_pkgs$package), collapse = "\n")
     cli::cat_line("install.packages(", pkg_str, ")")
+  }
+
+  if (nrow(bioc_pkgs) > 0) {
+    pkg_str <- paste0(deparse(bioc_pkgs$package), collapse = "\n")
+    cli::cat_line("BiocManager::install(", pkg_str, ")")
   }
 
   if (nrow(github_pkgs) > 0) {
@@ -102,6 +108,12 @@ glycoverse_sitrep <- function() {
 #' @export
 glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   remote_info <- glycoverse_remote_info()
+  if (identical(repos, getOption("repos")) || all(repos == "@CRAN@")) {
+    if (requireNamespace("BiocManager", quietly = TRUE)) {
+      repos <- BiocManager::repositories()
+    }
+  }
+
   repos <- repos[repos != ""]
   if (length(repos) == 0 || all(repos == "@CRAN@")) {
     repos <- c(CRAN = "https://cloud.r-project.org")
@@ -138,6 +150,7 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
 
   upstream <- stats::setNames(rep(NA_character_, length(pkg_deps)), pkg_deps)
 
+  available <- NULL
   if (length(cran_pkgs) > 0) {
     available <- suppressWarnings(
       tryCatch(
@@ -195,9 +208,20 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
     character(1)
   )
 
+  pkg_sources <- stats::setNames(rep("cran", length(pkg_deps)), pkg_deps)
+  pkg_sources[pkg_deps %in% remote_pkgs] <- "github"
+  if (!is.null(available)) {
+    for (pkg in intersect(cran_pkgs, rownames(available))) {
+      repo <- available[pkg, "Repository"]
+      if (grepl("bioconductor.org", repo)) {
+        pkg_sources[pkg] <- "bioconductor"
+      }
+    }
+  }
+
   tibble::tibble(
     package = pkg_deps,
-    source = ifelse(pkg_deps %in% remote_pkgs, "github", "cran"),
+    source = as.character(pkg_sources),
     remote = remote_spec,
     upstream = upstream,
     local = purrr::map_chr(local_version, as.character),
