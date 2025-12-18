@@ -37,7 +37,8 @@ Imports:
     glyrepr (>= 0.7.2),
     glystats (>= 0.4.2),
     glyvis (>= 0.1.2),
-    magrittr
+    magrittr,
+    pak
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
