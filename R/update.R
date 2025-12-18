@@ -278,6 +278,9 @@ github_resolve_ref <- function(repo, ref) {
     return("main")
   }
 
+  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
+  on.exit(options(old), add = TRUE)
+
   if (identical(ref, "*release")) {
     url <- sprintf("https://api.github.com/repos/%s/releases/latest", repo)
     release <- suppressWarnings(
@@ -296,7 +299,15 @@ github_resolve_ref <- function(repo, ref) {
 }
 
 github_description_version <- function(repo, ref) {
+  if (is.na(ref) || ref == "") {
+    return(NA_character_)
+  }
+
   url <- sprintf("https://raw.githubusercontent.com/%s/%s/DESCRIPTION", repo, ref)
+
+  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
+  on.exit(options(old), add = TRUE)
+
   lines <- suppressWarnings(
     tryCatch(
       readLines(url, warn = FALSE),
