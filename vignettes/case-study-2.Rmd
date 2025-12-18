@@ -410,5 +410,9 @@ Here's your roadmap to mastering each component:
 - **[glyenzy](https://glycoverse.github.io/glyenzy/articles/glyenzy.html)** — Explore enzyme-substrate relationships (we didn't cover this one, but it's fascinating!)
 - **[glyrepr](https://glycoverse.github.io/glyrepr/articles/glyrepr.html)** — Master glycan structure representation
 - **[glyparse](https://glycoverse.github.io/glyparse/articles/glyparse.html)** — Parse and convert structural formats
+- **[glydraw](https://glycoverse.github.io/glydraw/articles/glydraw.html)** — Draw glycan structures
+- **[glydb](https://glycoverse.github.io/glydb/articles/glydb.html)** — Access glycan databases
+- **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)** — Annotate glycan structures
+- **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)** — Master the full analytical pipeline
 
 Happy glycan hunting! 🧬
