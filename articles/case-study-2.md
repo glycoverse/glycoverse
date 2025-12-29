@@ -66,7 +66,7 @@ library(tidyverse)
 #> ✔ dplyr     1.1.4     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
 #> ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
-#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
 #> ✔ purrr     1.2.0     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.0 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.1.9000 ──
 #> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
-#> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
+#> ✔ glydet   0.8.0          ✔ glyread  0.8.3     
 #> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
-#> ✔ glyexp   0.10.4         ✔ glystats 0.5.5     
-#> ✔ glymotif 0.11.2         ✔ glyvis   0.4.1     
+#> ✔ glyexp   0.11.1         ✔ glystats 0.5.6     
+#> ✔ glymotif 0.12.0         ✔ glyvis   0.4.4     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -319,18 +319,18 @@ limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 get_tidy_result(limma_res)  # only one tibble here
 #> # A tibble: 57 × 11
-#>    variable glycan_composition   glycan_structure   log2fc AveExpr      t  p_val
-#>    <chr>    <comp>               <struct>            <dbl>   <dbl>  <dbl>  <dbl>
-#>  1 V1       Man(3)GlcNAc(3)      GlcNAc(?1-?)Man… -3.08e-4 1.44e-3 -1.58  0.116 
-#>  2 V2       Man(3)GlcNAc(7)      GlcNAc(?1-?)[Gl… -3.06e-4 2.63e-3 -1.44  0.153 
-#>  3 V3       Man(5)GlcNAc(2)      Man(?1-?)[Man(?…  4.45e-4 5.70e-3  0.820 0.414 
-#>  4 V4       Man(4)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -1.44e-3 4.49e-3 -1.96  0.0523
-#>  5 V5       Man(3)Gal(1)GlcNAc(… Gal(?1-?)GlcNAc… -2.59e-4 1.35e-3 -1.75  0.0831
-#>  6 V6       Man(3)Gal(2)GlcNAc(… Gal(?1-?)GlcNAc… -9.80e-5 1.61e-3 -0.601 0.549 
-#>  7 V7       Man(3)GlcNAc(3)Fuc(… GlcNAc(?1-?)Man… -1.59e-4 8.85e-4 -1.02  0.309 
-#>  8 V8       Man(3)GlcNAc(4)      GlcNAc(?1-?)Man… -9.23e-5 1.11e-3 -0.521 0.603 
-#>  9 V9       Man(3)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -7.06e-4 2.37e-2 -0.859 0.392 
-#> 10 V10      Man(3)Gal(1)GlcNAc(… Neu5Ac(?2-?)Gal…  7.95e-4 4.50e-3  2.13  0.0345
+#>    variable glycan_composition   glycan_structure  log2fc AveExpr       t  p_val
+#>    <chr>    <comp>               <struct>           <dbl>   <dbl>   <dbl>  <dbl>
+#>  1 V1       Man(3)GlcNAc(3)      GlcNAc(?1-?)Man… -0.195   -10.1  -1.48   0.141 
+#>  2 V2       Man(3)GlcNAc(7)      GlcNAc(?1-?)[Gl… -0.0938   -9.16 -0.918  0.360 
+#>  3 V3       Man(5)GlcNAc(2)      Man(?1-?)[Man(?…  0.0906   -8.09  0.668  0.505 
+#>  4 V4       Man(4)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0864   -8.49 -0.564  0.574 
+#>  5 V5       Man(3)Gal(1)GlcNAc(… Gal(?1-?)GlcNAc… -0.124   -10.1  -1.25   0.215 
+#>  6 V6       Man(3)Gal(2)GlcNAc(… Gal(?1-?)GlcNAc…  0.0105   -9.88  0.0895 0.929 
+#>  7 V7       Man(3)GlcNAc(3)Fuc(… GlcNAc(?1-?)Man…  0.0679  -10.8   0.535  0.593 
+#>  8 V8       Man(3)GlcNAc(4)      GlcNAc(?1-?)Man…  0.0923  -10.5   0.602  0.548 
+#>  9 V9       Man(3)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0383   -5.93 -0.707  0.481 
+#> 10 V10      Man(3)Gal(1)GlcNAc(… Neu5Ac(?2-?)Gal…  0.255    -8.40  2.30   0.0229
 #> # ℹ 47 more rows
 #> # ℹ 4 more variables: p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
 ```
@@ -344,26 +344,23 @@ limma_res |>
   get_tidy_result() |>
   filter(p_adj < 0.05) |>
   select(glycan_composition, p_adj, log2fc)
-#> # A tibble: 17 × 3
-#>    glycan_composition                          p_adj   log2fc
-#>    <comp>                                      <dbl>    <dbl>
-#>  1 Man(3)Gal(3)GlcNAc(5)Neu5Ac(1)       0.0474       -0.00123
-#>  2 Man(3)GlcNAc(4)Fuc(1)                0.000000850   0.0170 
-#>  3 Man(3)Gal(1)GlcNAc(5)Neu5Ac(1)       0.0474        0.00100
-#>  4 Man(3)GlcNAc(5)Fuc(1)                0.000692      0.00287
-#>  5 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00577       0.00485
-#>  6 Man(3)Gal(2)GlcNAc(4)Neu5Ac(2)       0.0474       -0.0349 
-#>  7 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0474        0.0111 
-#>  8 Man(3)Gal(1)GlcNAc(5)                0.0282        0.00111
-#>  9 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.0248        0.0134 
-#> 10 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00225      -0.0146 
-#> 11 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.0000386    -0.00485
-#> 12 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000876   0.00399
-#> 13 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00113      -0.0268 
-#> 14 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0282        0.00119
-#> 15 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000303  0.0339 
-#> 16 Man(5)Gal(1)GlcNAc(4)Neu5Ac(1)       0.0332       -0.00204
-#> 17 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.00146       0.00182
+#> # A tibble: 14 × 3
+#>    glycan_composition                          p_adj log2fc
+#>    <comp>                                      <dbl>  <dbl>
+#>  1 Man(3)GlcNAc(4)Fuc(1)                0.0000000644  1.23 
+#>  2 Man(3)GlcNAc(5)                      0.00913       0.632
+#>  3 Man(3)GlcNAc(5)Fuc(1)                0.000272      0.678
+#>  4 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00309       0.528
+#>  5 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0480        0.230
+#>  6 Man(3)Gal(1)GlcNAc(5)                0.0149        0.471
+#>  7 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.00971       0.415
+#>  8 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00201      -0.256
+#>  9 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.000580     -0.439
+#> 10 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000254   0.727
+#> 11 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00309      -0.544
+#> 12 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0480        0.316
+#> 13 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000644  1.05 
+#> 14 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.00140       0.613
 ```
 
 For the full statistical arsenal, check out [Get Started with
@@ -540,7 +537,7 @@ trait_exp
 #> ── Traitomics Experiment ───────────────────────────────────────────────────────
 #> ℹ Expression matrix: 144 samples, 14 variables
 #> ℹ Sample information fields: group <fct>
-#> ℹ Variable information fields: trait <chr>
+#> ℹ Variable information fields: trait <chr>, explanation <chr>
 ```
 
 That’s it! Just like `quantify_motifs()`, `derive_traits()` creates a
@@ -550,23 +547,23 @@ The variable information shows what we’re working with:
 
 ``` r
 get_var_info(trait_exp)
-#> # A tibble: 14 × 2
-#>    variable trait
-#>    <chr>    <chr>
-#>  1 V1       TM   
-#>  2 V2       TH   
-#>  3 V3       TC   
-#>  4 V4       MM   
-#>  5 V5       CA2  
-#>  6 V6       CA3  
-#>  7 V7       CA4  
-#>  8 V8       TF   
-#>  9 V9       TFc  
-#> 10 V10      TFa  
-#> 11 V11      TB   
-#> 12 V12      GS   
-#> 13 V13      AG   
-#> 14 V14      TS
+#> # A tibble: 14 × 3
+#>    variable trait explanation                                                   
+#>    <chr>    <chr> <chr>                                                         
+#>  1 V1       TM    Proportion of high-mannose glycans among all glycans.         
+#>  2 V2       TH    Proportion of hybrid glycans among all glycans.               
+#>  3 V3       TC    Proportion of complex glycans among all glycans.              
+#>  4 V4       MM    Abundance-weighted mean of mannose count within high-mannose …
+#>  5 V5       CA2   Proportion of bi-antennary glycans within complex glycans.    
+#>  6 V6       CA3   Proportion of tri-antennary glycans within complex glycans.   
+#>  7 V7       CA4   Proportion of tetra-antennary glycans within complex glycans. 
+#>  8 V8       TF    Proportion of fucosylated glycans among all glycans.          
+#>  9 V9       TFc   Proportion of core-fucosylated glycans among all glycans.     
+#> 10 V10      TFa   Proportion of arm-fucosylated glycans among all glycans.      
+#> 11 V11      TB    Proportion of glycans with bisecting GlcNAc among all glycans.
+#> 12 V12      GS    Abundance-weighted mean of degree of sialylation per galactos…
+#> 13 V13      AG    Abundance-weighted mean of degree of galactosylation per ante…
+#> 14 V14      TS    Proportion of sialylated glycans among all glycans.
 ```
 
 The “trait” column lists all the derived traits we can analyze.
@@ -602,17 +599,18 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 8 × 10
-#>   variable trait term     df    sumsq  meansq statistic   p_val   p_adj post_hoc
-#>   <chr>    <chr> <chr> <dbl>    <dbl>   <dbl>     <dbl>   <dbl>   <dbl> <chr>   
-#> 1 V5       CA2   group     3 0.00859  2.86e-3      5.56 1.23e-3 4.37e-3 M_vs_C;…
-#> 2 V6       CA3   group     3 0.0206   6.88e-3      5.41 1.49e-3 4.37e-3 M_vs_C;…
-#> 3 V7       CA4   group     3 0.000115 3.83e-5      3.99 9.14e-3 2.13e-2 M_vs_C  
-#> 4 V8       TF    group     3 0.107    3.58e-2      7.88 6.81e-5 4.77e-4 H_vs_Y;…
-#> 5 V9       TFc   group     3 0.107    3.58e-2      7.88 6.81e-5 4.77e-4 H_vs_Y;…
-#> 6 V10      TFa   group     3 0.000126 4.19e-5      5.38 1.56e-3 4.37e-3 M_vs_C  
-#> 7 V11      TB    group     3 0.0111   3.72e-3      3.57 1.58e-2 2.77e-2 H_vs_Y  
-#> 8 V13      AG    group     3 0.00496  1.65e-3      3.62 1.48e-2 2.77e-2 H_vs_C
+#> # A tibble: 8 × 11
+#>   variable trait explanation       term     df   sumsq  meansq statistic   p_val
+#>   <chr>    <chr> <chr>             <chr> <dbl>   <dbl>   <dbl>     <dbl>   <dbl>
+#> 1 V5       CA2   Proportion of bi… group     3 8.59e-3 2.86e-3      5.56 1.23e-3
+#> 2 V6       CA3   Proportion of tr… group     3 2.06e-2 6.88e-3      5.41 1.49e-3
+#> 3 V7       CA4   Proportion of te… group     3 1.15e-4 3.83e-5      3.99 9.14e-3
+#> 4 V8       TF    Proportion of fu… group     3 1.07e-1 3.58e-2      7.88 6.81e-5
+#> 5 V9       TFc   Proportion of co… group     3 1.07e-1 3.58e-2      7.88 6.81e-5
+#> 6 V10      TFa   Proportion of ar… group     3 1.26e-4 4.19e-5      5.38 1.56e-3
+#> 7 V11      TB    Proportion of gl… group     3 1.11e-2 3.72e-3      3.57 1.58e-2
+#> 8 V13      AG    Abundance-weight… group     3 4.96e-3 1.65e-3      3.62 1.48e-2
+#> # ℹ 2 more variables: p_adj <dbl>, post_hoc <chr>
 ```
 
 Once again, it’s just that straightforward.

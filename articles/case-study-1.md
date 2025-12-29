@@ -66,7 +66,7 @@ library(tidyverse)
 #> ✔ dplyr     1.1.4     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
 #> ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
-#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
 #> ✔ purrr     1.2.0     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.0 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.1.9000 ──
 #> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
-#> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
+#> ✔ glydet   0.8.0          ✔ glyread  0.8.3     
 #> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
-#> ✔ glyexp   0.10.4         ✔ glystats 0.5.5     
-#> ✔ glymotif 0.11.2         ✔ glyvis   0.4.1     
+#> ✔ glyexp   0.11.1         ✔ glystats 0.5.6     
+#> ✔ glymotif 0.12.0         ✔ glyvis   0.4.4     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -584,7 +584,7 @@ trait_exp
 #> ── Traitproteomics Experiment ──────────────────────────────────────────────────
 #> ℹ Expression matrix: 12 samples, 3864 variables
 #> ℹ Sample information fields: group <fct>
-#> ℹ Variable information fields: protein <chr>, protein_site <int>, trait <chr>, gene <chr>
+#> ℹ Variable information fields: protein <chr>, protein_site <int>, trait <chr>, gene <chr>, explanation <chr>
 ```
 
 That’s it! Just like `quantify_motifs()`, `derive_traits()` creates a
@@ -595,19 +595,19 @@ The variable information shows what we’re working with:
 
 ``` r
 get_var_info(trait_exp)
-#> # A tibble: 3,864 × 5
-#>    variable protein protein_site trait gene 
-#>    <chr>    <chr>          <int> <chr> <chr>
-#>  1 V1       A6NJW9            49 TM    CD8B2
-#>  2 V2       A6NJW9            49 TH    CD8B2
-#>  3 V3       A6NJW9            49 TC    CD8B2
-#>  4 V4       A6NJW9            49 MM    CD8B2
-#>  5 V5       A6NJW9            49 CA2   CD8B2
-#>  6 V6       A6NJW9            49 CA3   CD8B2
-#>  7 V7       A6NJW9            49 CA4   CD8B2
-#>  8 V8       A6NJW9            49 TF    CD8B2
-#>  9 V9       A6NJW9            49 TFc   CD8B2
-#> 10 V10      A6NJW9            49 TFa   CD8B2
+#> # A tibble: 3,864 × 6
+#>    variable protein protein_site trait gene  explanation                        
+#>    <chr>    <chr>          <int> <chr> <chr> <chr>                              
+#>  1 V1       A6NJW9            49 TM    CD8B2 Proportion of high-mannose glycans…
+#>  2 V2       A6NJW9            49 TH    CD8B2 Proportion of hybrid glycans among…
+#>  3 V3       A6NJW9            49 TC    CD8B2 Proportion of complex glycans amon…
+#>  4 V4       A6NJW9            49 MM    CD8B2 Abundance-weighted mean of mannose…
+#>  5 V5       A6NJW9            49 CA2   CD8B2 Proportion of bi-antennary glycans…
+#>  6 V6       A6NJW9            49 CA3   CD8B2 Proportion of tri-antennary glycan…
+#>  7 V7       A6NJW9            49 CA4   CD8B2 Proportion of tetra-antennary glyc…
+#>  8 V8       A6NJW9            49 TF    CD8B2 Proportion of fucosylated glycans …
+#>  9 V9       A6NJW9            49 TFc   CD8B2 Proportion of core-fucosylated gly…
+#> 10 V10      A6NJW9            49 TFa   CD8B2 Proportion of arm-fucosylated glyc…
 #> # ℹ 3,854 more rows
 ```
 
@@ -645,30 +645,31 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 20 × 13
-#>    variable protein protein_site trait gene   term     df     sumsq    meansq
-#>    <chr>    <chr>          <int> <chr> <chr>  <chr> <dbl>     <dbl>     <dbl>
-#>  1 V247     P00450           397 TFc   CP     group     3 0.0221    0.00735  
-#>  2 V401     P00738           211 TFc   HP     group     3 0.0853    0.0284   
-#>  3 V415     P00738           241 TFc   HP     group     3 0.000784  0.000261 
-#>  4 V457     P00748           249 TFc   F12    group     3 0.000548  0.000183 
-#>  5 V709     P01591            71 TFc   JCHAIN group     3 0.0771    0.0257   
-#>  6 V863     P01877            92 TFc   IGHA2  group     3 0.00202   0.000673 
-#>  7 V919     P02679            78 TFc   FGG    group     3 0.00365   0.00122  
-#>  8 V1115    P02765           176 TFc   AHSG   group     3 0.0000941 0.0000314
-#>  9 V1227    P02790           240 TFc   HPX    group     3 0.0629    0.0210   
-#> 10 V1353    P03952           494 TFc   KLKB1  group     3 0.00231   0.000770 
-#> 11 V1381    P04004            86 TFc   VTN    group     3 0.00650   0.00217  
-#> 12 V1661    P04278           396 TFc   SHBG   group     3 0.0299    0.00998  
-#> 13 V1675    P05090            98 TFc   APOD   group     3 0.0170    0.00568  
-#> 14 V1927    P06681           621 TFc   C2     group     3 0.0549    0.0183   
-#> 15 V2165    P0C0L4          1328 TFc   C4A    group     3 0.0174    0.00581  
-#> 16 V2179    P0C0L4          1391 TFc   C4A    group     3 0.0000417 0.0000139
-#> 17 V2515    P19652           103 TFc   ORM2   group     3 0.0644    0.0215   
-#> 18 V2683    P25311           112 TFc   AZGP1  group     3 0.0305    0.0102   
-#> 19 V2697    P25311           128 TFc   AZGP1  group     3 0.000519  0.000173 
-#> 20 V2865    P43652            33 TFc   AFM    group     3 0.00547   0.00182  
-#> # ℹ 4 more variables: statistic <dbl>, p_val <dbl>, p_adj <dbl>, post_hoc <chr>
+#> # A tibble: 20 × 14
+#>    variable protein protein_site trait gene   explanation    term     df   sumsq
+#>    <chr>    <chr>          <int> <chr> <chr>  <chr>          <chr> <dbl>   <dbl>
+#>  1 V247     P00450           397 TFc   CP     Proportion of… group     3 2.21e-2
+#>  2 V401     P00738           211 TFc   HP     Proportion of… group     3 8.53e-2
+#>  3 V415     P00738           241 TFc   HP     Proportion of… group     3 7.84e-4
+#>  4 V457     P00748           249 TFc   F12    Proportion of… group     3 5.48e-4
+#>  5 V709     P01591            71 TFc   JCHAIN Proportion of… group     3 7.71e-2
+#>  6 V863     P01877            92 TFc   IGHA2  Proportion of… group     3 2.02e-3
+#>  7 V919     P02679            78 TFc   FGG    Proportion of… group     3 3.65e-3
+#>  8 V1115    P02765           176 TFc   AHSG   Proportion of… group     3 9.41e-5
+#>  9 V1227    P02790           240 TFc   HPX    Proportion of… group     3 6.29e-2
+#> 10 V1353    P03952           494 TFc   KLKB1  Proportion of… group     3 2.31e-3
+#> 11 V1381    P04004            86 TFc   VTN    Proportion of… group     3 6.50e-3
+#> 12 V1661    P04278           396 TFc   SHBG   Proportion of… group     3 2.99e-2
+#> 13 V1675    P05090            98 TFc   APOD   Proportion of… group     3 1.70e-2
+#> 14 V1927    P06681           621 TFc   C2     Proportion of… group     3 5.49e-2
+#> 15 V2165    P0C0L4          1328 TFc   C4A    Proportion of… group     3 1.74e-2
+#> 16 V2179    P0C0L4          1391 TFc   C4A    Proportion of… group     3 4.17e-5
+#> 17 V2515    P19652           103 TFc   ORM2   Proportion of… group     3 6.44e-2
+#> 18 V2683    P25311           112 TFc   AZGP1  Proportion of… group     3 3.05e-2
+#> 19 V2697    P25311           128 TFc   AZGP1  Proportion of… group     3 5.19e-4
+#> 20 V2865    P43652            33 TFc   AFM    Proportion of… group     3 5.47e-3
+#> # ℹ 5 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
+#> #   post_hoc <chr>
 ```
 
 Once again, it’s just that straightforward.
