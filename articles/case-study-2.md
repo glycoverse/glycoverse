@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.1 ──
-#> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
-#> ✔ glydet   0.8.0          ✔ glyread  0.8.3     
-#> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
-#> ✔ glyexp   0.11.1         ✔ glystats 0.5.6     
-#> ✔ glymotif 0.12.0         ✔ glyvis   0.4.4     
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.2.9000 ──
+#> ✔ glyclean 0.9.1      ✔ glyparse 0.5.3 
+#> ✔ glydet   0.8.1      ✔ glyread  0.8.3 
+#> ✔ glydraw  0.1.0      ✔ glyrepr  0.9.0 
+#> ✔ glyexp   0.11.1     ✔ glystats 0.6.0 
+#> ✔ glymotif 0.12.0     ✔ glyvis   0.4.5 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -321,15 +321,15 @@ get_tidy_result(limma_res)  # only one tibble here
 #> # A tibble: 57 × 11
 #>    variable glycan_composition   glycan_structure  log2fc AveExpr       t  p_val
 #>    <chr>    <comp>               <struct>           <dbl>   <dbl>   <dbl>  <dbl>
-#>  1 V1       Man(3)GlcNAc(3)      GlcNAc(?1-?)Man… -0.195   -10.1  -1.48   0.141 
+#>  1 V1       Man(3)GlcNAc(3)      GlcNAc(?1-?)Man… -0.195   -10.1  -1.48   0.142 
 #>  2 V2       Man(3)GlcNAc(7)      GlcNAc(?1-?)[Gl… -0.0938   -9.16 -0.918  0.360 
-#>  3 V3       Man(5)GlcNAc(2)      Man(?1-?)[Man(?…  0.0906   -8.09  0.668  0.505 
-#>  4 V4       Man(4)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0864   -8.49 -0.564  0.574 
-#>  5 V5       Man(3)Gal(1)GlcNAc(… Gal(?1-?)GlcNAc… -0.124   -10.1  -1.25   0.215 
-#>  6 V6       Man(3)Gal(2)GlcNAc(… Gal(?1-?)GlcNAc…  0.0105   -9.88  0.0895 0.929 
-#>  7 V7       Man(3)GlcNAc(3)Fuc(… GlcNAc(?1-?)Man…  0.0679  -10.8   0.535  0.593 
-#>  8 V8       Man(3)GlcNAc(4)      GlcNAc(?1-?)Man…  0.0923  -10.5   0.602  0.548 
-#>  9 V9       Man(3)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0383   -5.93 -0.707  0.481 
+#>  3 V3       Man(5)GlcNAc(2)      Man(?1-?)[Man(?…  0.0906   -8.09  0.669  0.505 
+#>  4 V4       Man(4)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0864   -8.49 -0.566  0.573 
+#>  5 V5       Man(3)Gal(1)GlcNAc(… Gal(?1-?)GlcNAc… -0.124   -10.1  -1.24   0.218 
+#>  6 V6       Man(3)Gal(2)GlcNAc(… Gal(?1-?)GlcNAc…  0.0105   -9.88  0.0893 0.929 
+#>  7 V7       Man(3)GlcNAc(3)Fuc(… GlcNAc(?1-?)Man…  0.0679  -10.8   0.531  0.597 
+#>  8 V8       Man(3)GlcNAc(4)      GlcNAc(?1-?)Man…  0.0923  -10.5   0.601  0.549 
+#>  9 V9       Man(3)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0383   -5.93 -0.685  0.494 
 #> 10 V10      Man(3)Gal(1)GlcNAc(… Neu5Ac(?2-?)Gal…  0.255    -8.40  2.30   0.0229
 #> # ℹ 47 more rows
 #> # ℹ 4 more variables: p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
@@ -344,23 +344,24 @@ limma_res |>
   get_tidy_result() |>
   filter(p_adj < 0.05) |>
   select(glycan_composition, p_adj, log2fc)
-#> # A tibble: 14 × 3
+#> # A tibble: 15 × 3
 #>    glycan_composition                          p_adj log2fc
 #>    <comp>                                      <dbl>  <dbl>
-#>  1 Man(3)GlcNAc(4)Fuc(1)                0.0000000644  1.23 
-#>  2 Man(3)GlcNAc(5)                      0.00913       0.632
-#>  3 Man(3)GlcNAc(5)Fuc(1)                0.000272      0.678
-#>  4 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00309       0.528
-#>  5 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0480        0.230
-#>  6 Man(3)Gal(1)GlcNAc(5)                0.0149        0.471
-#>  7 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.00971       0.415
-#>  8 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00201      -0.256
-#>  9 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.000580     -0.439
-#> 10 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000254   0.727
-#> 11 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00309      -0.544
-#> 12 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0480        0.316
-#> 13 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000644  1.05 
-#> 14 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.00140       0.613
+#>  1 Man(3)GlcNAc(4)Fuc(1)                0.0000000571  1.23 
+#>  2 Man(3)GlcNAc(5)                      0.00891       0.632
+#>  3 Man(3)GlcNAc(5)Fuc(1)                0.000263      0.678
+#>  4 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00313       0.528
+#>  5 Man(3)Gal(2)GlcNAc(4)Neu5Ac(2)       0.0439       -0.118
+#>  6 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0439        0.230
+#>  7 Man(3)Gal(1)GlcNAc(5)                0.0145        0.471
+#>  8 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.00934       0.415
+#>  9 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00155      -0.256
+#> 10 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.000649     -0.439
+#> 11 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000268   0.727
+#> 12 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00313      -0.544
+#> 13 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0439        0.316
+#> 14 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000571  1.05 
+#> 15 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.00134       0.613
 ```
 
 For the full statistical arsenal, check out [Get Started with

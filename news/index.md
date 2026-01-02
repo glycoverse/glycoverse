@@ -1,6 +1,16 @@
 # Changelog
 
+## glycoverse (development version)
+
+## glycoverse 0.2.2
+
+### Minor improvements and bug fixes
+
+- Use the release version of glydraw.
+
 ## glycoverse 0.2.1
+
+- Remove glysmith from core dependency.
 
 ## glycoverse 0.2.0
 

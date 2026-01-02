@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.1 ──
-#> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
-#> ✔ glydet   0.8.0          ✔ glyread  0.8.3     
-#> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
-#> ✔ glyexp   0.11.1         ✔ glystats 0.5.6     
-#> ✔ glymotif 0.12.0         ✔ glyvis   0.4.4     
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.2.9000 ──
+#> ✔ glyclean 0.9.1      ✔ glyparse 0.5.3 
+#> ✔ glydet   0.8.1      ✔ glyread  0.8.3 
+#> ✔ glydraw  0.1.0      ✔ glyrepr  0.9.0 
+#> ✔ glyexp   0.11.1     ✔ glystats 0.6.0 
+#> ✔ glymotif 0.12.0     ✔ glyvis   0.4.5 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
