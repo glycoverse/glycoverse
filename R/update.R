@@ -294,12 +294,10 @@ safe_package_version <- function(pkg) {
 
 glycoverse_remote_info <- function() {
   remotes_raw <- utils::packageDescription("glycoverse")$Remotes
-  if (is.null(remotes_raw) || is.na(remotes_raw)) {
-    return(list())
+  remotes <- character()
+  if (!is.null(remotes_raw) && !is.na(remotes_raw)) {
+    remotes <- trimws(strsplit(remotes_raw, ",")[[1]])
   }
-
-  remotes <- strsplit(remotes_raw, ",")[[1]]
-  remotes <- trimws(remotes)
 
   info <- purrr::map(remotes, function(remote) {
     pieces <- strsplit(remote, "@", fixed = TRUE)[[1]]
@@ -313,8 +311,25 @@ glycoverse_remote_info <- function() {
       spec = if (is.na(ref) || ref == "") repo else paste0(repo, "@", ref)
     )
   })
+  info <- purrr::set_names(info, purrr::map_chr(info, "package"))
 
-  purrr::set_names(info, purrr::map_chr(info, "package"))
+  known_pkgs <- unique(c(core, non_core))
+  missing <- setdiff(known_pkgs, names(info))
+  if (length(missing) > 0) {
+    defaults <- purrr::map(missing, function(pkg) {
+      repo <- paste0("glycoverse/", pkg)
+      list(
+        package = pkg,
+        repo = repo,
+        ref = "*release",
+        spec = paste0(repo, "@*release")
+      )
+    })
+    defaults <- purrr::set_names(defaults, missing)
+    info <- c(info, defaults)
+  }
+
+  info
 }
 
 github_version <- function(repo, ref = NA_character_) {
