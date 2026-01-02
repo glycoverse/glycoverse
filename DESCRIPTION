@@ -36,7 +36,7 @@ Imports:
     glyrepr (>= 0.9.0),
     glystats (>= 0.5.5),
     glyvis (>= 0.4.1),
-    glydraw,
+    glydraw (>= 0.1.0),
     magrittr,
     pak,
     BiocManager
@@ -54,7 +54,7 @@ Remotes:
     glycoverse/glyread@*release,
     glycoverse/glystats@*release,
     glycoverse/glyvis@*release,
-    glycoverse/glydraw,
+    glycoverse/glydraw@*release,
     glycoverse/glydb@*release,
     glycoverse/glyanno@*release
 Depends: 
