@@ -1,7 +1,5 @@
 # Changelog
 
-## glycoverse (development version)
-
 ## glycoverse 0.2.2
 
 ### Minor improvements and bug fixes
