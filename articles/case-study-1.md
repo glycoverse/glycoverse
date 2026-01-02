@@ -79,7 +79,7 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
+#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.3 ──
 #> ✔ glyclean 0.9.1      ✔ glyparse 0.5.3 
 #> ✔ glydet   0.8.1      ✔ glyread  0.8.3 
 #> ✔ glydraw  0.1.0      ✔ glyrepr  0.9.0 
@@ -472,9 +472,9 @@ get_tidy_result(motif_anova_res, "main_test")
 #> # A tibble: 828 × 13
 #>    variable protein protein_site motif       gene  term     df    sumsq   meansq
 #>    <chr>    <chr>          <int> <chr>       <chr> <chr> <dbl>    <dbl>    <dbl>
-#>  1 V1       A6NJW9            49 lewis_by    CD8B2 group     3 6.38e-31 2.13e-31
-#>  2 V2       A6NJW9            49 lewis_ax    CD8B2 group     3 3.95e-32 1.32e-32
-#>  3 V3       A6NJW9            49 sia_lewis_… CD8B2 group     3 6.38e-31 2.13e-31
+#>  1 V1       A6NJW9            49 lewis_by    CD8B2 group     3 5.92e-31 1.97e-31
+#>  2 V2       A6NJW9            49 lewis_ax    CD8B2 group     3 1.48e-31 4.93e-32
+#>  3 V3       A6NJW9            49 sia_lewis_… CD8B2 group     3 5.92e-31 1.97e-31
 #>  4 V4       O14786           150 lewis_by    NRP1  group     3 0        0       
 #>  5 V5       O14786           150 lewis_ax    NRP1  group     3 0        0       
 #>  6 V6       O14786           150 sia_lewis_… NRP1  group     3 0        0       
