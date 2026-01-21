@@ -40,6 +40,52 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+### Troubleshooting
+
+We have scheduled to upload glycoverse packages to CRAN or Bioconductor,
+but for now, many glycoverse packages (including this meta-package) can only be install from GitHub.
+
+Installing R packages from GitHub can be tricky.
+If you encounter any problem installing the packages,
+google "install R package from github" might help.
+
+Here are some common situations encountered by our colleagues:
+
+**1. If you're using `pak` and failed.**
+
+`pak` currently cannot handle building from source properly on some machines.
+Try using `remotes::install_github()` or `devtools::install_github()`.
+
+**2. If you're using `remotes` or `devtools` and failed.**
+
+**2.1 Rtools not installed**
+
+```
+Could not find tools necessary to compile a package
+Call `pkgbuild::check_build_tools(debug = TRUE)` to diagnose the problem.
+```
+
+It means `Rtools` is not installed.
+Calling `pkgbuild::check_build_tools(debug = TRUE)` will install `Rtools` for you automatically.
+If not, [download](https://cran.r-project.org/bin/windows/Rtools/) and install it manually.
+
+**2.2 HTTP error 403**
+
+```
+HTTP error 403.
+  API rate limit exceeded for xxx.xxx.xxx.xxx. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)
+
+  Rate limit remaining: 0/60
+  Rate limit reset at: 2026-01-21 07:58:19 UTC
+
+  To increase your GitHub API rate limit
+  - Use `usethis::create_github_token()` to create a Personal Access Token.
+  - Use `gitcreds::gitcreds_set()` to add the token.
+```
+
+If so, following the instruction to create and set a Personal Access Token.
+You need to have a GitHub account and `Git` installed locally as prerequisites.
+
 ## Important Note
 
 `glycoverse` before v0.1.1 had serious bugs in dependency management.
