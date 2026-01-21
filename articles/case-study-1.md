@@ -65,9 +65,9 @@ library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.1.4     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
-#> ✔ purrr     1.2.0     
+#> ✔ purrr     1.2.1     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.3 ──
-#> ✔ glyclean 0.9.1      ✔ glyparse 0.5.3 
-#> ✔ glydet   0.8.1      ✔ glyread  0.8.3 
-#> ✔ glydraw  0.1.0      ✔ glyrepr  0.9.0 
-#> ✔ glyexp   0.11.1     ✔ glystats 0.6.0 
-#> ✔ glymotif 0.12.0     ✔ glyvis   0.4.5 
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
+#> ✔ glyclean 0.12.0     ✔ glyparse 0.5.3 
+#> ✔ glydet   0.9.0      ✔ glyread  0.8.4 
+#> ✔ glydraw  0.3.0      ✔ glyrepr  0.9.0 
+#> ✔ glyexp   0.12.3     ✔ glystats 0.6.3 
+#> ✔ glymotif 0.12.0     ✔ glyvis   0.5.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -142,12 +142,18 @@ You can get these data components by using `get_expr_mat()`,
 
 ``` r
 get_expr_mat(real_experiment)[1:5, 1:5]
-#>             C1         C2           C3           H1         H2
-#> GP1         NA         NA     10655.62 3.105412e+04         NA
-#> GP2  414080036  609889761  78954431.49           NA   11724908
-#> GP3  581723113  604842244 167889901.32 6.977076e+08  703566323
-#> GP4 3299649335 2856490652 957651065.86 2.600523e+09 3229968280
-#> GP5   30427048   34294394   6390129.81 5.159133e+07   37479075
+#>                                               C1         C2           C3
+#> P08185-N176-Hex(5)HexNAc(4)NeuAc(2)           NA         NA     10655.62
+#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-1  414080036  609889761  78954431.49
+#> P04196-N344-Hex(5)HexNAc(4)            581723113  604842244 167889901.32
+#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-2 3299649335 2856490652 957651065.86
+#> P10909-N291-Hex(6)HexNAc(5)-1           30427048   34294394   6390129.81
+#>                                                 H1         H2
+#> P08185-N176-Hex(5)HexNAc(4)NeuAc(2)   3.105412e+04         NA
+#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-1           NA   11724908
+#> P04196-N344-Hex(5)HexNAc(4)           6.977076e+08  703566323
+#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-2 2.600523e+09 3229968280
+#> P10909-N291-Hex(6)HexNAc(5)-1         5.159133e+07   37479075
 ```
 
 ``` r
@@ -172,18 +178,18 @@ get_sample_info(real_experiment)
 ``` r
 get_var_info(real_experiment)
 #> # A tibble: 4,262 × 8
-#>    variable peptide   peptide_site protein protein_site gene  glycan_composition
-#>    <chr>    <chr>            <int> <chr>          <int> <chr> <comp>            
-#>  1 GP1      JKTQGK               1 P08185           176 SERP… Hex(5)HexNAc(4)Ne…
-#>  2 GP2      HSHNJJSS…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  3 GP3      HSHNJJSS…            5 P04196           344 HRG   Hex(5)HexNAc(4)   
-#>  4 GP4      HSHNJJSS…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  5 GP5      HJSTGCLR             2 P10909           291 CLU   Hex(6)HexNAc(5)   
-#>  6 GP6      HSHNJJSS…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  7 GP7      HSHNJJSS…            6 P04196           345 HRG   Hex(5)HexNAc(4)   
-#>  8 GP8      HSHNJJSS…            5 P04196           344 HRG   Hex(5)HexNAc(4)dH…
-#>  9 GP9      HSHNJJSS…            5 P04196           344 HRG   Hex(4)HexNAc(3)   
-#> 10 GP10     HSHNJJSS…            5 P04196           344 HRG   Hex(4)HexNAc(4)Ne…
+#>    variable   peptide peptide_site protein protein_site gene  glycan_composition
+#>    <chr>      <chr>          <int> <chr>          <int> <chr> <comp>            
+#>  1 P08185-N1… NKTQGK             1 P08185           176 SERP… Hex(5)HexNAc(4)Ne…
+#>  2 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  3 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)   
+#>  4 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  5 P10909-N2… HNSTGC…            2 P10909           291 CLU   Hex(6)HexNAc(5)   
+#>  6 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  7 P04196-N3… HSHNNN…            6 P04196           345 HRG   Hex(5)HexNAc(4)   
+#>  8 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)dH…
+#>  9 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(3)   
+#> 10 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(4)Ne…
 #> # ℹ 4,252 more rows
 #> # ℹ 1 more variable: glycan_structure <struct>
 ```
@@ -335,18 +341,18 @@ limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 get_tidy_result(limma_res)  # only one tibble here
 #> # A tibble: 3,979 × 14
-#>    variable protein glycan_composition      glycan_structure  protein_site gene 
-#>    <chr>    <chr>   <comp>                  <struct>                 <int> <chr>
-#>  1 V1       P08185  Hex(5)HexNAc(4)NeuAc(2) NeuAc(??-?)Hex(?…          176 SERP…
-#>  2 V2       P04196  Hex(5)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
-#>  3 V3       P04196  Hex(5)HexNAc(4)         Hex(??-?)HexNAc(…          344 HRG  
-#>  4 V4       P04196  Hex(5)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
-#>  5 V5       P10909  Hex(6)HexNAc(5)         Hex(??-?)HexNAc(…          291 CLU  
-#>  6 V6       P04196  Hex(5)HexNAc(4)NeuAc(2) NeuAc(??-?)Hex(?…          344 HRG  
-#>  7 V7       P04196  Hex(5)HexNAc(4)         Hex(??-?)HexNAc(…          345 HRG  
-#>  8 V8       P04196  Hex(5)HexNAc(4)dHex(2)  dHex(??-?)Hex(??…          344 HRG  
-#>  9 V9       P04196  Hex(4)HexNAc(3)         Hex(??-?)HexNAc(…          344 HRG  
-#> 10 V10      P04196  Hex(4)HexNAc(4)NeuAc(1) NeuAc(??-?)Hex(?…          344 HRG  
+#>    variable       protein glycan_composition glycan_structure protein_site gene 
+#>    <chr>          <chr>   <comp>             <struct>                <int> <chr>
+#>  1 P08185-N176-H… P08185  Hex(5)HexNAc(4)Ne… NeuAc(??-?)Hex(…          176 SERP…
+#>  2 P04196-N344-H… P04196  Hex(5)HexNAc(4)Ne… NeuAc(??-?)Hex(…          344 HRG  
+#>  3 P04196-N344-H… P04196  Hex(5)HexNAc(4)    Hex(??-?)HexNAc…          344 HRG  
+#>  4 P04196-N344-H… P04196  Hex(5)HexNAc(4)Ne… NeuAc(??-?)Hex(…          344 HRG  
+#>  5 P10909-N291-H… P10909  Hex(6)HexNAc(5)    Hex(??-?)HexNAc…          291 CLU  
+#>  6 P04196-N344-H… P04196  Hex(5)HexNAc(4)Ne… NeuAc(??-?)Hex(…          344 HRG  
+#>  7 P04196-N345-H… P04196  Hex(5)HexNAc(4)    Hex(??-?)HexNAc…          345 HRG  
+#>  8 P04196-N344-H… P04196  Hex(5)HexNAc(4)dH… dHex(??-?)Hex(?…          344 HRG  
+#>  9 P04196-N344-H… P04196  Hex(4)HexNAc(3)    Hex(??-?)HexNAc…          344 HRG  
+#> 10 P04196-N344-H… P04196  Hex(4)HexNAc(4)Ne… NeuAc(??-?)Hex(…          344 HRG  
 #> # ℹ 3,969 more rows
 #> # ℹ 8 more variables: log2fc <dbl>, AveExpr <dbl>, t <dbl>, p_val <dbl>,
 #> #   p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
@@ -469,21 +475,22 @@ motif_anova_res <- clean_exp |>
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 
 get_tidy_result(motif_anova_res, "main_test")
-#> # A tibble: 828 × 13
-#>    variable protein protein_site motif       gene  term     df    sumsq   meansq
-#>    <chr>    <chr>          <int> <chr>       <chr> <chr> <dbl>    <dbl>    <dbl>
-#>  1 V1       A6NJW9            49 lewis_by    CD8B2 group     3 5.92e-31 1.97e-31
-#>  2 V2       A6NJW9            49 lewis_ax    CD8B2 group     3 1.48e-31 4.93e-32
-#>  3 V3       A6NJW9            49 sia_lewis_… CD8B2 group     3 5.92e-31 1.97e-31
-#>  4 V4       O14786           150 lewis_by    NRP1  group     3 0        0       
-#>  5 V5       O14786           150 lewis_ax    NRP1  group     3 0        0       
-#>  6 V6       O14786           150 sia_lewis_… NRP1  group     3 0        0       
-#>  7 V7       O43866           226 lewis_by    CD5L  group     3 0        0       
-#>  8 V8       O43866           226 lewis_ax    CD5L  group     3 0        0       
-#>  9 V9       O43866           226 sia_lewis_… CD5L  group     3 0        0       
-#> 10 V10      O75437           244 lewis_by    ZNF2… group     3 0        0       
+#> # A tibble: 828 × 14
+#>    variable protein protein_site motif        gene   motif_structure term     df
+#>    <chr>    <chr>          <int> <chr>        <chr>  <struct>        <chr> <dbl>
+#>  1 V1       A6NJW9            49 lewis_by     CD8B2  dHex(??-?)Hex(… group     3
+#>  2 V2       A6NJW9            49 lewis_ax     CD8B2  Hex(??-?)[dHex… group     3
+#>  3 V3       A6NJW9            49 sia_lewis_ax CD8B2  NeuAc(??-?)Hex… group     3
+#>  4 V4       O14786           150 lewis_by     NRP1   dHex(??-?)Hex(… group     3
+#>  5 V5       O14786           150 lewis_ax     NRP1   Hex(??-?)[dHex… group     3
+#>  6 V6       O14786           150 sia_lewis_ax NRP1   NeuAc(??-?)Hex… group     3
+#>  7 V7       O43866           226 lewis_by     CD5L   dHex(??-?)Hex(… group     3
+#>  8 V8       O43866           226 lewis_ax     CD5L   Hex(??-?)[dHex… group     3
+#>  9 V9       O43866           226 sia_lewis_ax CD5L   NeuAc(??-?)Hex… group     3
+#> 10 V10      O75437           244 lewis_by     ZNF254 dHex(??-?)Hex(… group     3
 #> # ℹ 818 more rows
-#> # ℹ 4 more variables: statistic <dbl>, p_val <dbl>, p_adj <dbl>, post_hoc <chr>
+#> # ℹ 6 more variables: sumsq <dbl>, meansq <dbl>, statistic <dbl>, p_val <dbl>,
+#> #   p_adj <dbl>, post_hoc <chr>
 ```
 
 `quantify_motifs()` transforms your data into a new `experiment()`

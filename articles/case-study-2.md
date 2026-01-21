@@ -65,9 +65,9 @@ library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.1.4     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
-#> ✔ purrr     1.2.0     
+#> ✔ purrr     1.2.1     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
@@ -79,12 +79,12 @@ collection of specialized packages all at once.
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ────────────────────── glycoverse 0.2.3 ──
-#> ✔ glyclean 0.9.1      ✔ glyparse 0.5.3 
-#> ✔ glydet   0.8.1      ✔ glyread  0.8.3 
-#> ✔ glydraw  0.1.0      ✔ glyrepr  0.9.0 
-#> ✔ glyexp   0.11.1     ✔ glystats 0.6.0 
-#> ✔ glymotif 0.12.0     ✔ glyvis   0.4.5 
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
+#> ✔ glyclean 0.12.0     ✔ glyparse 0.5.3 
+#> ✔ glydet   0.9.0      ✔ glyread  0.8.4 
+#> ✔ glydraw  0.3.0      ✔ glyrepr  0.9.0 
+#> ✔ glyexp   0.12.3     ✔ glystats 0.6.3 
+#> ✔ glymotif 0.12.0     ✔ glyvis   0.5.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -136,12 +136,12 @@ You can get these data components by using `get_expr_mat()`,
 
 ``` r
 get_expr_mat(real_experiment2)[1:5, 1:5]
-#>          S1       S2       S3       S4       S5
-#> V1 1354.352 1884.387 1389.444 2034.693 1472.504
-#> V2 3315.779 2500.308 1247.036 3102.668 2903.602
-#> V3 6940.940 5911.016 1686.319 4071.061 4349.991
-#> V4 4437.816 7535.886 2053.077 4773.249 3142.817
-#> V5 1346.274 1663.375 1043.464 1765.550 1184.083
+#>                                      S1       S2       S3       S4       S5
+#> Man(3)GlcNAc(3)                1354.352 1884.387 1389.444 2034.693 1472.504
+#> Man(3)GlcNAc(7)                3315.779 2500.308 1247.036 3102.668 2903.602
+#> Man(5)GlcNAc(2)                6940.940 5911.016 1686.319 4071.061 4349.991
+#> Man(4)Gal(2)GlcNAc(4)Neu5Ac(2) 4437.816 7535.886 2053.077 4773.249 3142.817
+#> Man(3)Gal(1)GlcNAc(3)          1346.274 1663.375 1043.464 1765.550 1184.083
 ```
 
 ``` r
@@ -165,18 +165,18 @@ get_sample_info(real_experiment2)
 ``` r
 get_var_info(real_experiment2)
 #> # A tibble: 67 × 3
-#>    variable glycan_composition                   glycan_structure               
-#>    <chr>    <comp>                               <struct>                       
-#>  1 V1       Man(3)GlcNAc(3)                      GlcNAc(?1-?)Man(?1-?)[Man(?1-?…
-#>  2 V2       Man(3)GlcNAc(7)                      GlcNAc(?1-?)[GlcNAc(?1-?)]Man(…
-#>  3 V3       Man(5)GlcNAc(2)                      Man(?1-?)[Man(?1-?)]Man(?1-?)[…
-#>  4 V4       Man(4)Gal(2)GlcNAc(4)Neu5Ac(2)       Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
-#>  5 V5       Man(3)Gal(1)GlcNAc(3)                Gal(?1-?)GlcNAc(?1-?)Man(?1-?)…
-#>  6 V6       Man(3)Gal(2)GlcNAc(4)Fuc(2)          Gal(?1-?)GlcNAc(?1-?)Man(?1-?)…
-#>  7 V7       Man(3)GlcNAc(3)Fuc(1)                GlcNAc(?1-?)Man(?1-?)[Man(?1-?…
-#>  8 V8       Man(3)GlcNAc(4)                      GlcNAc(?1-?)Man(?1-?)[GlcNAc(?…
-#>  9 V9       Man(3)Gal(2)GlcNAc(5)Neu5Ac(1)       Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
-#> 10 V10      Man(3)Gal(1)GlcNAc(5)Fuc(1)Neu5Ac(1) Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1…
+#>    variable                             glycan_composition      glycan_structure
+#>    <glue>                               <comp>                  <struct>        
+#>  1 Man(3)GlcNAc(3)                      Man(3)GlcNAc(3)         GlcNAc(?1-?)Man…
+#>  2 Man(3)GlcNAc(7)                      Man(3)GlcNAc(7)         GlcNAc(?1-?)[Gl…
+#>  3 Man(5)GlcNAc(2)                      Man(5)GlcNAc(2)         Man(?1-?)[Man(?…
+#>  4 Man(4)Gal(2)GlcNAc(4)Neu5Ac(2)       Man(4)Gal(2)GlcNAc(4)N… Neu5Ac(?2-?)Gal…
+#>  5 Man(3)Gal(1)GlcNAc(3)                Man(3)Gal(1)GlcNAc(3)   Gal(?1-?)GlcNAc…
+#>  6 Man(3)Gal(2)GlcNAc(4)Fuc(2)          Man(3)Gal(2)GlcNAc(4)F… Gal(?1-?)GlcNAc…
+#>  7 Man(3)GlcNAc(3)Fuc(1)                Man(3)GlcNAc(3)Fuc(1)   GlcNAc(?1-?)Man…
+#>  8 Man(3)GlcNAc(4)                      Man(3)GlcNAc(4)         GlcNAc(?1-?)Man…
+#>  9 Man(3)Gal(2)GlcNAc(5)Neu5Ac(1)       Man(3)Gal(2)GlcNAc(5)N… Neu5Ac(?2-?)Gal…
+#> 10 Man(3)Gal(1)GlcNAc(5)Fuc(1)Neu5Ac(1) Man(3)Gal(1)GlcNAc(5)F… Neu5Ac(?2-?)Gal…
 #> # ℹ 57 more rows
 ```
 
@@ -319,18 +319,18 @@ limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 get_tidy_result(limma_res)  # only one tibble here
 #> # A tibble: 57 × 11
-#>    variable glycan_composition   glycan_structure  log2fc AveExpr       t  p_val
-#>    <chr>    <comp>               <struct>           <dbl>   <dbl>   <dbl>  <dbl>
-#>  1 V1       Man(3)GlcNAc(3)      GlcNAc(?1-?)Man… -0.195   -10.1  -1.48   0.142 
-#>  2 V2       Man(3)GlcNAc(7)      GlcNAc(?1-?)[Gl… -0.0938   -9.16 -0.918  0.360 
-#>  3 V3       Man(5)GlcNAc(2)      Man(?1-?)[Man(?…  0.0906   -8.09  0.669  0.505 
-#>  4 V4       Man(4)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0864   -8.49 -0.566  0.573 
-#>  5 V5       Man(3)Gal(1)GlcNAc(… Gal(?1-?)GlcNAc… -0.124   -10.1  -1.24   0.218 
-#>  6 V6       Man(3)Gal(2)GlcNAc(… Gal(?1-?)GlcNAc…  0.0105   -9.88  0.0893 0.929 
-#>  7 V7       Man(3)GlcNAc(3)Fuc(… GlcNAc(?1-?)Man…  0.0679  -10.8   0.531  0.597 
-#>  8 V8       Man(3)GlcNAc(4)      GlcNAc(?1-?)Man…  0.0923  -10.5   0.601  0.549 
-#>  9 V9       Man(3)Gal(2)GlcNAc(… Neu5Ac(?2-?)Gal… -0.0383   -5.93 -0.685  0.494 
-#> 10 V10      Man(3)Gal(1)GlcNAc(… Neu5Ac(?2-?)Gal…  0.255    -8.40  2.30   0.0229
+#>    variable   glycan_composition glycan_structure  log2fc AveExpr       t  p_val
+#>    <glue>     <comp>             <struct>           <dbl>   <dbl>   <dbl>  <dbl>
+#>  1 Man(3)Glc… Man(3)GlcNAc(3)    GlcNAc(?1-?)Man… -0.195   -10.1  -1.48   0.142 
+#>  2 Man(3)Glc… Man(3)GlcNAc(7)    GlcNAc(?1-?)[Gl… -0.0938   -9.16 -0.918  0.360 
+#>  3 Man(5)Glc… Man(5)GlcNAc(2)    Man(?1-?)[Man(?…  0.0906   -8.09  0.669  0.505 
+#>  4 Man(4)Gal… Man(4)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… -0.0864   -8.49 -0.566  0.573 
+#>  5 Man(3)Gal… Man(3)Gal(1)GlcNA… Gal(?1-?)GlcNAc… -0.124   -10.1  -1.24   0.218 
+#>  6 Man(3)Gal… Man(3)Gal(2)GlcNA… Gal(?1-?)GlcNAc…  0.0105   -9.88  0.0893 0.929 
+#>  7 Man(3)Glc… Man(3)GlcNAc(3)Fu… GlcNAc(?1-?)Man…  0.0679  -10.8   0.531  0.597 
+#>  8 Man(3)Glc… Man(3)GlcNAc(4)    GlcNAc(?1-?)Man…  0.0923  -10.5   0.601  0.549 
+#>  9 Man(3)Gal… Man(3)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… -0.0383   -5.93 -0.685  0.494 
+#> 10 Man(3)Gal… Man(3)Gal(1)GlcNA… Neu5Ac(?2-?)Gal…  0.255    -8.40  2.30   0.0229
 #> # ℹ 47 more rows
 #> # ℹ 4 more variables: p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
 ```
@@ -385,15 +385,15 @@ clean_exp |>
   pull(glycan_structure)
 #> <glycan_structure[57]>
 #> [1] GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
-#> [2] GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)[GlcNAc(?1-?)][GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [2] GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)[GlcNAc(?1-?)[GlcNAc(?1-?)]Man(?1-?)][GlcNAc(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
 #> [3] Man(?1-?)[Man(?1-?)]Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
 #> [4] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)[Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)]Man(?1-?)[Man(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
 #> [5] Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
-#> [6] Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[Fuc(?1-?)[Gal(?1-?)]GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
+#> [6] Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[Gal(?1-?)[Fuc(?1-?)]GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
 #> [7] GlcNAc(?1-?)Man(?1-?)[Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
 #> [8] GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
-#> [9] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)][Gal(?1-?)GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
-#> [10] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)][GlcNAc(?1-?)Man(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
+#> [9] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[Gal(?1-?)GlcNAc(?1-?)Man(?1-?)][GlcNAc(?1-?)]Man(?1-?)GlcNAc(?1-?)GlcNAc(?1-
+#> [10] Neu5Ac(?2-?)Gal(?1-?)GlcNAc(?1-?)Man(?1-?)[GlcNAc(?1-?)Man(?1-?)][GlcNAc(?1-?)]Man(?1-?)GlcNAc(?1-?)[Fuc(?1-?)]GlcNAc(?1-
 #> ... (47 more not shown)
 #> # Unique structures: 57
 ```
@@ -462,12 +462,13 @@ motif_anova_res <- clean_exp |>
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 
 get_tidy_result(motif_anova_res, "main_test")
-#> # A tibble: 3 × 10
-#>   variable motif  term     df  sumsq  meansq statistic   p_val   p_adj post_hoc 
-#>   <chr>    <chr>  <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>   <dbl> <chr>    
-#> 1 V1       motif1 group     3 0.0205 0.00685      1.17 0.322   0.322   NA       
-#> 2 V2       motif2 group     3 0.0264 0.00880      2.06 0.109   0.163   NA       
-#> 3 V3       motif3 group     3 0.0959 0.0320       5.60 0.00118 0.00353 H_vs_Y;H…
+#> # A tibble: 3 × 11
+#>   variable motif  motif_structure   term     df  sumsq  meansq statistic   p_val
+#>   <chr>    <chr>  <struct>          <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>
+#> 1 V1       motif1 Neu5Ac(??-?)Gal(… group     3 0.0205 0.00685      1.17 0.322  
+#> 2 V2       motif2 Gal(??-?)GlcNAc(… group     3 0.0264 0.00880      2.06 0.109  
+#> 3 V3       motif3 GlcNAc(??-        group     3 0.0959 0.0320       5.60 0.00118
+#> # ℹ 2 more variables: p_adj <dbl>, post_hoc <chr>
 ```
 
 `quantify_motifs()` transforms your data into a new `experiment()`
@@ -482,10 +483,11 @@ since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05)
-#> # A tibble: 1 × 10
-#>   variable motif  term     df  sumsq meansq statistic   p_val   p_adj post_hoc  
-#>   <chr>    <chr>  <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>   <dbl> <chr>     
-#> 1 V3       motif3 group     3 0.0959 0.0320      5.60 0.00118 0.00353 H_vs_Y;H_…
+#> # A tibble: 1 × 11
+#>   variable motif  motif_structure term     df  sumsq meansq statistic   p_val
+#>   <chr>    <chr>  <struct>        <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>
+#> 1 V3       motif3 GlcNAc(??-      group     3 0.0959 0.0320      5.60 0.00118
+#> # ℹ 2 more variables: p_adj <dbl>, post_hoc <chr>
 ```
 
 Here’s another common question: **Which of the three branching motifs

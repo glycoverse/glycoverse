@@ -21,6 +21,57 @@ Or install the development version:
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+### Troubleshooting
+
+We have scheduled to upload glycoverse packages to CRAN or Bioconductor,
+but for now, many glycoverse packages (including this meta-package) can
+only be install from GitHub.
+
+Installing R packages from GitHub can be tricky. If you encounter any
+problem installing the packages, google “install R package from github”
+might help.
+
+Here are some common situations encountered by our colleagues:
+
+**1. If you’re using `pak` and failed.**
+
+`pak` currently cannot handle building from source properly on some
+machines. Try using `remotes::install_github()` or
+`devtools::install_github()`.
+
+**2. If you’re using `remotes` or `devtools` and failed.**
+
+**2.1 Rtools not installed**
+
+``` R
+Could not find tools necessary to compile a package
+Call `pkgbuild::check_build_tools(debug = TRUE)` to diagnose the problem.
+```
+
+It means `Rtools` is not installed. Calling
+`pkgbuild::check_build_tools(debug = TRUE)` will install `Rtools` for
+you automatically. If not,
+[download](https://cran.r-project.org/bin/windows/Rtools/) and install
+it manually.
+
+**2.2 HTTP error 403**
+
+``` R
+HTTP error 403.
+  API rate limit exceeded for xxx.xxx.xxx.xxx. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)
+
+  Rate limit remaining: 0/60
+  Rate limit reset at: 2026-01-21 07:58:19 UTC
+
+  To increase your GitHub API rate limit
+  - Use `usethis::create_github_token()` to create a Personal Access Token.
+  - Use `gitcreds::gitcreds_set()` to add the token.
+```
+
+If so, following the instruction to create and set a Personal Access
+Token. You need to have a GitHub account and `Git` installed locally as
+prerequisites.
+
 ## Important Note
 
 `glycoverse` before v0.1.1 had serious bugs in dependency management. We
@@ -55,12 +106,12 @@ load all the core packages in the `glycoverse` ecosystem:
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.1.3.9000 ──
-#> ✔ glyclean 0.9.1          ✔ glyparse 0.5.3     
-#> ✔ glydet   0.6.5          ✔ glyread  0.8.2     
-#> ✔ glydraw  0.0.0.9000     ✔ glyrepr  0.9.0     
-#> ✔ glyexp   0.10.4         ✔ glystats 0.5.5     
-#> ✔ glymotif 0.11.2         ✔ glyvis   0.4.1     
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
+#> ✔ glyclean 0.12.0          ✔ glyparse 0.5.3.9000 
+#> ✔ glydet   0.9.0           ✔ glyread  0.8.4      
+#> ✔ glydraw  0.2.0           ✔ glyrepr  0.9.0.9000 
+#> ✔ glyexp   0.12.3.9000     ✔ glystats 0.6.3      
+#> ✔ glymotif 0.12.0          ✔ glyvis   0.5.0      
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -114,21 +165,21 @@ glycoverse_sitrep()
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
 #> ── Core packages ───────────────────────────────────────────────────────────────
-#> • glyexp   (0.10.4)
-#> • glyread  (0.8.2)
-#> • glyclean (0.9.1)
-#> • glystats (0.5.5)
-#> • glyvis   (0.4.1)
-#> • glyrepr  (0.9.0)
-#> • glyparse (0.5.3)
-#> • glymotif (0.11.2)
-#> • glydet   (0.6.5)
-#> • glydraw  (0.0.0.9000)
+#> • glyexp      (0.12.3.9000)
+#> • glyread     (0.8.4)
+#> • glyclean    (0.12.0)
+#> • glystats    (0.6.3)
+#> • glyvis      (0.5.0)
+#> • glyrepr     (0.9.0.9000)
+#> • glyparse    (0.5.3.9000)
+#> • glymotif    (0.12.0)
+#> • glydet      (0.9.0)
+#> • glydraw     (0.2.0)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
-#> • glyenzy  (0.4.1)
-#> • glydb    (0.3.1)
-#> • glyanno  (0.1.0)
-#> • glysmith (0.0.0 < 0.0.0.9000)
+#> • glyenzy     (0.4.1)
+#> • glydb       (0.3.1.9000)
+#> • glyanno     (0.1.0)
+#> • glysmith    (0.8.0)
 ```
 
 To list all dependencies of glycoverse core packages, run:
@@ -139,20 +190,20 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #> 'help("repositories", package = "BiocManager")' for details.
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
-#> # A tibble: 118 × 6
+#> # A tibble: 149 × 6
 #>    package       source       remote upstream local   behind
 #>    <chr>         <chr>        <chr>  <chr>    <chr>   <lgl> 
 #>  1 ade4          cran         <NA>   1.7-23   1.7.23  FALSE 
 #>  2 AnnotationDbi bioconductor <NA>   1.72.0   1.72.0  FALSE 
 #>  3 askpass       cran         <NA>   1.2.1    1.2.1   FALSE 
 #>  4 backports     cran         <NA>   1.5.0    1.5.0   FALSE 
-#>  5 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
-#>  6 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
-#>  7 Biostrings    bioconductor <NA>   2.78.0   2.78.0  FALSE 
-#>  8 bit           cran         <NA>   4.6.0    4.6.0   FALSE 
-#>  9 bit64         cran         <NA>   4.6.0-1  4.6.0.1 FALSE 
-#> 10 blob          cran         <NA>   1.2.4    1.2.4   FALSE 
-#> # ℹ 108 more rows
+#>  5 base64enc     cran         <NA>   0.1-3    0.1.3   FALSE 
+#>  6 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
+#>  7 BiocBaseUtils bioconductor <NA>   1.12.0   1.12.0  FALSE 
+#>  8 BiocFileCache bioconductor <NA>   3.0.0    3.0.0   FALSE 
+#>  9 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
+#> 10 BiocManager   cran         <NA>   1.30.27  1.30.27 FALSE 
+#> # ℹ 139 more rows
 ```
 
 And you can update all the packages with
