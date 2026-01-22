@@ -70,10 +70,13 @@ common situations encountered by our users.
 
 If you are using `pak` and it fails (currently `pak` may have issues
 building from source on some setups), try installing from `r-universe`
-using the standard `remotes` or `devtools` approach:
+or using the standard `remotes` approach:
 
 ``` r
-if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+# From r-universe
+install.packages('glycoverse', repos = c('https://glycoverse.r-universe.dev', 'https://cloud.r-project.org'))
+
+# From GitHub using `remotes`
 remotes::install_github("glycoverse/package_name")
 ```
 
@@ -121,11 +124,11 @@ recommend all users to update to the latest version of `glycoverse`, and
 call `glycoverse::glycoverse_update()` to update all the packages in the
 `glycoverse` ecosystem.
 
-Besides, we are progressively uploading glycoverse packages to CRAN.
-Every time a package is shifted to CRAN, we will update the `glycoverse`
-meta-package to depend on the CRAN version of that package. So come back
-from time to time to check if you have the latest version of
-`glycoverse`!
+Besides, we are progressively uploading glycoverse packages to CRAN or
+Bioconductor. Every time a package is shifted to CRAN/Bioconductor, we
+will update the `glycoverse` meta-package to depend on the
+CRAN/Bioconductor version of that package. So come back from time to
+time to check if you have the latest version of `glycoverse`!
 
 ## Documentation
 
