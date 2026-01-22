@@ -65,37 +65,65 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the latest release of glycoverse from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the latest release of glycoverse core packages from <a href="https://glycoverse.r-universe.dev/glycoverse" class="external-link">r-universe</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'glycoverse'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://glycoverse.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Or from <a href="https://github.com/glycoverse/glycoverse" class="external-link">GitHub</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/glycoverse@*release"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install the development version:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>Or install the development version (not recommended):</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/glycoverse"</span><span class="op">)</span></span></code></pre></div>
+<p>Just like <code>tidyverse</code>, installing <code>glycoverse</code> automatically installs all glycoverse core packages including <code>glyexp</code>, <code>glyread</code>, <code>glyclean</code>, <code>glystats</code>, <code>glyvis</code>, <code>glyrepr</code>, <code>glyparse</code>, <code>glymotif</code>, <code>glydet</code>, and <code>glydraw</code>.</p>
+<p>You can also only install some of them manually if you don’t want the whole repertoire. For example:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/glymotif@*release"</span><span class="op">)</span></span></code></pre></div>
+<p>Note that <code>glymotif</code> depends on <code>glyexp</code>, <code>glyrepr</code> and <code>glyparse</code>, so these three packages will also be installed.</p>
 <div class="section level3">
 <h3 id="troubleshooting">Troubleshooting<a class="anchor" aria-label="anchor" href="#troubleshooting"></a>
 </h3>
-<p>We have scheduled to upload glycoverse packages to CRAN or Bioconductor, but for now, many glycoverse packages (including this meta-package) can only be install from GitHub.</p>
-<p>Installing R packages from GitHub can be tricky. If you encounter any problem installing the packages, google “install R package from github” might help.</p>
-<p>Here are some common situations encountered by our colleagues:</p>
-<p><strong>1. If you’re using <code>pak</code> and failed.</strong></p>
-<p><code>pak</code> currently cannot handle building from source properly on some machines. Try using <code>remotes::install_github()</code> or <code>devtools::install_github()</code>.</p>
-<p><strong>2. If you’re using <code>remotes</code> or <code>devtools</code> and failed.</strong></p>
-<p><strong>2.1 Rtools not installed</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>Could not find tools necessary to compile a package</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>Call <span class="st">`</span><span class="at">pkgbuild::check_build_tools(debug = TRUE)</span><span class="st">`</span> to diagnose the problem.</span></code></pre></div>
-<p>It means <code>Rtools</code> is not installed. Calling <code>pkgbuild::check_build_tools(debug = TRUE)</code> will install <code>Rtools</code> for you automatically. If not, <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">download</a> and install it manually.</p>
-<p><strong>2.2 HTTP error 403</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>HTTP error <span class="fl">403.</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  API rate limit exceeded <span class="cf">for</span> <span class="fu">xxx.xxx.xxx.xxx.</span> (But here<span class="st">'s the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="st">  Rate limit remaining: 0/60</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="st">  Rate limit reset at: 2026-01-21 07:58:19 UTC</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="st">  To increase your GitHub API rate limit</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="st">  - Use `usethis::create_github_token()` to create a Personal Access Token.</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="st">  - Use `gitcreds::gitcreds_set()` to add the token.</span></span></code></pre></div>
-<p>If so, following the instruction to create and set a Personal Access Token. You need to have a GitHub account and <code>Git</code> installed locally as prerequisites.</p>
+<p>We are scheduled to upload glycoverse packages to CRAN or Bioconductor. However, currently, many glycoverse packages (including this meta-package) must be installed from r-universe or GitHub.</p>
+<p>Installing R packages from GitHub can sometimes be tricky due to compilation requirements or network limits. Below are solutions to common situations encountered by our users.</p>
+<div class="section level4">
+<h4 id="quick-fix-switch-installer">Quick Fix: Switch Installer<a class="anchor" aria-label="anchor" href="#quick-fix-switch-installer"></a>
+</h4>
+<p>If you are using <code>pak</code> and it fails (currently <code>pak</code> may have issues building from source on some setups), try installing from <code>r-universe</code> using the standard <code>remotes</code> or <code>devtools</code> approach:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/package_name"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="common-errors--solutions">Common Errors &amp; Solutions<a class="anchor" aria-label="anchor" href="#common-errors--solutions"></a>
+</h4>
+<div class="section level5">
+<h5 id="id_21-compilation-tools-missing-error-could-not-find-tools">2.1 Compilation Tools Missing (Error: “Could not find tools…”)<a class="anchor" aria-label="anchor" href="#id_21-compilation-tools-missing-error-could-not-find-tools"></a>
+</h5>
+<p>If you see an error mentioning <code><a href="https://pkgbuild.r-lib.org/reference/has_build_tools.html" class="external-link">pkgbuild::check_build_tools</a></code>, it means your system lacks the necessary compilation tools.</p>
+<p>Call <code>pkgbuild::check_build_tools(debug = TRUE)</code> to install it automatically.</p>
+<p>Or <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">download</a> and install Rtools manually.</p>
+<p><strong>macOS Users:</strong> You likely need Xcode Command Line Tools.</p>
+<p>Open your Terminal (not RStudio) and run: <code>xcode-select --install</code>.</p>
+</div>
+<div class="section level5">
+<h5 id="id_22-http-error-403-api-rate-limit-exceeded">2.2 HTTP Error 403 (API Rate Limit Exceeded)<a class="anchor" aria-label="anchor" href="#id_22-http-error-403-api-rate-limit-exceeded"></a>
+</h5>
+<p>Error: <code>HTTP error 403. API rate limit exceeded for xxx.xxx.xxx.xxx.</code></p>
+<p>GitHub limits unauthenticated installation requests. To fix this:</p>
+<ol style="list-style-type: decimal">
+<li>Create a Personal Access Token (PAT) using <code>usethis::create_github_token()</code> (requires a GitHub account).</li>
+<li>Add the token to your environment using <code>gitcreds::gitcreds_set()</code>.</li>
+</ol>
+</div>
+<div class="section level5">
+<h5 id="id_23-network-timeout">2.3 Network Timeout<a class="anchor" aria-label="anchor" href="#id_23-network-timeout"></a>
+</h5>
+<p>If the download fails due to a slow connection (Timeout of 60 seconds was reached), increase the timeout limit in R before installing:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>timeout <span class="op">=</span> <span class="fl">600</span><span class="op">)</span> <span class="co"># Set timeout to 10 minutes</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"glycoverse/package_name"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -118,14 +146,15 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p><code><a href="https://glycoverse.github.io/glycoverse/">library(glycoverse)</a></code> will load all the core packages in the <code>glycoverse</code> ecosystem:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'glydraw' was built under R version 4.5.2</span></span>
 <span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──</span></span>
 <span><span class="co">#&gt; ✔ glyclean 0.12.0          ✔ glyparse 0.5.3.9000 </span></span>
 <span><span class="co">#&gt; ✔ glydet   0.9.0           ✔ glyread  0.8.4      </span></span>
-<span><span class="co">#&gt; ✔ glydraw  0.2.0           ✔ glyrepr  0.9.0.9000 </span></span>
+<span><span class="co">#&gt; ✔ glydraw  0.3.0           ✔ glyrepr  0.9.0.9000 </span></span>
 <span><span class="co">#&gt; ✔ glyexp   0.12.3.9000     ✔ glystats 0.6.3      </span></span>
-<span><span class="co">#&gt; ✔ glymotif 0.12.0          ✔ glyvis   0.5.0      </span></span>
+<span><span class="co">#&gt; ✔ glymotif 0.12.0.9000     ✔ glyvis   0.5.0      </span></span>
 <span><span class="co">#&gt; ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; ✖ glyclean::aggregate() masks stats::aggregate()</span></span>
 <span><span class="co">#&gt; ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</span></span></code></pre></div>
@@ -168,7 +197,7 @@
 <a href="https://glycoverse.github.io/glysmith/" class="external-link">glysmith</a>, for full analytical pipeline</li>
 </ul>
 <p>You can get a situation report of all the packages in the <code>glycoverse</code> ecosystem with <code><a href="reference/glycoverse_sitrep.html">glycoverse_sitrep()</a></code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/glycoverse_sitrep.html">glycoverse_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── R &amp; RStudio ─────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; • R: 4.5.1</span></span>
@@ -184,37 +213,37 @@
 <span><span class="co">#&gt; • glyvis      (0.5.0)</span></span>
 <span><span class="co">#&gt; • glyrepr     (0.9.0.9000)</span></span>
 <span><span class="co">#&gt; • glyparse    (0.5.3.9000)</span></span>
-<span><span class="co">#&gt; • glymotif    (0.12.0)</span></span>
+<span><span class="co">#&gt; • glymotif    (0.12.0.9000)</span></span>
 <span><span class="co">#&gt; • glydet      (0.9.0)</span></span>
-<span><span class="co">#&gt; • glydraw     (0.2.0)</span></span>
+<span><span class="co">#&gt; • glydraw     (0.3.0)</span></span>
 <span><span class="co">#&gt; ── Non-core packages ───────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; • glyenzy     (0.4.1)</span></span>
 <span><span class="co">#&gt; • glydb       (0.3.1.9000)</span></span>
 <span><span class="co">#&gt; • glyanno     (0.1.0)</span></span>
 <span><span class="co">#&gt; • glysmith    (0.8.0)</span></span></code></pre></div>
 <p>To list all dependencies of glycoverse core packages, run:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/glycoverse_deps.html">glycoverse_deps</a></span><span class="op">(</span>recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># recursive = TRUE to list dependencies of each package</span></span>
 <span><span class="co">#&gt; 'getOption("repos")' replaces Bioconductor standard repositories, see</span></span>
 <span><span class="co">#&gt; 'help("repositories", package = "BiocManager")' for details.</span></span>
 <span><span class="co">#&gt; Replacement repositories:</span></span>
 <span><span class="co">#&gt;     CRAN: https://cloud.r-project.org</span></span>
-<span><span class="co">#&gt; # A tibble: 149 × 6</span></span>
+<span><span class="co">#&gt; # A tibble: 127 × 6</span></span>
 <span><span class="co">#&gt;    package       source       remote upstream local   behind</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;   &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt;  1 ade4          cran         &lt;NA&gt;   1.7-23   1.7.23  FALSE </span></span>
 <span><span class="co">#&gt;  2 AnnotationDbi bioconductor &lt;NA&gt;   1.72.0   1.72.0  FALSE </span></span>
 <span><span class="co">#&gt;  3 askpass       cran         &lt;NA&gt;   1.2.1    1.2.1   FALSE </span></span>
 <span><span class="co">#&gt;  4 backports     cran         &lt;NA&gt;   1.5.0    1.5.0   FALSE </span></span>
-<span><span class="co">#&gt;  5 base64enc     cran         &lt;NA&gt;   0.1-3    0.1.3   FALSE </span></span>
-<span><span class="co">#&gt;  6 Biobase       bioconductor &lt;NA&gt;   2.70.0   2.70.0  FALSE </span></span>
-<span><span class="co">#&gt;  7 BiocBaseUtils bioconductor &lt;NA&gt;   1.12.0   1.12.0  FALSE </span></span>
-<span><span class="co">#&gt;  8 BiocFileCache bioconductor &lt;NA&gt;   3.0.0    3.0.0   FALSE </span></span>
-<span><span class="co">#&gt;  9 BiocGenerics  bioconductor &lt;NA&gt;   0.56.0   0.56.0  FALSE </span></span>
-<span><span class="co">#&gt; 10 BiocManager   cran         &lt;NA&gt;   1.30.27  1.30.27 FALSE </span></span>
-<span><span class="co">#&gt; # ℹ 139 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt;  5 Biobase       bioconductor &lt;NA&gt;   2.70.0   2.70.0  FALSE </span></span>
+<span><span class="co">#&gt;  6 BiocBaseUtils bioconductor &lt;NA&gt;   1.12.0   1.12.0  FALSE </span></span>
+<span><span class="co">#&gt;  7 BiocFileCache bioconductor &lt;NA&gt;   3.0.0    3.0.0   FALSE </span></span>
+<span><span class="co">#&gt;  8 BiocGenerics  bioconductor &lt;NA&gt;   0.56.0   0.56.0  FALSE </span></span>
+<span><span class="co">#&gt;  9 BiocManager   cran         &lt;NA&gt;   1.30.27  1.30.27 FALSE </span></span>
+<span><span class="co">#&gt; 10 Biostrings    bioconductor &lt;NA&gt;   2.78.0   2.78.0  FALSE </span></span>
+<span><span class="co">#&gt; # ℹ 117 more rows</span></span></code></pre></div>
 <p>And you can update all the packages with <code><a href="reference/glycoverse_update.html">glycoverse_update()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/glycoverse_update.html">glycoverse_update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
