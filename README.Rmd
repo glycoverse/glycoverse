@@ -27,64 +27,84 @@ This package is designed to make it easy to install and load multiple 'glycovers
 
 ## Installation
 
-You can install the latest release of glycoverse from [GitHub](https://github.com/) with:
+You can install the latest release of glycoverse core packages from [r-universe](https://glycoverse.r-universe.dev/glycoverse) with:
+
+```r
+install.packages('glycoverse', repos = c('https://glycoverse.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Or from [GitHub](https://github.com/glycoverse/glycoverse):
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("glycoverse/glycoverse@*release")
 ```
 
-Or install the development version:
+Or install the development version (not recommended):
 
 ``` r
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+Just like `tidyverse`, installing `glycoverse` automatically installs all glycoverse core packages
+including `glyexp`, `glyread`, `glyclean`, `glystats`, `glyvis`, `glyrepr`, `glyparse`, `glymotif`, `glydet`, and `glydraw`.
+
+You can also only install some of them manually if you don't want the whole repertoire.
+For example:
+
+```r
+remotes::install_github("glycoverse/glymotif@*release")
+```
+
+Note that `glymotif` depends on `glyexp`, `glyrepr` and `glyparse`,
+so these three packages will also be installed.
+
 ### Troubleshooting
 
-We have scheduled to upload glycoverse packages to CRAN or Bioconductor,
-but for now, many glycoverse packages (including this meta-package) can only be install from GitHub.
+We are scheduled to upload glycoverse packages to CRAN or Bioconductor. However, currently, many glycoverse packages (including this meta-package) must be installed from r-universe or GitHub.
 
-Installing R packages from GitHub can be tricky.
-If you encounter any problem installing the packages,
-google "install R package from github" might help.
+Installing R packages from GitHub can sometimes be tricky due to compilation requirements or network limits. Below are solutions to common situations encountered by our users.
 
-Here are some common situations encountered by our colleagues:
+#### Quick Fix: Switch Installer
 
-**1. If you're using `pak` and failed.**
+If you are using `pak` and it fails (currently `pak` may have issues building from source on some setups), try installing from `r-universe` using the standard `remotes` or `devtools` approach:
 
-`pak` currently cannot handle building from source properly on some machines.
-Try using `remotes::install_github()` or `devtools::install_github()`.
-
-**2. If you're using `remotes` or `devtools` and failed.**
-
-**2.1 Rtools not installed**
-
-```
-Could not find tools necessary to compile a package
-Call `pkgbuild::check_build_tools(debug = TRUE)` to diagnose the problem.
+``` r
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+remotes::install_github("glycoverse/package_name")
 ```
 
-It means `Rtools` is not installed.
-Calling `pkgbuild::check_build_tools(debug = TRUE)` will install `Rtools` for you automatically.
-If not, [download](https://cran.r-project.org/bin/windows/Rtools/) and install it manually.
+#### Common Errors & Solutions
 
-**2.2 HTTP error 403**
+##### 2.1 Compilation Tools Missing (Error: "Could not find tools...")
 
+If you see an error mentioning `pkgbuild::check_build_tools`, it means your system lacks the necessary compilation tools.
+
+Call `pkgbuild::check_build_tools(debug = TRUE)` to install it automatically.
+
+Or [download](https://cran.r-project.org/bin/windows/Rtools/) and install Rtools manually.
+
+**macOS Users:** You likely need Xcode Command Line Tools.
+
+Open your Terminal (not RStudio) and run: `xcode-select --install`.
+
+##### 2.2 HTTP Error 403 (API Rate Limit Exceeded)
+
+Error: `HTTP error 403. API rate limit exceeded for xxx.xxx.xxx.xxx.`
+
+GitHub limits unauthenticated installation requests. To fix this:
+
+1. Create a Personal Access Token (PAT) using `usethis::create_github_token()` (requires a GitHub account).
+2. Add the token to your environment using `gitcreds::gitcreds_set()`.
+
+##### 2.3 Network Timeout
+
+If the download fails due to a slow connection (Timeout of 60 seconds was reached), increase the timeout limit in R before installing:
+
+``` r
+options(timeout = 600) # Set timeout to 10 minutes
+remotes::install_github("glycoverse/package_name")
 ```
-HTTP error 403.
-  API rate limit exceeded for xxx.xxx.xxx.xxx. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)
-
-  Rate limit remaining: 0/60
-  Rate limit reset at: 2026-01-21 07:58:19 UTC
-
-  To increase your GitHub API rate limit
-  - Use `usethis::create_github_token()` to create a Personal Access Token.
-  - Use `gitcreds::gitcreds_set()` to add the token.
-```
-
-If so, following the instruction to create and set a Personal Access Token.
-You need to have a GitHub account and `Git` installed locally as prerequisites.
 
 ## Important Note
 

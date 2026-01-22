@@ -21,66 +21,98 @@ packages in a single step.
 
 ## Installation
 
-You can install the latest release of glycoverse from
-[GitHub](https://github.com/) with:
+You can install the latest release of glycoverse core packages from
+[r-universe](https://glycoverse.r-universe.dev/glycoverse) with:
+
+``` r
+install.packages('glycoverse', repos = c('https://glycoverse.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Or from [GitHub](https://github.com/glycoverse/glycoverse):
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("glycoverse/glycoverse@*release")
 ```
 
-Or install the development version:
+Or install the development version (not recommended):
 
 ``` r
 remotes::install_github("glycoverse/glycoverse")
 ```
 
+Just like `tidyverse`, installing `glycoverse` automatically installs
+all glycoverse core packages including `glyexp`, `glyread`, `glyclean`,
+`glystats`, `glyvis`, `glyrepr`, `glyparse`, `glymotif`, `glydet`, and
+`glydraw`.
+
+You can also only install some of them manually if you don’t want the
+whole repertoire. For example:
+
+``` r
+remotes::install_github("glycoverse/glymotif@*release")
+```
+
+Note that `glymotif` depends on `glyexp`, `glyrepr` and `glyparse`, so
+these three packages will also be installed.
+
 ### Troubleshooting
 
-We have scheduled to upload glycoverse packages to CRAN or Bioconductor,
-but for now, many glycoverse packages (including this meta-package) can
-only be install from GitHub.
+We are scheduled to upload glycoverse packages to CRAN or Bioconductor.
+However, currently, many glycoverse packages (including this
+meta-package) must be installed from r-universe or GitHub.
 
-Installing R packages from GitHub can be tricky. If you encounter any
-problem installing the packages, google “install R package from github”
-might help.
+Installing R packages from GitHub can sometimes be tricky due to
+compilation requirements or network limits. Below are solutions to
+common situations encountered by our users.
 
-Here are some common situations encountered by our colleagues:
+#### Quick Fix: Switch Installer
 
-**1. If you’re using `pak` and failed.**
+If you are using `pak` and it fails (currently `pak` may have issues
+building from source on some setups), try installing from `r-universe`
+using the standard `remotes` or `devtools` approach:
 
-`pak` currently cannot handle building from source properly on some
-machines. Try using `remotes::install_github()` or
-`devtools::install_github()`.
+``` r
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+remotes::install_github("glycoverse/package_name")
+```
 
-**2. If you’re using `remotes` or `devtools` and failed.**
+#### Common Errors & Solutions
 
-**2.1 Rtools not installed**
+##### 2.1 Compilation Tools Missing (Error: “Could not find tools…”)
 
-    Could not find tools necessary to compile a package
-    Call `pkgbuild::check_build_tools(debug = TRUE)` to diagnose the problem.
+If you see an error mentioning `pkgbuild::check_build_tools`, it means
+your system lacks the necessary compilation tools.
 
-It means `Rtools` is not installed. Calling
-`pkgbuild::check_build_tools(debug = TRUE)` will install `Rtools` for
-you automatically. If not,
-[download](https://cran.r-project.org/bin/windows/Rtools/) and install
-it manually.
+Call `pkgbuild::check_build_tools(debug = TRUE)` to install it
+automatically.
 
-**2.2 HTTP error 403**
+Or [download](https://cran.r-project.org/bin/windows/Rtools/) and
+install Rtools manually.
 
-    HTTP error 403.
-      API rate limit exceeded for xxx.xxx.xxx.xxx. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)
+**macOS Users:** You likely need Xcode Command Line Tools.
 
-      Rate limit remaining: 0/60
-      Rate limit reset at: 2026-01-21 07:58:19 UTC
+Open your Terminal (not RStudio) and run: `xcode-select --install`.
 
-      To increase your GitHub API rate limit
-      - Use `usethis::create_github_token()` to create a Personal Access Token.
-      - Use `gitcreds::gitcreds_set()` to add the token.
+##### 2.2 HTTP Error 403 (API Rate Limit Exceeded)
 
-If so, following the instruction to create and set a Personal Access
-Token. You need to have a GitHub account and `Git` installed locally as
-prerequisites.
+Error: `HTTP error 403. API rate limit exceeded for xxx.xxx.xxx.xxx.`
+
+GitHub limits unauthenticated installation requests. To fix this:
+
+1.  Create a Personal Access Token (PAT) using
+    `usethis::create_github_token()` (requires a GitHub account).
+2.  Add the token to your environment using `gitcreds::gitcreds_set()`.
+
+##### 2.3 Network Timeout
+
+If the download fails due to a slow connection (Timeout of 60 seconds
+was reached), increase the timeout limit in R before installing:
+
+``` r
+options(timeout = 600) # Set timeout to 10 minutes
+remotes::install_github("glycoverse/package_name")
+```
 
 ## Important Note
 
@@ -115,12 +147,13 @@ of the individual packages for more details.
 
 ``` r
 library(glycoverse)
+#> Warning: package 'glydraw' was built under R version 4.5.2
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
 #> ✔ glyclean 0.12.0          ✔ glyparse 0.5.3.9000 
 #> ✔ glydet   0.9.0           ✔ glyread  0.8.4      
-#> ✔ glydraw  0.2.0           ✔ glyrepr  0.9.0.9000 
+#> ✔ glydraw  0.3.0           ✔ glyrepr  0.9.0.9000 
 #> ✔ glyexp   0.12.3.9000     ✔ glystats 0.6.3      
-#> ✔ glymotif 0.12.0          ✔ glyvis   0.5.0      
+#> ✔ glymotif 0.12.0.9000     ✔ glyvis   0.5.0      
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -181,9 +214,9 @@ glycoverse_sitrep()
 #> • glyvis      (0.5.0)
 #> • glyrepr     (0.9.0.9000)
 #> • glyparse    (0.5.3.9000)
-#> • glymotif    (0.12.0)
+#> • glymotif    (0.12.0.9000)
 #> • glydet      (0.9.0)
-#> • glydraw     (0.2.0)
+#> • glydraw     (0.3.0)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
 #> • glyenzy     (0.4.1)
 #> • glydb       (0.3.1.9000)
@@ -199,20 +232,20 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #> 'help("repositories", package = "BiocManager")' for details.
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
-#> # A tibble: 149 × 6
+#> # A tibble: 127 × 6
 #>    package       source       remote upstream local   behind
 #>    <chr>         <chr>        <chr>  <chr>    <chr>   <lgl> 
 #>  1 ade4          cran         <NA>   1.7-23   1.7.23  FALSE 
 #>  2 AnnotationDbi bioconductor <NA>   1.72.0   1.72.0  FALSE 
 #>  3 askpass       cran         <NA>   1.2.1    1.2.1   FALSE 
 #>  4 backports     cran         <NA>   1.5.0    1.5.0   FALSE 
-#>  5 base64enc     cran         <NA>   0.1-3    0.1.3   FALSE 
-#>  6 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
-#>  7 BiocBaseUtils bioconductor <NA>   1.12.0   1.12.0  FALSE 
-#>  8 BiocFileCache bioconductor <NA>   3.0.0    3.0.0   FALSE 
-#>  9 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
-#> 10 BiocManager   cran         <NA>   1.30.27  1.30.27 FALSE 
-#> # ℹ 139 more rows
+#>  5 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
+#>  6 BiocBaseUtils bioconductor <NA>   1.12.0   1.12.0  FALSE 
+#>  7 BiocFileCache bioconductor <NA>   3.0.0    3.0.0   FALSE 
+#>  8 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
+#>  9 BiocManager   cran         <NA>   1.30.27  1.30.27 FALSE 
+#> 10 Biostrings    bioconductor <NA>   2.78.0   2.78.0  FALSE 
+#> # ℹ 117 more rows
 ```
 
 And you can update all the packages with `glycoverse_update()`:
