@@ -200,6 +200,14 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   tool_pkgs <- c("cli", "rstudioapi")
   pkg_deps <- setdiff(pkg_deps, tool_pkgs)
 
+  # Filter non-core packages to only include installed ones
+  non_core_installed <- non_core[non_core %in% installed_pkgs]
+  pkg_deps <- c(
+    intersect(pkg_deps, core),
+    non_core_installed,
+    setdiff(pkg_deps, c(core, non_core))
+  )
+
   remote_pkgs <- intersect(pkg_deps, names(remote_info))
   cran_pkgs <- setdiff(pkg_deps, remote_pkgs)
 
