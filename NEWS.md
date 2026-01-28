@@ -1,6 +1,12 @@
 # glycoverse (development version)
 
+## Minor improvements and bug fixes
+
+* Fix a bug in `glycoverse_update()` that non-core packages were ignored.
+
 # glycoverse 0.2.3
+
+* Fig a bug in `glycoverse_deps()`.
 
 # glycoverse 0.2.2
 
