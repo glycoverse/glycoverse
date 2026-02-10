@@ -35,6 +35,7 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
+          extra-repositories: 'https://glycoverse.r-universe.dev'
 
       # ---------- oldrel-1: Pin compatible package versions ----------
       - name: Install deps (oldrel-1, pin GGally/ggstats/ggplot2)
