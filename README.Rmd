@@ -63,14 +63,13 @@ so these three packages will also be installed.
 
 ## Important Note
 
-`glycoverse` before v0.1.1 had serious bugs in dependency management.
-We recommend all users to update to the latest version of `glycoverse`,
-and call `glycoverse::glycoverse_update()` to update all the packages in the `glycoverse` ecosystem.
+`glycoverse` before v0.2.5 used GitHub releases instead of r-universe releases.
+We recommend all users to update the meta-package `glycoverse` to the latest version for better package update experience.
 
-Besides, we are progressively uploading glycoverse packages to CRAN or Bioconductor.
-Every time a package is shifted to CRAN/Bioconductor, we will update the `glycoverse` meta-package
-to depend on the CRAN/Bioconductor version of that package.
-So come back from time to time to check if you have the latest version of `glycoverse`!
+```r
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+pak::pkg_install("glycoverse")
+```
 
 ## Documentation
 

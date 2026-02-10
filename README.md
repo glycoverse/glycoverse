@@ -61,16 +61,14 @@ these three packages will also be installed.
 
 ## Important Note
 
-`glycoverse` before v0.1.1 had serious bugs in dependency management. We
-recommend all users to update to the latest version of `glycoverse`, and
-call `glycoverse::glycoverse_update()` to update all the packages in the
-`glycoverse` ecosystem.
+`glycoverse` before v0.2.5 used GitHub releases instead of r-universe
+releases. We recommend all users to update the meta-package `glycoverse`
+to the latest version for better package update experience.
 
-Besides, we are progressively uploading glycoverse packages to CRAN or
-Bioconductor. Every time a package is shifted to CRAN/Bioconductor, we
-will update the `glycoverse` meta-package to depend on the
-CRAN/Bioconductor version of that package. So come back from time to
-time to check if you have the latest version of `glycoverse`!
+``` r
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+pak::pkg_install("glycoverse")
+```
 
 ## Documentation
 
@@ -94,12 +92,13 @@ of the individual packages for more details.
 library(glycoverse)
 #> Warning: 程序包'glyread'是用R版本4.5.2 来建造的
 #> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glydraw'是用R版本4.5.2 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.4.9000 ──
-#> ✔ glyclean 0.12.0     ✔ glyparse 0.5.5 
-#> ✔ glydet   0.10.1     ✔ glyread  0.9.0 
+#> ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 
+#> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0
-#> ✔ glyexp   0.12.4     ✔ glystats 0.6.4 
-#> ✔ glymotif 0.13.0     ✔ glyvis   0.5.0 
+#> ✔ glyexp   0.12.4     ✔ glystats 0.6.5 
+#> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -154,20 +153,20 @@ glycoverse_sitrep()
 #>     CRAN: https://cloud.r-project.org
 #> ── Core packages ───────────────────────────────────────────────────────────────
 #> • glyexp      (0.12.4)
-#> • glyread     (0.9.0)
-#> • glyclean    (0.12.0)
-#> • glystats    (0.6.4)
-#> • glyvis      (0.5.0)
+#> • glyread     (0.9.1)
+#> • glyclean    (0.12.1)
+#> • glystats    (0.6.5)
+#> • glyvis      (0.5.1)
 #> • glyrepr     (0.10.0)
 #> • glyparse    (0.5.5)
-#> • glymotif    (0.13.0)
-#> • glydet      (0.10.1)
+#> • glymotif    (0.13.1)
+#> • glydet      (0.10.2)
 #> • glydraw     (0.3.1)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
-#> • glyenzy     (0.4.2)
-#> • glydb       (0.3.2 < 0.3.3)
-#> • glyanno     (0.1.1)
-#> • glysmith    (0.8.1 < 0.9.0)
+#> • glyenzy     (0.4.3)
+#> • glydb       (0.3.3)
+#> • glyanno     (0.1.2)
+#> • glysmith    (0.9.1)
 ```
 
 To list all dependencies of glycoverse core packages, run:
@@ -178,19 +177,19 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #> 'help("repositories", package = "BiocManager")' for details.
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
-#> # A tibble: 127 × 6
-#>    package  source remote                       upstream local  behind
-#>    <chr>    <chr>  <chr>                        <chr>    <chr>  <lgl> 
-#>  1 glyclean github glycoverse/glyclean@*release 0.12.0   0.12.0 FALSE 
-#>  2 glydet   github glycoverse/glydet@*release   0.10.1   0.10.1 FALSE 
-#>  3 glydraw  github glycoverse/glydraw@*release  0.3.1    0.3.1  FALSE 
-#>  4 glyexp   github glycoverse/glyexp@*release   0.12.4   0.12.4 FALSE 
-#>  5 glymotif github glycoverse/glymotif@*release 0.13.0   0.13.0 FALSE 
-#>  6 glyparse github glycoverse/glyparse@*release 0.5.5    0.5.5  FALSE 
-#>  7 glyread  github glycoverse/glyread@*release  0.9.0    0.9.0  FALSE 
-#>  8 glyrepr  github glycoverse/glyrepr@*release  0.10.0   0.10.0 FALSE 
-#>  9 glystats github glycoverse/glystats@*release 0.6.4    0.6.4  FALSE 
-#> 10 glyvis   github glycoverse/glyvis@*release   0.5.0    0.5.0  FALSE 
+#> # A tibble: 127 × 5
+#>    package  source    upstream local  behind
+#>    <chr>    <chr>     <chr>    <chr>  <lgl> 
+#>  1 glyclean runiverse 0.12.1   0.12.1 FALSE 
+#>  2 glydet   runiverse 0.10.2   0.10.2 FALSE 
+#>  3 glydraw  runiverse 0.3.1    0.3.1  FALSE 
+#>  4 glyexp   runiverse 0.12.4   0.12.4 FALSE 
+#>  5 glymotif runiverse 0.13.1   0.13.1 FALSE 
+#>  6 glyparse runiverse 0.5.5    0.5.5  FALSE 
+#>  7 glyread  runiverse 0.9.1    0.9.1  FALSE 
+#>  8 glyrepr  runiverse 0.10.0   0.10.0 FALSE 
+#>  9 glystats runiverse 0.6.5    0.6.5  FALSE 
+#> 10 glyvis   runiverse 0.5.1    0.5.1  FALSE 
 #> # ℹ 117 more rows
 ```
 
