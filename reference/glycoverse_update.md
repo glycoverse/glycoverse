@@ -1,9 +1,9 @@
 # Update glycoverse packages
 
-This checks GitHub releases for all glycoverse packages (and optionally,
+This checks r-universe for all glycoverse packages (and optionally,
 their dependencies) and reports which ones have newer versions
-available. You can then choose to update from CRAN or GitHub as
-appropriate.
+available. You can then choose to update automatically or get manual
+instructions.
 
 ## Usage
 
