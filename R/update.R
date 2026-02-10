@@ -409,3 +409,23 @@ github_description_version <- function(repo, ref) {
     version
   }
 }
+
+runiverse_packages <- function() {
+  url <- "https://glycoverse.r-universe.dev/packages"
+
+  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
+  on.exit(options(old), add = TRUE)
+
+  response <- suppressWarnings(
+    tryCatch(
+      jsonlite::fromJSON(url),
+      error = function(...) NULL
+    )
+  )
+
+  if (is.null(response) || nrow(response) == 0) {
+    return(character())
+  }
+
+  stats::setNames(response$Version, response$Package)
+}

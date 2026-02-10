@@ -49,3 +49,20 @@ test_that("core packages always included regardless of installation", {
   # Non-core should NOT be included (not installed)
   expect_true(length(intersect(result, non_core)) == 0)
 })
+
+test_that("runiverse_packages fetches package list from r-universe", {
+  # Mock the API response
+  mock_response <- '[{"Package": "glymotif", "Version": "0.11.2"}, {"Package": "glyparse", "Version": "0.5.3"}]'
+  mock_data <- jsonlite::fromJSON(mock_response)
+
+  # Test that function returns named vector
+  local_mocked_bindings(
+    fromJSON = function(...) mock_data,
+    .package = "jsonlite"
+  )
+
+  result <- runiverse_packages()
+  expect_type(result, "character")
+  expect_named(result)
+  expect_equal(result["glymotif"], c(glymotif = "0.11.2"))
+})
