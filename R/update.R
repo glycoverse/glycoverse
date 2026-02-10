@@ -251,16 +251,11 @@ safe_package_version <- function(pkg) {
 }
 
 runiverse_packages <- function() {
-  url <- "https://glycoverse.r-universe.dev/packages"
-
-  old <- options(
-    HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)"
-  )
-  on.exit(options(old), add = TRUE)
+  repos <- c(glycoverse = "https://glycoverse.r-universe.dev")
 
   response <- suppressWarnings(
     tryCatch(
-      jsonlite::fromJSON(url),
+      utils::available.packages(repos = repos),
       error = function(...) NULL
     )
   )
@@ -269,7 +264,7 @@ runiverse_packages <- function() {
     return(character())
   }
 
-  stats::setNames(response$Version, response$Package)
+  stats::setNames(response[, "Version"], rownames(response))
 }
 
 runiverse_version <- function(pkg, all_pkgs = NULL) {

@@ -64,14 +64,17 @@ test_that("core packages always included regardless of installation", {
 })
 
 test_that("runiverse_packages fetches package list from r-universe", {
-  # Mock the API response
-  mock_response <- '[{"Package": "glymotif", "Version": "0.11.2"}, {"Package": "glyparse", "Version": "0.5.3"}]'
-  mock_data <- jsonlite::fromJSON(mock_response)
+  # Mock available.packages to return test data
+  mock_avail <- matrix(
+    c("glymotif", "0.11.2", "glyparse", "0.5.3"),
+    nrow = 2,
+    byrow = TRUE,
+    dimnames = list(c("glymotif", "glyparse"), c("Package", "Version"))
+  )
 
-  # Test that function returns named vector
   local_mocked_bindings(
-    fromJSON = function(...) mock_data,
-    .package = "jsonlite"
+    available.packages = function(...) mock_avail,
+    .package = "utils"
   )
 
   result <- runiverse_packages()
@@ -85,7 +88,12 @@ test_that("runiverse_version returns version for package", {
 
   expect_equal(runiverse_version("glymotif", all_pkgs), "0.11.2")
   expect_equal(runiverse_version("nonexistent", all_pkgs), NA_character_)
-  expect_equal(runiverse_version("glymotif"), NA_character_) # when API fails
+
+  # when runiverse_packages returns empty (API fails)
+  local_mocked_bindings(
+    runiverse_packages = function() character()
+  )
+  expect_equal(runiverse_version("glymotif"), NA_character_)
 })
 
 test_that("glycoverse_deps uses r-universe for version checking", {
