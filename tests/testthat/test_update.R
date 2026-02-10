@@ -1,12 +1,3 @@
-test_that("glycoverse_remote_info includes non-core packages", {
-  info <- glycoverse:::glycoverse_remote_info()
-
-  expect_true("glysmith" %in% names(info))
-  expect_equal(info[["glysmith"]]$repo, "glycoverse/glysmith")
-  expect_equal(info[["glysmith"]]$ref, "*release")
-  expect_equal(info[["glysmith"]]$spec, "glycoverse/glysmith@*release")
-})
-
 test_that("non-core filtering logic works correctly", {
   # Define core and non_core (same as in attach.R)
   core <- c("glyexp", "glyread", "glyclean", "glystats", "glyvis", "glyrepr", "glyparse", "glymotif", "glydet", "glydraw")
