@@ -14,9 +14,9 @@ glycoverse packages.}
 Defaults to \code{getOption("repos")}.}
 }
 \description{
-This checks GitHub releases for all glycoverse packages (and optionally,
+This checks r-universe for all glycoverse packages (and optionally,
 their dependencies) and reports which ones have newer versions available.
-You can then choose to update from CRAN or GitHub as appropriate.
+You can then choose to update from r-universe automatically.
 }
 \examples{
 \dontrun{

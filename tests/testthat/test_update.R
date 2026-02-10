@@ -100,3 +100,43 @@ test_that("glycoverse_deps uses r-universe for version checking", {
   sources <- deps$source[deps$package %in% c("glyrepr", "glyparse")]
   expect_true(all(sources == "runiverse"))
 })
+
+test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
+  skip_if_not_installed("pak")
+
+  # Mock deps with outdated packages
+  mock_deps <- tibble::tibble(
+    package = c("glyrepr", "glyparse"),
+    source = c("runiverse", "runiverse"),
+    upstream = c("0.10.0", "0.6.0"),
+    local = c("0.9.0", "0.5.0"),
+    behind = c(TRUE, TRUE)
+  )
+
+  repo_add_called <- FALSE
+  pkg_install_called <- FALSE
+
+  # Mock glycoverse_deps in glycoverse namespace
+  local_mocked_bindings(
+    glycoverse_deps = function(...) mock_deps,
+    .package = "glycoverse"
+  )
+
+  # Mock pak functions
+  local_mocked_bindings(
+    repo_add = function(...) { repo_add_called <<- TRUE; invisible() },
+    pkg_install = function(...) { pkg_install_called <<- TRUE; invisible() },
+    .package = "pak"
+  )
+
+  # Mock utils::menu
+  local_mocked_bindings(
+    menu = function(...) 1,  # User selects "Yes"
+    .package = "utils"
+  )
+
+  suppressMessages(glycoverse_update())
+
+  expect_true(repo_add_called)
+  expect_true(pkg_install_called)
+})
