@@ -16,7 +16,7 @@ Defaults to \code{getOption("repos")}.}
 \description{
 This checks r-universe for all glycoverse packages (and optionally,
 their dependencies) and reports which ones have newer versions available.
-You can then choose to update from r-universe automatically.
+You can then choose to update automatically or get manual instructions.
 }
 \examples{
 \dontrun{
