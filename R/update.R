@@ -161,7 +161,6 @@ glycoverse_sitrep <- function() {
 #'   Defaults to \code{getOption("repos")}.
 #' @export
 glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
-  remote_info <- glycoverse_remote_info()
   if (identical(repos, getOption("repos")) || all(repos == "@CRAN@")) {
     if (requireNamespace("BiocManager", quietly = TRUE)) {
       repos <- BiocManager::repositories()
@@ -180,20 +179,8 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   pkg_deps <- sort(pkg_deps)
 
   base_pkgs <- c(
-    "base",
-    "compiler",
-    "datasets",
-    "graphics",
-    "grDevices",
-    "grid",
-    "methods",
-    "parallel",
-    "splines",
-    "stats",
-    "stats4",
-    "tools",
-    "tcltk",
-    "utils"
+    "base", "compiler", "datasets", "graphics", "grDevices", "grid",
+    "methods", "parallel", "splines", "stats", "stats4", "tools", "tcltk", "utils"
   )
   pkg_deps <- setdiff(pkg_deps, base_pkgs)
 
@@ -208,13 +195,19 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
     setdiff(pkg_deps, c(core, non_core))
   )
 
-  remote_pkgs <- intersect(pkg_deps, names(remote_info))
-  cran_pkgs <- setdiff(pkg_deps, remote_pkgs)
+  # Get r-universe package versions
+  runiverse_pkgs <- runiverse_packages()
+  glycoverse_pkgs <- intersect(pkg_deps, names(runiverse_pkgs))
+  other_pkgs <- setdiff(pkg_deps, glycoverse_pkgs)
 
   upstream <- stats::setNames(rep(NA_character_, length(pkg_deps)), pkg_deps)
 
+  # Fill in r-universe versions
+  upstream[glycoverse_pkgs] <- runiverse_pkgs[glycoverse_pkgs]
+
+  # Fill in CRAN/Bioconductor versions for other packages
   available <- NULL
-  if (length(cran_pkgs) > 0) {
+  if (length(other_pkgs) > 0) {
     available <- suppressWarnings(
       tryCatch(
         utils::available.packages(repos = repos),
@@ -222,11 +215,9 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
       )
     )
 
-    if (is.null(available) || nrow(available) == 0) {
-      upstream[cran_pkgs] <- NA_character_
-    } else {
-      upstream[cran_pkgs] <- vapply(
-        cran_pkgs,
+    if (!is.null(available) && nrow(available) > 0) {
+      upstream[other_pkgs] <- vapply(
+        other_pkgs,
         function(pkg) {
           if (!pkg %in% rownames(available)) {
             return(NA_character_)
@@ -237,17 +228,6 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
         character(1)
       )
     }
-  }
-
-  if (length(remote_pkgs) > 0) {
-    upstream[remote_pkgs] <- vapply(
-      remote_pkgs,
-      function(pkg) {
-        info <- remote_info[[pkg]]
-        github_version(info$repo, info$ref)
-      },
-      character(1)
-    )
   }
 
   local_version <- lapply(pkg_deps, safe_package_version)
@@ -264,17 +244,10 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
     }
   )
 
-  remote_spec <- rep(NA_character_, length(pkg_deps))
-  remote_spec[match(remote_pkgs, pkg_deps)] <- vapply(
-    remote_pkgs,
-    function(pkg) remote_info[[pkg]]$spec,
-    character(1)
-  )
-
   pkg_sources <- stats::setNames(rep("cran", length(pkg_deps)), pkg_deps)
-  pkg_sources[pkg_deps %in% remote_pkgs] <- "github"
+  pkg_sources[glycoverse_pkgs] <- "runiverse"
   if (!is.null(available)) {
-    for (pkg in intersect(cran_pkgs, rownames(available))) {
+    for (pkg in intersect(other_pkgs, rownames(available))) {
       repo <- available[pkg, "Repository"]
       if (grepl("bioconductor.org", repo)) {
         pkg_sources[pkg] <- "bioconductor"
@@ -285,7 +258,6 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   tibble::tibble(
     package = pkg_deps,
     source = as.character(pkg_sources),
-    remote = remote_spec,
     upstream = upstream,
     local = purrr::map_chr(local_version, as.character),
     behind = behind

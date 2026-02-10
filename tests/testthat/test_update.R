@@ -74,3 +74,29 @@ test_that("runiverse_version returns version for package", {
   expect_equal(runiverse_version("nonexistent", all_pkgs), NA_character_)
   expect_equal(runiverse_version("glymotif"), NA_character_)  # when API fails
 })
+
+test_that("glycoverse_deps uses r-universe for version checking", {
+  # Mock runiverse_packages to return known versions
+  local_mocked_bindings(
+    runiverse_packages = function() c(glyrepr = "0.9.0", glyparse = "0.5.3")
+  )
+
+  deps <- glycoverse_deps()
+
+  # Should be a tibble with expected columns (no 'remote' column in new implementation)
+  expect_s3_class(deps, "tbl_df")
+  expect_true("package" %in% names(deps))
+  expect_true("source" %in% names(deps))
+  expect_true("upstream" %in% names(deps))
+  expect_true("local" %in% names(deps))
+  expect_true("behind" %in% names(deps))
+  expect_false("remote" %in% names(deps))  # remote column removed
+
+  # glyrepr should be in the results (it's a core package)
+  expect_true("glyrepr" %in% deps$package)
+
+  # Source should be "runiverse" for glycoverse packages, not "github"
+  glycoverse_pkgs <- deps$package[deps$package %in% c("glyrepr", "glyparse")]
+  sources <- deps$source[deps$package %in% c("glyrepr", "glyparse")]
+  expect_true(all(sources == "runiverse"))
+})
