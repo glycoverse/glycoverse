@@ -66,3 +66,11 @@ test_that("runiverse_packages fetches package list from r-universe", {
   expect_named(result)
   expect_equal(result["glymotif"], c(glymotif = "0.11.2"))
 })
+
+test_that("runiverse_version returns version for package", {
+  all_pkgs <- c(glymotif = "0.11.2", glyparse = "0.5.3")
+
+  expect_equal(runiverse_version("glymotif", all_pkgs), "0.11.2")
+  expect_equal(runiverse_version("nonexistent", all_pkgs), NA_character_)
+  expect_equal(runiverse_version("glymotif"), NA_character_)  # when API fails
+})

@@ -429,3 +429,15 @@ runiverse_packages <- function() {
 
   stats::setNames(response$Version, response$Package)
 }
+
+runiverse_version <- function(pkg, all_pkgs = NULL) {
+  if (is.null(all_pkgs)) {
+    all_pkgs <- runiverse_packages()
+  }
+
+  if (length(all_pkgs) == 0 || !pkg %in% names(all_pkgs)) {
+    return(NA_character_)
+  }
+
+  all_pkgs[[pkg]]
+}
