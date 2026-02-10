@@ -1,6 +1,17 @@
 test_that("non-core filtering logic works correctly", {
   # Define core and non_core (same as in attach.R)
-  core <- c("glyexp", "glyread", "glyclean", "glystats", "glyvis", "glyrepr", "glyparse", "glymotif", "glydet", "glydraw")
+  core <- c(
+    "glyexp",
+    "glyread",
+    "glyclean",
+    "glystats",
+    "glyvis",
+    "glyrepr",
+    "glyparse",
+    "glymotif",
+    "glydet",
+    "glydraw"
+  )
   non_core <- c("glyenzy", "glydb", "glyanno", "glysmith")
 
   # Case 1: Only core packages installed
@@ -21,7 +32,18 @@ test_that("non-core filtering logic works correctly", {
 
 test_that("core packages always included regardless of installation", {
   # Define core and non_core
-  core <- c("glyexp", "glyread", "glyclean", "glystats", "glyvis", "glyparse", "glymotif", "repr", "glyglydet", "glydraw")
+  core <- c(
+    "glyexp",
+    "glyread",
+    "glyclean",
+    "glystats",
+    "glyvis",
+    "glyparse",
+    "glymotif",
+    "repr",
+    "glyglydet",
+    "glydraw"
+  )
   non_core <- c("glyenzy", "glydb", "glyanno", "glysmith")
 
   # Simulate pkg_deps filtering
@@ -63,7 +85,7 @@ test_that("runiverse_version returns version for package", {
 
   expect_equal(runiverse_version("glymotif", all_pkgs), "0.11.2")
   expect_equal(runiverse_version("nonexistent", all_pkgs), NA_character_)
-  expect_equal(runiverse_version("glymotif"), NA_character_)  # when API fails
+  expect_equal(runiverse_version("glymotif"), NA_character_) # when API fails
 })
 
 test_that("glycoverse_deps uses r-universe for version checking", {
@@ -81,7 +103,7 @@ test_that("glycoverse_deps uses r-universe for version checking", {
   expect_true("upstream" %in% names(deps))
   expect_true("local" %in% names(deps))
   expect_true("behind" %in% names(deps))
-  expect_false("remote" %in% names(deps))  # remote column removed
+  expect_false("remote" %in% names(deps)) # remote column removed
 
   # glyrepr should be in the results (it's a core package)
   expect_true("glyrepr" %in% deps$package)
@@ -115,14 +137,20 @@ test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
 
   # Mock pak functions
   local_mocked_bindings(
-    repo_add = function(...) { repo_add_called <<- TRUE; invisible() },
-    pkg_install = function(...) { pkg_install_called <<- TRUE; invisible() },
+    repo_add = function(...) {
+      repo_add_called <<- TRUE
+      invisible()
+    },
+    pkg_install = function(...) {
+      pkg_install_called <<- TRUE
+      invisible()
+    },
     .package = "pak"
   )
 
   # Mock utils::menu
   local_mocked_bindings(
-    menu = function(...) 1,  # User selects "Yes"
+    menu = function(...) 1, # User selects "Yes"
     .package = "utils"
   )
 

@@ -33,7 +33,12 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
   )
   cli::cat_line()
 
-  q <- utils::menu(c("Yes", "No"), title = cli::format_inline("Do you want to update these {nrow(behind)} packages now?"))
+  q <- utils::menu(
+    c("Yes", "No"),
+    title = cli::format_inline(
+      "Do you want to update these {nrow(behind)} packages now?"
+    )
+  )
 
   if (q != 1) {
     show_manual_install_commands(behind$package)
@@ -60,7 +65,9 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
 show_manual_install_commands <- function(packages) {
   cli::cli_alert_info("Run these commands to update manually:")
   cli::cat_line()
-  cli::cat_line("pak::repo_add(glycoverse = \"https://glycoverse.r-universe.dev\")")
+  cli::cat_line(
+    "pak::repo_add(glycoverse = \"https://glycoverse.r-universe.dev\")"
+  )
   pkg_str <- paste0(deparse(packages), collapse = "\n")
   cli::cat_line("pak::pkg_install(", pkg_str, ")")
 }
@@ -129,13 +136,29 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   repos[repos == "@CRAN@"] <- "https://cloud.r-project.org"
 
   installed_pkgs <- utils::installed.packages()
-  deps <- tools::package_dependencies("glycoverse", installed_pkgs, recursive = recursive)
+  deps <- tools::package_dependencies(
+    "glycoverse",
+    installed_pkgs,
+    recursive = recursive
+  )
   pkg_deps <- unique(c(unlist(deps), core, non_core))
   pkg_deps <- sort(pkg_deps)
 
   base_pkgs <- c(
-    "base", "compiler", "datasets", "graphics", "grDevices", "grid",
-    "methods", "parallel", "splines", "stats", "stats4", "tools", "tcltk", "utils"
+    "base",
+    "compiler",
+    "datasets",
+    "graphics",
+    "grDevices",
+    "grid",
+    "methods",
+    "parallel",
+    "splines",
+    "stats",
+    "stats4",
+    "tools",
+    "tcltk",
+    "utils"
   )
   pkg_deps <- setdiff(pkg_deps, base_pkgs)
 
@@ -230,7 +253,9 @@ safe_package_version <- function(pkg) {
 runiverse_packages <- function() {
   url <- "https://glycoverse.r-universe.dev/packages"
 
-  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
+  old <- options(
+    HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)"
+  )
   on.exit(options(old), add = TRUE)
 
   response <- suppressWarnings(
