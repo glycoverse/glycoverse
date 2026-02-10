@@ -27,7 +27,9 @@ glycoverse_conflicts <- function(only = NULL) {
   conflicts <- purrr::keep(objs, \(obj) length(obj) > 1)
 
   glycoverse_names <- paste0("package:", glycoverse_packages())
-  conflicts <- purrr::keep(conflicts, function(pkg) any(pkg %in% glycoverse_names))
+  conflicts <- purrr::keep(conflicts, function(pkg) {
+    any(pkg %in% glycoverse_names)
+  })
 
   conflict_funs <- purrr::imap(conflicts, confirm_conflict)
   conflict_funs <- purrr::compact(conflict_funs)

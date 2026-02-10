@@ -1,8 +1,8 @@
 #' Update glycoverse packages
 #'
-#' This checks GitHub releases for all glycoverse packages (and optionally,
+#' This checks r-universe for all glycoverse packages (and optionally,
 #' their dependencies) and reports which ones have newer versions available.
-#' You can then choose to update from CRAN or GitHub as appropriate.
+#' You can then choose to update automatically or get manual instructions.
 #'
 #' @inheritParams glycoverse_deps
 #' @export
@@ -33,81 +33,43 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
   )
   cli::cat_line()
 
-  q <- utils::menu(c("Yes", "No"), title = cli::format_inline("Do you want to update these {nrow(behind)} packages now?"))
+  q <- utils::menu(
+    c("Yes", "No"),
+    title = cli::format_inline(
+      "Do you want to update these {nrow(behind)} packages now?"
+    )
+  )
 
   if (q != 1) {
-      cli::cat_line("Start a clean R session then run:")
-
-      cran_pkgs <- behind |> dplyr::filter(source == "cran")
-      bioc_pkgs <- behind |> dplyr::filter(source == "bioconductor")
-      github_pkgs <- behind |> dplyr::filter(source == "github")
-
-      if (nrow(cran_pkgs) > 0) {
-        pkg_str <- paste0(deparse(cran_pkgs$package), collapse = "\n")
-        cli::cat_line("install.packages(", pkg_str, ")")
-      }
-
-      if (nrow(bioc_pkgs) > 0) {
-        pkg_str <- paste0(deparse(bioc_pkgs$package), collapse = "\n")
-        cli::cat_line("BiocManager::install(", pkg_str, ")")
-      }
-
-      if (nrow(github_pkgs) > 0) {
-        specs <- github_pkgs$remote
-        spec_str <- paste0(deparse(specs), collapse = "\n")
-        cli::cat_line("remotes::install_github(", spec_str, ")")
-      }
-      return(invisible())
+    show_manual_install_commands(behind$package)
+    return(invisible())
   }
 
-  pkgs_to_install <- character()
-
-  # Handle CRAN/Bioc packages
-  standard_pkgs <- behind |> dplyr::filter(source %in% c("cran", "bioconductor"))
-  if (nrow(standard_pkgs) > 0) {
-    pkgs_to_install <- c(pkgs_to_install, standard_pkgs$package)
-  }
-
-  # Handle GitHub packages
-  github_pkgs <- behind |> dplyr::filter(source == "github")
-  if (nrow(github_pkgs) > 0) {
-    # Resolve *release tags
-    resolved_remotes <- vapply(seq_len(nrow(github_pkgs)), function(i) {
-      repo_spec <- github_pkgs$remote[i]
-      if (grepl("@\\*release$", repo_spec)) {
-        # Extract repo name from spec (e.g. user/repo@*release -> user/repo)
-        # We need to resolve the tag.
-        # We can use glycoverse_remote_info to find the repo details if needed,
-        # but here we have the spec.
-        # However, github_resolve_ref needs (repo, ref).
-        # Let's extract them.
-        ref <- "*release"
-        
-        # We need to call github_resolve_ref.
-        # Check if we can get the repo part easily.
-        # The 'remote' column comes from 'remote_spec' in glycoverse_deps, which comes from glycoverse_remote_info.
-        # It's 'repo@ref' or 'repo'.
-        # So we can split by @.
-        
-        parts <- strsplit(repo_spec, "@")[[1]]
-        repo <- parts[1]
-        
-        real_tag <- github_resolve_ref(repo, ref)
-        if (!is.na(real_tag)) {
-          return(paste0(repo, "@", real_tag))
-        }
-      } 
-      repo_spec
-    }, character(1))
-    
-    pkgs_to_install <- c(pkgs_to_install, resolved_remotes)
-  }
-
-  if (length(pkgs_to_install) > 0) {
-      pak::pkg_install(pkgs_to_install, ask = FALSE)
-  }
+  # Attempt automatic install
+  tryCatch(
+    {
+      pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+      pak::pkg_install(behind$package, ask = FALSE)
+      cli::cli_alert_success("Successfully updated {nrow(behind)} package{?s}")
+    },
+    error = function(e) {
+      cli::cli_alert_danger("Automatic update failed: {conditionMessage(e)}")
+      cli::cat_line()
+      show_manual_install_commands(behind$package)
+    }
+  )
 
   invisible()
+}
+
+show_manual_install_commands <- function(packages) {
+  cli::cli_alert_info("Run these commands to update manually:")
+  cli::cat_line()
+  cli::cat_line(
+    "pak::repo_add(glycoverse = \"https://glycoverse.r-universe.dev\")"
+  )
+  pkg_str <- paste0(deparse(packages), collapse = "\n")
+  cli::cat_line("pak::pkg_install(", pkg_str, ")")
 }
 
 #' Get a situation report on the glycoverse
@@ -161,7 +123,6 @@ glycoverse_sitrep <- function() {
 #'   Defaults to \code{getOption("repos")}.
 #' @export
 glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
-  remote_info <- glycoverse_remote_info()
   if (identical(repos, getOption("repos")) || all(repos == "@CRAN@")) {
     if (requireNamespace("BiocManager", quietly = TRUE)) {
       repos <- BiocManager::repositories()
@@ -175,7 +136,11 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   repos[repos == "@CRAN@"] <- "https://cloud.r-project.org"
 
   installed_pkgs <- utils::installed.packages()
-  deps <- tools::package_dependencies("glycoverse", installed_pkgs, recursive = recursive)
+  deps <- tools::package_dependencies(
+    "glycoverse",
+    installed_pkgs,
+    recursive = recursive
+  )
   pkg_deps <- unique(c(unlist(deps), core, non_core))
   pkg_deps <- sort(pkg_deps)
 
@@ -208,13 +173,19 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
     setdiff(pkg_deps, c(core, non_core))
   )
 
-  remote_pkgs <- intersect(pkg_deps, names(remote_info))
-  cran_pkgs <- setdiff(pkg_deps, remote_pkgs)
+  # Get r-universe package versions
+  runiverse_pkgs <- runiverse_packages()
+  glycoverse_pkgs <- intersect(pkg_deps, names(runiverse_pkgs))
+  other_pkgs <- setdiff(pkg_deps, glycoverse_pkgs)
 
   upstream <- stats::setNames(rep(NA_character_, length(pkg_deps)), pkg_deps)
 
+  # Fill in r-universe versions
+  upstream[glycoverse_pkgs] <- runiverse_pkgs[glycoverse_pkgs]
+
+  # Fill in CRAN/Bioconductor versions for other packages
   available <- NULL
-  if (length(cran_pkgs) > 0) {
+  if (length(other_pkgs) > 0) {
     available <- suppressWarnings(
       tryCatch(
         utils::available.packages(repos = repos),
@@ -222,11 +193,9 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
       )
     )
 
-    if (is.null(available) || nrow(available) == 0) {
-      upstream[cran_pkgs] <- NA_character_
-    } else {
-      upstream[cran_pkgs] <- vapply(
-        cran_pkgs,
+    if (!is.null(available) && nrow(available) > 0) {
+      upstream[other_pkgs] <- vapply(
+        other_pkgs,
         function(pkg) {
           if (!pkg %in% rownames(available)) {
             return(NA_character_)
@@ -237,17 +206,6 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
         character(1)
       )
     }
-  }
-
-  if (length(remote_pkgs) > 0) {
-    upstream[remote_pkgs] <- vapply(
-      remote_pkgs,
-      function(pkg) {
-        info <- remote_info[[pkg]]
-        github_version(info$repo, info$ref)
-      },
-      character(1)
-    )
   }
 
   local_version <- lapply(pkg_deps, safe_package_version)
@@ -264,17 +222,10 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
     }
   )
 
-  remote_spec <- rep(NA_character_, length(pkg_deps))
-  remote_spec[match(remote_pkgs, pkg_deps)] <- vapply(
-    remote_pkgs,
-    function(pkg) remote_info[[pkg]]$spec,
-    character(1)
-  )
-
   pkg_sources <- stats::setNames(rep("cran", length(pkg_deps)), pkg_deps)
-  pkg_sources[pkg_deps %in% remote_pkgs] <- "github"
+  pkg_sources[glycoverse_pkgs] <- "runiverse"
   if (!is.null(available)) {
-    for (pkg in intersect(cran_pkgs, rownames(available))) {
+    for (pkg in intersect(other_pkgs, rownames(available))) {
       repo <- available[pkg, "Repository"]
       if (grepl("bioconductor.org", repo)) {
         pkg_sources[pkg] <- "bioconductor"
@@ -285,7 +236,6 @@ glycoverse_deps <- function(recursive = FALSE, repos = getOption("repos")) {
   tibble::tibble(
     package = pkg_deps,
     source = as.character(pkg_sources),
-    remote = remote_spec,
     upstream = upstream,
     local = purrr::map_chr(local_version, as.character),
     behind = behind
@@ -300,112 +250,31 @@ safe_package_version <- function(pkg) {
   }
 }
 
-glycoverse_remote_info <- function() {
-  remotes_raw <- utils::packageDescription("glycoverse")$Remotes
-  remotes <- character()
-  if (!is.null(remotes_raw) && !is.na(remotes_raw)) {
-    remotes <- trimws(strsplit(remotes_raw, ",")[[1]])
-  }
+runiverse_packages <- function() {
+  repos <- c(glycoverse = "https://glycoverse.r-universe.dev")
 
-  info <- purrr::map(remotes, function(remote) {
-    pieces <- strsplit(remote, "@", fixed = TRUE)[[1]]
-    repo <- pieces[1]
-    ref <- if (length(pieces) > 1) pieces[2] else NA_character_
-    pkg <- basename(repo)
-    list(
-      package = pkg,
-      repo = repo,
-      ref = ref,
-      spec = if (is.na(ref) || ref == "") repo else paste0(repo, "@", ref)
-    )
-  })
-  info <- purrr::set_names(info, purrr::map_chr(info, "package"))
-
-  known_pkgs <- unique(c(core, non_core))
-  missing <- setdiff(known_pkgs, names(info))
-  if (length(missing) > 0) {
-    defaults <- purrr::map(missing, function(pkg) {
-      repo <- paste0("glycoverse/", pkg)
-      list(
-        package = pkg,
-        repo = repo,
-        ref = "*release",
-        spec = paste0(repo, "@*release")
-      )
-    })
-    defaults <- purrr::set_names(defaults, missing)
-    info <- c(info, defaults)
-  }
-
-  info
-}
-
-github_version <- function(repo, ref = NA_character_) {
-  resolved_ref <- github_resolve_ref(repo, ref)
-  if (is.na(resolved_ref) || resolved_ref == "") {
-    return(NA_character_)
-  }
-  github_description_version(repo, resolved_ref)
-}
-
-github_resolve_ref <- function(repo, ref) {
-  if (is.na(ref) || ref == "") {
-    return("main")
-  }
-
-  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
-  on.exit(options(old), add = TRUE)
-
-  if (identical(ref, "*release")) {
-    url <- sprintf("https://api.github.com/repos/%s/releases/latest", repo)
-    release <- suppressWarnings(
-      tryCatch(
-        jsonlite::fromJSON(url),
-        error = function(...) NULL
-      )
-    )
-    if (is.null(release) || is.null(release$tag_name) || release$tag_name == "") {
-      return(NA_character_)
-    }
-    release$tag_name
-  } else {
-    ref
-  }
-}
-
-github_description_version <- function(repo, ref) {
-  if (is.na(ref) || ref == "") {
-    return(NA_character_)
-  }
-
-  url <- sprintf("https://raw.githubusercontent.com/%s/%s/DESCRIPTION", repo, ref)
-
-  old <- options(HTTPUserAgent = "glycoverse (https://github.com/glycoverse/glycoverse)")
-  on.exit(options(old), add = TRUE)
-
-  lines <- suppressWarnings(
+  response <- suppressWarnings(
     tryCatch(
-      readLines(url, warn = FALSE),
-      error = function(...) character()
+      utils::available.packages(repos = repos),
+      error = function(...) NULL
     )
   )
 
-  if (length(lines) == 0) {
+  if (is.null(response) || nrow(response) == 0) {
+    return(character())
+  }
+
+  stats::setNames(response[, "Version"], rownames(response))
+}
+
+runiverse_version <- function(pkg, all_pkgs = NULL) {
+  if (is.null(all_pkgs)) {
+    all_pkgs <- runiverse_packages()
+  }
+
+  if (length(all_pkgs) == 0 || !pkg %in% names(all_pkgs)) {
     return(NA_character_)
   }
 
-  con <- textConnection(lines)
-  on.exit(close(con), add = TRUE)
-
-  desc <- tryCatch(read.dcf(con), error = function(...) NULL)
-  if (is.null(desc)) {
-    return(NA_character_)
-  }
-
-  version <- desc[1, "Version"]
-  if (is.null(version) || length(version) == 0) {
-    NA_character_
-  } else {
-    version
-  }
+  all_pkgs[[pkg]]
 }
