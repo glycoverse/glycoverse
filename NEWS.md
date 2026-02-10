@@ -1,4 +1,13 @@
-# glycoverse (development version)
+# glycoverse 0.2.5
+
+## New features
+
+* Migrate from GitHub releases to r-universe for package installation. `glycoverse_update()` now uses `pak::repo_add()` and `pak::pkg_install()` for automatic updates.
+
+## Minor improvements and bug fixes
+
+* Remove the `Remotes` field from `DESCRIPTION` as dependencies are now installed from r-universe.
+* Update installation guide in README.
 
 # glycoverse 0.2.4
 
