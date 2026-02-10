@@ -63,10 +63,10 @@ We first load the `tidyverse` package, as usual.
 ``` r
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.1.4     ✔ readr     2.1.6
+#> ✔ dplyr     1.2.0     ✔ readr     2.1.6
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.1     ✔ tibble    3.3.1
-#> ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+#> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+#> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 #> ✔ purrr     1.2.1     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
@@ -80,17 +80,16 @@ collection of specialized packages all at once.
 ``` r
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.4.9000 ──
-#> ✔ glyclean 0.12.0     ✔ glyparse 0.5.4 
-#> ✔ glydet   0.9.1      ✔ glyread  0.8.4 
+#> ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 
+#> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0
-#> ✔ glyexp   0.12.4     ✔ glystats 0.6.3 
-#> ✔ glymotif 0.12.1     ✔ glyvis   0.5.0 
+#> ✔ glyexp   0.12.4     ✔ glystats 0.6.5 
+#> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
 #> ✖ lubridate::intersect() masks dplyr::intersect(), base::intersect()
 #> ✖ dplyr::lag()           masks stats::lag()
-#> ✖ glyexp::select_var()   masks dplyr::select_var()
 #> ✖ lubridate::setdiff()   masks dplyr::setdiff(), base::setdiff()
 #> ✖ dplyr::setequal()      masks base::setequal()
 #> ✖ lubridate::union()     masks dplyr::union(), base::union()

@@ -8,23 +8,25 @@ packages in a single step.
 ## Installation
 
 You can install the latest release of glycoverse core packages from
-[r-universe](https://glycoverse.r-universe.dev/glycoverse) with:
+[r-universe](https://glycoverse.r-universe.dev/glycoverse)
+(**recommended**) with:
 
 ``` r
-install.packages('glycoverse', repos = c('https://glycoverse.r-universe.dev', 'https://cloud.r-project.org'))
+# install.packages("pak")
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+pak::pkg_install("glycoverse")
 ```
 
 Or from [GitHub](https://github.com/glycoverse/glycoverse):
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("glycoverse/glycoverse@*release")
+pak::pkg_install("glycoverse/glycoverse@*release")
 ```
 
-Or install the development version (not recommended):
+Or install the development version (NOT recommended):
 
 ``` r
-remotes::install_github("glycoverse/glycoverse")
+pak::pkg_install("glycoverse/glycoverse")
 ```
 
 Just like `tidyverse`, installing `glycoverse` automatically installs
@@ -36,73 +38,12 @@ You can also only install some of them manually if you don’t want the
 whole repertoire. For example:
 
 ``` r
-remotes::install_github("glycoverse/glymotif@*release")
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+pak::pkg_install("glymotif")
 ```
 
 Note that `glymotif` depends on `glyexp`, `glyrepr` and `glyparse`, so
 these three packages will also be installed.
-
-### Troubleshooting
-
-We are scheduled to upload glycoverse packages to CRAN or Bioconductor.
-However, currently, many glycoverse packages (including this
-meta-package) must be installed from r-universe or GitHub.
-
-Installing R packages from GitHub can sometimes be tricky due to
-compilation requirements or network limits. Below are solutions to
-common situations encountered by our users.
-
-#### Quick Fix: Switch Installer
-
-If you are using `pak` and it fails (currently `pak` may have issues
-building from source on some setups), try installing from `r-universe`
-or using the standard `remotes` approach:
-
-``` r
-# From r-universe
-install.packages('glycoverse', repos = c('https://glycoverse.r-universe.dev', 'https://cloud.r-project.org'))
-
-# From GitHub using `remotes`
-remotes::install_github("glycoverse/package_name")
-```
-
-#### Common Errors & Solutions
-
-##### 2.1 Compilation Tools Missing (Error: “Could not find tools…”)
-
-If you see an error mentioning
-[`pkgbuild::check_build_tools`](https://pkgbuild.r-lib.org/reference/has_build_tools.html),
-it means your system lacks the necessary compilation tools.
-
-Call `pkgbuild::check_build_tools(debug = TRUE)` to install it
-automatically.
-
-Or [download](https://cran.r-project.org/bin/windows/Rtools/) and
-install Rtools manually.
-
-**macOS Users:** You likely need Xcode Command Line Tools.
-
-Open your Terminal (not RStudio) and run: `xcode-select --install`.
-
-##### 2.2 HTTP Error 403 (API Rate Limit Exceeded)
-
-Error: `HTTP error 403. API rate limit exceeded for xxx.xxx.xxx.xxx.`
-
-GitHub limits unauthenticated installation requests. To fix this:
-
-1.  Create a Personal Access Token (PAT) using
-    `usethis::create_github_token()` (requires a GitHub account).
-2.  Add the token to your environment using `gitcreds::gitcreds_set()`.
-
-##### 2.3 Network Timeout
-
-If the download fails due to a slow connection (Timeout of 60 seconds
-was reached), increase the timeout limit in R before installing:
-
-``` r
-options(timeout = 600) # Set timeout to 10 minutes
-remotes::install_github("glycoverse/package_name")
-```
 
 ## Important Note
 
@@ -138,13 +79,14 @@ load all the core packages in the `glycoverse` ecosystem:
 
 ``` r
 library(glycoverse)
-#> Warning: package 'glydraw' was built under R version 4.5.2
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.3.9000 ──
-#> ✔ glyclean 0.12.0          ✔ glyparse 0.5.3.9000 
-#> ✔ glydet   0.9.0           ✔ glyread  0.8.4      
-#> ✔ glydraw  0.3.0           ✔ glyrepr  0.9.0.9000 
-#> ✔ glyexp   0.12.3.9000     ✔ glystats 0.6.3      
-#> ✔ glymotif 0.12.0.9000     ✔ glyvis   0.5.0      
+#> Warning: 程序包'glyread'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.4.9000 ──
+#> ✔ glyclean 0.12.0     ✔ glyparse 0.5.5 
+#> ✔ glydet   0.10.1     ✔ glyread  0.9.0 
+#> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0
+#> ✔ glyexp   0.12.4     ✔ glystats 0.6.4 
+#> ✔ glymotif 0.13.0     ✔ glyvis   0.5.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -198,21 +140,21 @@ glycoverse_sitrep()
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
 #> ── Core packages ───────────────────────────────────────────────────────────────
-#> • glyexp      (0.12.3.9000)
-#> • glyread     (0.8.4)
+#> • glyexp      (0.12.4)
+#> • glyread     (0.9.0)
 #> • glyclean    (0.12.0)
-#> • glystats    (0.6.3)
+#> • glystats    (0.6.4)
 #> • glyvis      (0.5.0)
-#> • glyrepr     (0.9.0.9000)
-#> • glyparse    (0.5.3.9000)
-#> • glymotif    (0.12.0.9000)
-#> • glydet      (0.9.0)
-#> • glydraw     (0.3.0)
+#> • glyrepr     (0.10.0)
+#> • glyparse    (0.5.5)
+#> • glymotif    (0.13.0)
+#> • glydet      (0.10.1)
+#> • glydraw     (0.3.1)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
-#> • glyenzy     (0.4.1)
-#> • glydb       (0.3.1.9000)
-#> • glyanno     (0.1.0)
-#> • glysmith    (0.8.0)
+#> • glyenzy     (0.4.2)
+#> • glydb       (0.3.2 < 0.3.3)
+#> • glyanno     (0.1.1)
+#> • glysmith    (0.8.1 < 0.9.0)
 ```
 
 To list all dependencies of glycoverse core packages, run:
@@ -224,18 +166,18 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #> Replacement repositories:
 #>     CRAN: https://cloud.r-project.org
 #> # A tibble: 127 × 6
-#>    package       source       remote upstream local   behind
-#>    <chr>         <chr>        <chr>  <chr>    <chr>   <lgl> 
-#>  1 ade4          cran         <NA>   1.7-23   1.7.23  FALSE 
-#>  2 AnnotationDbi bioconductor <NA>   1.72.0   1.72.0  FALSE 
-#>  3 askpass       cran         <NA>   1.2.1    1.2.1   FALSE 
-#>  4 backports     cran         <NA>   1.5.0    1.5.0   FALSE 
-#>  5 Biobase       bioconductor <NA>   2.70.0   2.70.0  FALSE 
-#>  6 BiocBaseUtils bioconductor <NA>   1.12.0   1.12.0  FALSE 
-#>  7 BiocFileCache bioconductor <NA>   3.0.0    3.0.0   FALSE 
-#>  8 BiocGenerics  bioconductor <NA>   0.56.0   0.56.0  FALSE 
-#>  9 BiocManager   cran         <NA>   1.30.27  1.30.27 FALSE 
-#> 10 Biostrings    bioconductor <NA>   2.78.0   2.78.0  FALSE 
+#>    package  source remote                       upstream local  behind
+#>    <chr>    <chr>  <chr>                        <chr>    <chr>  <lgl> 
+#>  1 glyclean github glycoverse/glyclean@*release 0.12.0   0.12.0 FALSE 
+#>  2 glydet   github glycoverse/glydet@*release   0.10.1   0.10.1 FALSE 
+#>  3 glydraw  github glycoverse/glydraw@*release  0.3.1    0.3.1  FALSE 
+#>  4 glyexp   github glycoverse/glyexp@*release   0.12.4   0.12.4 FALSE 
+#>  5 glymotif github glycoverse/glymotif@*release 0.13.0   0.13.0 FALSE 
+#>  6 glyparse github glycoverse/glyparse@*release 0.5.5    0.5.5  FALSE 
+#>  7 glyread  github glycoverse/glyread@*release  0.9.0    0.9.0  FALSE 
+#>  8 glyrepr  github glycoverse/glyrepr@*release  0.10.0   0.10.0 FALSE 
+#>  9 glystats github glycoverse/glystats@*release 0.6.4    0.6.4  FALSE 
+#> 10 glyvis   github glycoverse/glyvis@*release   0.5.0    0.5.0  FALSE 
 #> # ℹ 117 more rows
 ```
 
