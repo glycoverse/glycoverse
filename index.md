@@ -1,9 +1,14 @@
 # glycoverse
 
-The ‘glycoverse’ is a set of packages that together form a comprehensive
-pipeline for glycomics and glycoproteomics data analysis. This package
-is designed to make it easy to install and load multiple ‘glycoverse’
-packages in a single step.
+The word `glycoverse` has two meanings:
+
+1.  The `glycoverse` ecosystem refers to a set of packages that together
+    form a comprehensive pipeline for glycomics and glycoproteomics data
+    analysis, including `glyrepr`, `glyexp`, etc.
+2.  The `glycoverse` meta-package is a meta-package that helps manage
+    glycoverse packages (installation, update, and status check).
+
+This repository is for the `glycoverse` meta-package.
 
 ## Installation
 
@@ -76,10 +81,7 @@ load all the core packages in the `glycoverse` ecosystem:
 
 ``` r
 library(glycoverse)
-#> Warning: 程序包'glyread'是用R版本4.5.2 来建造的
-#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
-#> Warning: 程序包'glydraw'是用R版本4.5.2 来建造的
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.4.9000 ──
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
 #> ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 
 #> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0
