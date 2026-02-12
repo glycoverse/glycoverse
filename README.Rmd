@@ -22,8 +22,12 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/glycoverse/glycoverse/graph/badge.svg)](https://app.codecov.io/gh/glycoverse/glycoverse)
 <!-- badges: end -->
 
-The 'glycoverse' is a set of packages that together form a comprehensive pipeline for glycomics and glycoproteomics data analysis.
-This package is designed to make it easy to install and load multiple 'glycoverse' packages in a single step.
+The word `glycoverse` has two meanings:
+
+1. The `glycoverse` ecosystem refers to a set of packages that together form a comprehensive pipeline for glycomics and glycoproteomics data analysis, including `glyrepr`, `glyexp`, etc.
+2. The `glycoverse` meta-package is a meta-package that helps manage glycoverse packages (installation, update, and status check).
+
+This repository is for the `glycoverse` meta-package.
 
 ## Installation
 
