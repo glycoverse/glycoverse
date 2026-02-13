@@ -26,6 +26,8 @@ This repository is for the `glycoverse` meta-package.
 
 ## Installation
 
+### Install from r-universe
+
 You can install the latest release of glycoverse core packages from
 [r-universe](https://glycoverse.r-universe.dev/glycoverse)
 (**recommended**) with:
@@ -36,33 +38,89 @@ pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glycoverse")
 ```
 
-Or from [GitHub](https://github.com/glycoverse/glycoverse):
-
-``` r
-pak::pkg_install("glycoverse/glycoverse@*release")
-```
-
-Or install the development version (NOT recommended):
-
-``` r
-pak::pkg_install("glycoverse/glycoverse")
-```
-
-Just like `tidyverse`, installing `glycoverse` automatically installs
-all glycoverse core packages including `glyexp`, `glyread`, `glyclean`,
+This will install the meta-package `glycoverse`, as well as all
+glycoverse core packages, including `glyexp`, `glyread`, `glyclean`,
 `glystats`, `glyvis`, `glyrepr`, `glyparse`, `glymotif`, `glydet`, and
 `glydraw`.
 
-You can also only install some of them manually if you don’t want the
-whole repertoire. For example:
+**Troubleshooting:** If you encounter a “Failed to download xxx” or
+“403” error, it is likely a network issue. R-universe has strict rate
+limiting (or access controls). Try switching your network environment or
+installing directly from GitHub.
+
+Note that you can also install packages individually:
 
 ``` r
-pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
-pak::pkg_install("glymotif")
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")  # you only need to run this once in a session
+pak::pkg_install("glymotif")  # this will also install glyrepr, glyparse, and glyexp
 ```
 
-Note that `glymotif` depends on `glyexp`, `glyrepr` and `glyparse`, so
-these three packages will also be installed.
+### Install from GitHub
+
+**Prerequisite:** To install packages from GitHub, you’ll need the
+proper compilation tools installed on your system. This means
+[RTools](https://cran.r-project.org/bin/windows/Rtools/) for Windows and
+[Xcode Command Line
+Tools](https://developer.apple.com/documentation/xcode/installing-the-command-line-tools)
+for macOS. Without them, you’ll likely see a “Could not find tools
+necessary to compile a package” error. If you’re unsure about the
+process, a quick search for “install R package from GitHub” will provide
+helpful context on why these tools are necessary.
+
+Installing from [GitHub](https://github.com/glycoverse/glycoverse) is a
+little tricky. Package dependencies within glycoverse are resolved
+assuming all packages are on r-universe (some on CRAN or Bioconductor).
+It means that when running the following code:
+
+``` r
+# Do NOT run:
+pak::pkg_install("glycoverse/glyxxx@*release")  # common practice to install a GitHub package
+```
+
+Installing glyxxx from GitHub in this way does not bypass R-universe
+entirely, as its dependencies are still hosted there. If you are
+experiencing network issues with R-universe, switching to the GitHub
+version of glyxxx will not resolve the problem.
+
+To truely install a glycoverse package from GitHub (along with all its
+dependencies), you have to install them one by one following the
+dependency tree:
+
+``` r
+pak::pkg_install("glyrepr")  # from CRAN
+pak::pkg_install("glyparse")  # from CRAN
+pak::pkg_install("glycoverse/glyexp@*release")
+pak::pkg_install("glycoverse/glydraw@*release")
+pak::pkg_install("glycoverse/glyread@*release")
+pak::pkg_install("glycoverse/glyclean@*release")
+pak::pkg_install("glycoverse/glystats@*release")
+pak::pkg_install("glycoverse/glymotif@*release")
+pak::pkg_install("glycoverse/glyvis@*release")
+pak::pkg_install("glycoverse/glydet@*release")
+
+# The meta-package
+pak::pkg_install("glycoverse/glycoverse@*release")
+```
+
+**Note:** Check the DESCRIPTION file of each package to find its
+dependencies.
+
+**Troubleshooting:** Encountering an “HTTP error 403”? This usually
+means your IP has been rate-limited by GitHub. To resolve this, you need
+to configure a Personal Access Token (PAT).
+
+1.  Sign up for a [GitHub](https://github.com) account.
+2.  Install [Git](https://git-scm.com) on your local machine.
+3.  Generate a PAT via your GitHub settings.
+4.  Configure the PAT locally (e.g., using the `gitcreds` R package).
+
+For a step-by-step guide, search for “How to set up GitHub PAT for R.”
+
+### Install optional packages
+
+`glydb`, `glyanno`, `glyenzy` and `glysmith` are not bundled with the
+meta-package `glycoverse`. You need to install them seperately via
+r-universe or GitHub.
 
 ## Important Note
 
@@ -95,6 +153,9 @@ of the individual packages for more details.
 
 ``` r
 library(glycoverse)
+#> Warning: 程序包'glyread'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glydraw'是用R版本4.5.2 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
 #> ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 
 #> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
@@ -166,7 +227,7 @@ glycoverse_sitrep()
 #> • glydraw     (0.3.1)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
 #> • glyenzy     (0.4.3)
-#> • glydb       (0.3.3)
+#> • glydb       (0.3.3.9000)
 #> • glyanno     (0.1.2)
 #> • glysmith    (0.9.1)
 ```
