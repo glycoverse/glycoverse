@@ -133,9 +133,15 @@ pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glycoverse")
 ```
 
-## Documentation
+## Learning glycoverse
 
-We have two case studies that showcase the basic workflow of
+If you want an out-of-box data analysis experience, learn
+[glyexp](https://glycoverse.github.io/glyexp/) and
+[glyread](https://glycoverse.github.io/glyread/), then try
+[glysmith](https://glycoverse.github.io/glysmith/).
+
+If you want to learn glycoverse systematically, first checkout one of
+the following case studies that showcase the basic workflow of
 `glycoverse`:
 
 -   [Case Study:
@@ -143,8 +149,30 @@ We have two case studies that showcase the basic workflow of
 -   [Case Study:
     Glycomics](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
 
-Choose one of them to get started, and then refer to the documentation
-of the individual packages for more details.
+Then refer to the documentation of the individual packages for more
+details.
+
+We recommend the following learning order for regular omics data
+analysis:
+
+[glyexp](https://glycoverse.github.io/glyexp/) (**very important**) ->
+[glyread](https://glycoverse.github.io/glyread/) ->
+[glyclean](https://glycoverse.github.io/glyclean/) ->
+[glystats](https://glycoverse.github.io/glystats/) ->
+[glyvis](https://glycoverse.github.io/glyvis/)
+
+If you’re dealing with glycan structures, learn these additional
+packages:
+
+[glyrepr](https://glycoverse.github.io/glyrepr/) (**very important**) ->
+[glyparse](https://glycoverse.github.io/glyparse/) ->
+[glymotif](https://glycoverse.github.io/glymotif/) ->
+[glydet](https://glycoverse.github.io/glydet/) ->
+[glydraw](https://glycoverse.github.io/glydraw/)
+
+You will also find [glydb](https://glycoverse.github.io/glydb/) and
+[glyanno](https://glycoverse.github.io/glyanno/) very useful, if your
+glycan compositions or structures are in low resolution.
 
 ## Usage
 
@@ -220,15 +248,15 @@ glycoverse_sitrep()
 #> • glyclean    (0.12.1)
 #> • glystats    (0.6.5)
 #> • glyvis      (0.5.1)
-#> • glyrepr     (0.10.0)
+#> • glyrepr     (0.10.0 < 0.10.1)
 #> • glyparse    (0.5.5)
 #> • glymotif    (0.13.1)
 #> • glydet      (0.10.2)
 #> • glydraw     (0.3.1)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
 #> • glyenzy     (0.4.3)
-#> • glydb       (0.3.3.9000)
-#> • glyanno     (0.1.2)
+#> • glydb       (0.4.0)
+#> • glyanno     (0.1.2 < 0.2.0)
 #> • glysmith    (0.9.1)
 ```
 
@@ -250,7 +278,7 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #>  5 glymotif runiverse 0.13.1   0.13.1 FALSE 
 #>  6 glyparse runiverse 0.5.5    0.5.5  FALSE 
 #>  7 glyread  runiverse 0.9.1    0.9.1  FALSE 
-#>  8 glyrepr  runiverse 0.10.0   0.10.0 FALSE 
+#>  8 glyrepr  runiverse 0.10.1   0.10.0 TRUE  
 #>  9 glystats runiverse 0.6.5    0.6.5  FALSE 
 #> 10 glyvis   runiverse 0.5.1    0.5.1  FALSE 
 #> # ℹ 117 more rows
