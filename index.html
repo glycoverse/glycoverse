@@ -134,14 +134,20 @@
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glycoverse"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+<h2 id="learning-glycoverse">Learning glycoverse<a class="anchor" aria-label="anchor" href="#learning-glycoverse"></a>
 </h2>
-<p>We have two case studies that showcase the basic workflow of <code>glycoverse</code>:</p>
+<p>If you want an out-of-box data analysis experience, learn <a href="https://glycoverse.github.io/glyexp/" class="external-link">glyexp</a> and <a href="https://glycoverse.github.io/glyread/" class="external-link">glyread</a>, then try <a href="https://glycoverse.github.io/glysmith/" class="external-link">glysmith</a>.</p>
+<p>If you want to learn glycoverse systematically, first checkout one of the following case studies that showcase the basic workflow of <code>glycoverse</code>:</p>
 <ul>
 <li><a href="https://glycoverse.github.io/glycoverse/articles/case-study-1.html">Case Study: Glycoproteomics</a></li>
 <li><a href="https://glycoverse.github.io/glycoverse/articles/case-study-2.html">Case Study: Glycomics</a></li>
 </ul>
-<p>Choose one of them to get started, and then refer to the documentation of the individual packages for more details.</p>
+<p>Then refer to the documentation of the individual packages for more details.</p>
+<p>We recommend the following learning order for regular omics data analysis:</p>
+<p><a href="https://glycoverse.github.io/glyexp/" class="external-link">glyexp</a> (<strong>very important</strong>) -&gt; <a href="https://glycoverse.github.io/glyread/" class="external-link">glyread</a> -&gt; <a href="https://glycoverse.github.io/glyclean/" class="external-link">glyclean</a> -&gt; <a href="https://glycoverse.github.io/glystats/" class="external-link">glystats</a> -&gt; <a href="https://glycoverse.github.io/glyvis/" class="external-link">glyvis</a></p>
+<p>If you’re dealing with glycan structures, learn these additional packages:</p>
+<p><a href="https://glycoverse.github.io/glyrepr/" class="external-link">glyrepr</a> (<strong>very important</strong>) -&gt; <a href="https://glycoverse.github.io/glyparse/" class="external-link">glyparse</a> -&gt; <a href="https://glycoverse.github.io/glymotif/" class="external-link">glymotif</a> -&gt; <a href="https://glycoverse.github.io/glydet/" class="external-link">glydet</a> -&gt; <a href="https://glycoverse.github.io/glydraw/" class="external-link">glydraw</a></p>
+<p>You will also find <a href="https://glycoverse.github.io/glydb/" class="external-link">glydb</a> and <a href="https://glycoverse.github.io/glyanno/" class="external-link">glyanno</a> very useful, if your glycan compositions or structures are in low resolution.</p>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -214,15 +220,15 @@
 <span><span class="co">#&gt; • glyclean    (0.12.1)</span></span>
 <span><span class="co">#&gt; • glystats    (0.6.5)</span></span>
 <span><span class="co">#&gt; • glyvis      (0.5.1)</span></span>
-<span><span class="co">#&gt; • glyrepr     (0.10.0)</span></span>
+<span><span class="co">#&gt; • glyrepr     (0.10.0 &lt; 0.10.1)</span></span>
 <span><span class="co">#&gt; • glyparse    (0.5.5)</span></span>
 <span><span class="co">#&gt; • glymotif    (0.13.1)</span></span>
 <span><span class="co">#&gt; • glydet      (0.10.2)</span></span>
 <span><span class="co">#&gt; • glydraw     (0.3.1)</span></span>
 <span><span class="co">#&gt; ── Non-core packages ───────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; • glyenzy     (0.4.3)</span></span>
-<span><span class="co">#&gt; • glydb       (0.3.3.9000)</span></span>
-<span><span class="co">#&gt; • glyanno     (0.1.2)</span></span>
+<span><span class="co">#&gt; • glydb       (0.4.0)</span></span>
+<span><span class="co">#&gt; • glyanno     (0.1.2 &lt; 0.2.0)</span></span>
 <span><span class="co">#&gt; • glysmith    (0.9.1)</span></span></code></pre></div>
 <p>To list all dependencies of glycoverse core packages, run:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -241,7 +247,7 @@
 <span><span class="co">#&gt;  5 glymotif runiverse 0.13.1   0.13.1 FALSE </span></span>
 <span><span class="co">#&gt;  6 glyparse runiverse 0.5.5    0.5.5  FALSE </span></span>
 <span><span class="co">#&gt;  7 glyread  runiverse 0.9.1    0.9.1  FALSE </span></span>
-<span><span class="co">#&gt;  8 glyrepr  runiverse 0.10.0   0.10.0 FALSE </span></span>
+<span><span class="co">#&gt;  8 glyrepr  runiverse 0.10.1   0.10.0 TRUE  </span></span>
 <span><span class="co">#&gt;  9 glystats runiverse 0.6.5    0.6.5  FALSE </span></span>
 <span><span class="co">#&gt; 10 glyvis   runiverse 0.5.1    0.5.1  FALSE </span></span>
 <span><span class="co">#&gt; # ℹ 117 more rows</span></span></code></pre></div>
