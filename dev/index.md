@@ -168,12 +168,14 @@ load all the core packages in the `glycoverse` ecosystem:
 ``` r
 library(glycoverse)
 #> Warning: 程序包'glyread'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyclean'是用R版本4.5.2 来建造的
 #> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
 #> Warning: 程序包'glydraw'是用R版本4.5.2 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
-#> ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 
-#> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
-#> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0
+#> ✔ glyclean 0.12.2     ✔ glyparse 0.5.7 
+#> ✔ glydet   0.10.3     ✔ glyread  0.9.1 
+#> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
 #> ✔ glyexp   0.12.4     ✔ glystats 0.6.5 
 #> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
@@ -231,19 +233,19 @@ glycoverse_sitrep()
 #> ── Core packages ───────────────────────────────────────────────────────────────
 #> • glyexp      (0.12.4)
 #> • glyread     (0.9.1)
-#> • glyclean    (0.12.1)
+#> • glyclean    (0.12.2)
 #> • glystats    (0.6.5)
 #> • glyvis      (0.5.1)
-#> • glyrepr     (0.10.0 < 0.10.1)
-#> • glyparse    (0.5.5)
+#> • glyrepr     (0.10.1)
+#> • glyparse    (0.5.7)
 #> • glymotif    (0.13.1)
-#> • glydet      (0.10.2)
+#> • glydet      (0.10.3)
 #> • glydraw     (0.3.1)
 #> ── Non-core packages ───────────────────────────────────────────────────────────
 #> • glyenzy     (0.4.3)
 #> • glydb       (0.4.0)
-#> • glyanno     (0.1.2 < 0.2.0)
-#> • glysmith    (0.9.1)
+#> • glyanno     (0.3.0)
+#> • glysmith    (0.10.1)
 ```
 
 To list all dependencies of glycoverse core packages, run:
@@ -257,14 +259,14 @@ glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of ea
 #> # A tibble: 127 × 5
 #>    package  source    upstream local  behind
 #>    <chr>    <chr>     <chr>    <chr>  <lgl> 
-#>  1 glyclean runiverse 0.12.1   0.12.1 FALSE 
-#>  2 glydet   runiverse 0.10.2   0.10.2 FALSE 
+#>  1 glyclean runiverse 0.12.2   0.12.2 FALSE 
+#>  2 glydet   runiverse 0.10.3   0.10.3 FALSE 
 #>  3 glydraw  runiverse 0.3.1    0.3.1  FALSE 
 #>  4 glyexp   runiverse 0.12.4   0.12.4 FALSE 
 #>  5 glymotif runiverse 0.13.1   0.13.1 FALSE 
-#>  6 glyparse runiverse 0.5.5    0.5.5  FALSE 
+#>  6 glyparse runiverse 0.5.6    0.5.7  FALSE 
 #>  7 glyread  runiverse 0.9.1    0.9.1  FALSE 
-#>  8 glyrepr  runiverse 0.10.1   0.10.0 TRUE  
+#>  8 glyrepr  runiverse 0.10.1   0.10.1 FALSE 
 #>  9 glystats runiverse 0.6.5    0.6.5  FALSE 
 #> 10 glyvis   runiverse 0.5.1    0.5.1  FALSE 
 #> # ℹ 117 more rows

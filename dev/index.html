@@ -157,12 +157,14 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 程序包'glyread'是用R版本4.5.2 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyclean'是用R版本4.5.2 来建造的</span></span>
 <span><span class="co">#&gt; Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glydet'是用R版本4.5.3 来建造的</span></span>
 <span><span class="co">#&gt; Warning: 程序包'glydraw'是用R版本4.5.2 来建造的</span></span>
 <span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──</span></span>
-<span><span class="co">#&gt; ✔ glyclean 0.12.1     ✔ glyparse 0.5.5 </span></span>
-<span><span class="co">#&gt; ✔ glydet   0.10.2     ✔ glyread  0.9.1 </span></span>
-<span><span class="co">#&gt; ✔ glydraw  0.3.1      ✔ glyrepr  0.10.0</span></span>
+<span><span class="co">#&gt; ✔ glyclean 0.12.2     ✔ glyparse 0.5.7 </span></span>
+<span><span class="co">#&gt; ✔ glydet   0.10.3     ✔ glyread  0.9.1 </span></span>
+<span><span class="co">#&gt; ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1</span></span>
 <span><span class="co">#&gt; ✔ glyexp   0.12.4     ✔ glystats 0.6.5 </span></span>
 <span><span class="co">#&gt; ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 </span></span>
 <span><span class="co">#&gt; ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
@@ -218,19 +220,19 @@
 <span><span class="co">#&gt; ── Core packages ───────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; • glyexp      (0.12.4)</span></span>
 <span><span class="co">#&gt; • glyread     (0.9.1)</span></span>
-<span><span class="co">#&gt; • glyclean    (0.12.1)</span></span>
+<span><span class="co">#&gt; • glyclean    (0.12.2)</span></span>
 <span><span class="co">#&gt; • glystats    (0.6.5)</span></span>
 <span><span class="co">#&gt; • glyvis      (0.5.1)</span></span>
-<span><span class="co">#&gt; • glyrepr     (0.10.0 &lt; 0.10.1)</span></span>
-<span><span class="co">#&gt; • glyparse    (0.5.5)</span></span>
+<span><span class="co">#&gt; • glyrepr     (0.10.1)</span></span>
+<span><span class="co">#&gt; • glyparse    (0.5.7)</span></span>
 <span><span class="co">#&gt; • glymotif    (0.13.1)</span></span>
-<span><span class="co">#&gt; • glydet      (0.10.2)</span></span>
+<span><span class="co">#&gt; • glydet      (0.10.3)</span></span>
 <span><span class="co">#&gt; • glydraw     (0.3.1)</span></span>
 <span><span class="co">#&gt; ── Non-core packages ───────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; • glyenzy     (0.4.3)</span></span>
 <span><span class="co">#&gt; • glydb       (0.4.0)</span></span>
-<span><span class="co">#&gt; • glyanno     (0.1.2 &lt; 0.2.0)</span></span>
-<span><span class="co">#&gt; • glysmith    (0.9.1)</span></span></code></pre></div>
+<span><span class="co">#&gt; • glyanno     (0.3.0)</span></span>
+<span><span class="co">#&gt; • glysmith    (0.10.1)</span></span></code></pre></div>
 <p>To list all dependencies of glycoverse core packages, run:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/glycoverse_deps.html">glycoverse_deps</a></span><span class="op">(</span>recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># recursive = TRUE to list dependencies of each package</span></span>
@@ -241,14 +243,14 @@
 <span><span class="co">#&gt; # A tibble: 127 × 5</span></span>
 <span><span class="co">#&gt;    package  source    upstream local  behind</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;  &lt;lgl&gt; </span></span>
-<span><span class="co">#&gt;  1 glyclean runiverse 0.12.1   0.12.1 FALSE </span></span>
-<span><span class="co">#&gt;  2 glydet   runiverse 0.10.2   0.10.2 FALSE </span></span>
+<span><span class="co">#&gt;  1 glyclean runiverse 0.12.2   0.12.2 FALSE </span></span>
+<span><span class="co">#&gt;  2 glydet   runiverse 0.10.3   0.10.3 FALSE </span></span>
 <span><span class="co">#&gt;  3 glydraw  runiverse 0.3.1    0.3.1  FALSE </span></span>
 <span><span class="co">#&gt;  4 glyexp   runiverse 0.12.4   0.12.4 FALSE </span></span>
 <span><span class="co">#&gt;  5 glymotif runiverse 0.13.1   0.13.1 FALSE </span></span>
-<span><span class="co">#&gt;  6 glyparse runiverse 0.5.5    0.5.5  FALSE </span></span>
+<span><span class="co">#&gt;  6 glyparse runiverse 0.5.6    0.5.7  FALSE </span></span>
 <span><span class="co">#&gt;  7 glyread  runiverse 0.9.1    0.9.1  FALSE </span></span>
-<span><span class="co">#&gt;  8 glyrepr  runiverse 0.10.1   0.10.0 TRUE  </span></span>
+<span><span class="co">#&gt;  8 glyrepr  runiverse 0.10.1   0.10.1 FALSE </span></span>
 <span><span class="co">#&gt;  9 glystats runiverse 0.6.5    0.6.5  FALSE </span></span>
 <span><span class="co">#&gt; 10 glyvis   runiverse 0.5.1    0.5.1  FALSE </span></span>
 <span><span class="co">#&gt; # ℹ 117 more rows</span></span></code></pre></div>
@@ -292,7 +294,6 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=glycoverse" class="external-link"><img src="https://www.r-pkg.org/badges/version/glycoverse" alt="CRAN status"></a></li>
 <li><a href="https://github.com/glycoverse/glycoverse/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/glycoverse/glycoverse/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/glycoverse/glycoverse" class="external-link"><img src="https://codecov.io/gh/glycoverse/glycoverse/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>

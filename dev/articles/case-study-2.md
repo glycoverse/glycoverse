@@ -80,8 +80,8 @@ collection of specialized packages all at once.
 ``` r
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
-#> ✔ glyclean 0.12.1     ✔ glyparse 0.5.6 
-#> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
+#> ✔ glyclean 0.12.2     ✔ glyparse 0.5.6 
+#> ✔ glydet   0.10.3     ✔ glyread  0.9.1 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
 #> ✔ glyexp   0.12.4     ✔ glystats 0.6.5 
 #> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
@@ -604,9 +604,9 @@ trait_exp |>
 #> # A tibble: 8 × 11
 #>   variable trait explanation       term     df   sumsq  meansq statistic   p_val
 #>   <chr>    <chr> <chr>             <chr> <dbl>   <dbl>   <dbl>     <dbl>   <dbl>
-#> 1 V5       CA2   Proportion of bi… group     3 8.59e-3 2.86e-3      5.56 1.23e-3
-#> 2 V6       CA3   Proportion of tr… group     3 2.06e-2 6.88e-3      5.41 1.49e-3
-#> 3 V7       CA4   Proportion of te… group     3 1.15e-4 3.83e-5      3.99 9.14e-3
+#> 1 V5       CA2   Proportion of bi… group     3 8.58e-3 2.86e-3      5.69 1.05e-3
+#> 2 V6       CA3   Proportion of tr… group     3 2.05e-2 6.82e-3      5.34 1.64e-3
+#> 3 V7       CA4   Proportion of te… group     3 1.14e-4 3.79e-5      3.97 9.46e-3
 #> 4 V8       TF    Proportion of fu… group     3 1.07e-1 3.58e-2      7.88 6.81e-5
 #> 5 V9       TFc   Proportion of co… group     3 1.07e-1 3.58e-2      7.88 6.81e-5
 #> 6 V10      TFa   Proportion of ar… group     3 1.26e-4 4.19e-5      5.38 1.56e-3

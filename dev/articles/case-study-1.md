@@ -80,8 +80,8 @@ collection of specialized packages all at once.
 ``` r
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
-#> ✔ glyclean 0.12.1     ✔ glyparse 0.5.6 
-#> ✔ glydet   0.10.2     ✔ glyread  0.9.1 
+#> ✔ glyclean 0.12.2     ✔ glyparse 0.5.6 
+#> ✔ glydet   0.10.3     ✔ glyread  0.9.1 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
 #> ✔ glyexp   0.12.4     ✔ glystats 0.6.5 
 #> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
