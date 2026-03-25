@@ -15,7 +15,11 @@
 #' \dontrun{
 #' glycoverse_update()
 #' }
-glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev_to_latest = NULL) {
+glycoverse_update <- function(
+  recursive = FALSE,
+  repos = getOption("repos"),
+  dev_to_latest = NULL
+) {
   deps <- glycoverse_deps(recursive, repos)
 
   # Detect development versions (4th component >= 9000)
@@ -104,7 +108,9 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
     {
       pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
       pak::pkg_install(behind$package, ask = FALSE)
-      cli::cli_alert_success(cli::pluralize("Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"))
+      cli::cli_alert_success(cli::pluralize(
+        "Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"
+      ))
     },
     error = function(e) {
       cli::cli_alert_danger("Automatic update failed: {conditionMessage(e)}")

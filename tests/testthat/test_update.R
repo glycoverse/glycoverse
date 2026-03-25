@@ -190,8 +190,8 @@ test_that("glycoverse_update with dev_to_latest = TRUE includes dev versions", {
     package = c("glyrepr", "glyparse"),
     source = c("runiverse", "runiverse"),
     upstream = c("0.9.0", "0.5.0"),
-    local = c("0.9.0.9000", "0.5.0"),  # glyrepr is dev version
-    behind = c(FALSE, FALSE)  # Neither is "behind" in version comparison
+    local = c("0.9.0.9000", "0.5.0"), # glyrepr is dev version
+    behind = c(FALSE, FALSE) # Neither is "behind" in version comparison
   )
 
   pkg_install_called <- FALSE
@@ -215,12 +215,12 @@ test_that("glycoverse_update with dev_to_latest = TRUE includes dev versions", {
 
   # Mock menu to auto-confirm (skip the main update prompt)
   local_mocked_bindings(
-    menu = function(...) 1,  # User selects "Yes"
+    menu = function(...) 1, # User selects "Yes"
     .package = "utils"
   )
 
   suppressMessages(glycoverse_update(dev_to_latest = TRUE))
 
   expect_true(pkg_install_called)
-  expect_true("glyrepr" %in% installed_packages)  # Dev version should be included
+  expect_true("glyrepr" %in% installed_packages) # Dev version should be included
 })
