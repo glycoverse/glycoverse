@@ -26,16 +26,21 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
   if (nrow(dev_pkgs) > 0) {
     if (is.null(dev_to_latest)) {
       if (interactive()) {
-        cli::cli_alert_info(
-          cli::pluralize(
-            "Found {cli::qty(nrow(dev_pkgs))}{.val {nrow(dev_pkgs)}} development version{?s}: {.val {dev_pkgs$package}}"
-          )
-        )
+        n_dev <- nrow(dev_pkgs)
+        dev_msg <- if (n_dev == 1) {
+          "Found {.val {n_dev}} development version: {.val {dev_pkgs$package}}"
+        } else {
+          "Found {.val {n_dev}} development versions: {.val {dev_pkgs$package}}"
+        }
+        cli::cli_alert_info(dev_msg)
+        menu_title <- if (n_dev == 1) {
+          "Replace development version with release version?"
+        } else {
+          "Replace development versions with release versions?"
+        }
         q <- utils::menu(
           c("Yes", "No"),
-          title = cli::format_inline(
-            "Replace development {cli::qty(nrow(dev_pkgs))}version{?s} with release {cli::qty(nrow(dev_pkgs))}version{?s}?"
-          )
+          title = menu_title
         )
         downgrade_dev <- (q == 1)
       } else {
@@ -43,7 +48,7 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
         downgrade_dev <- FALSE
         cli::cli_alert_info(
           cli::pluralize(
-            "{cli::qty(nrow(dev_pkgs))}{.val {nrow(dev_pkgs)}} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+            "{cli::qty(nrow(dev_pkgs))}{nrow(dev_pkgs)} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
           )
         )
       }
