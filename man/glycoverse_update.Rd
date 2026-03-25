@@ -4,7 +4,11 @@
 \alias{glycoverse_update}
 \title{Update glycoverse packages}
 \usage{
-glycoverse_update(recursive = FALSE, repos = getOption("repos"))
+glycoverse_update(
+  recursive = FALSE,
+  repos = getOption("repos"),
+  dev_to_latest = NULL
+)
 }
 \arguments{
 \item{recursive}{If \code{TRUE}, will also list all dependencies of
@@ -12,6 +16,12 @@ glycoverse packages.}
 
 \item{repos}{The repositories to use to check for updates.
 Defaults to \code{getOption("repos")}.}
+
+\item{dev_to_latest}{If \code{TRUE}, replace development versions (versions with
+a 4th component >= 9000, e.g., \verb{0.1.0.9000}) with the latest release versions.
+If \code{FALSE}, keep development versions as-is. If \code{NULL} (the default), and in
+interactive mode, the user will be prompted. In non-interactive mode, \code{NULL}
+defaults to \code{FALSE}.}
 }
 \description{
 This checks r-universe for all glycoverse packages (and optionally,
