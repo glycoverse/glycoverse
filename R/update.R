@@ -17,7 +17,47 @@
 #' }
 glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev_to_latest = NULL) {
   deps <- glycoverse_deps(recursive, repos)
-  behind <- dplyr::filter(deps, behind)
+
+  # Detect development versions (4th component >= 9000)
+  dev_pkgs <- deps |>
+    dplyr::filter(purrr::map_lgl(.data$local, is_dev_version))
+
+  # Determine if we should downgrade dev versions
+  if (nrow(dev_pkgs) > 0) {
+    if (is.null(dev_to_latest)) {
+      if (interactive()) {
+        cli::cli_alert_info(
+          "Found {.val {nrow(dev_pkgs)}} development version{?s}: {.val {dev_pkgs$package}}"
+        )
+        q <- utils::menu(
+          c("Yes", "No"),
+          title = cli::format_inline(
+            "Replace development version{?s} with release versions?"
+          )
+        )
+        downgrade_dev <- (q == 1)
+      } else {
+        # Non-interactive: default to keeping dev versions
+        downgrade_dev <- FALSE
+        cli::cli_alert_info(
+          "Development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+        )
+      }
+    } else {
+      downgrade_dev <- dev_to_latest
+    }
+  } else {
+    downgrade_dev <- FALSE
+  }
+
+  # Build list of packages to update
+  behind <- dplyr::filter(deps, .data$behind)
+
+  if (downgrade_dev) {
+    # Add dev packages to the update list (even if not "behind" in version comparison)
+    behind <- dplyr::bind_rows(behind, dev_pkgs) |>
+      dplyr::distinct(.data$package, .keep_all = TRUE)
+  }
 
   if (nrow(behind) == 0) {
     cli::cat_line("All glycoverse packages up-to-date")
