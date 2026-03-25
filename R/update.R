@@ -27,12 +27,14 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
     if (is.null(dev_to_latest)) {
       if (interactive()) {
         cli::cli_alert_info(
-          "Found {.val {nrow(dev_pkgs)}} development version{?s}: {.val {dev_pkgs$package}}"
+          cli::pluralize(
+            "Found {cli::qty(nrow(dev_pkgs))}{.val {nrow(dev_pkgs)}} development version{?s}: {.val {dev_pkgs$package}}"
+          )
         )
         q <- utils::menu(
           c("Yes", "No"),
           title = cli::format_inline(
-            "Replace development version{?s} with release versions?"
+            "Replace development {cli::qty(nrow(dev_pkgs))}version{?s} with release {cli::qty(nrow(dev_pkgs))}version{?s}?"
           )
         )
         downgrade_dev <- (q == 1)
@@ -40,7 +42,9 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
         # Non-interactive: default to keeping dev versions
         downgrade_dev <- FALSE
         cli::cli_alert_info(
-          "{.val {nrow(dev_pkgs)}} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+          cli::pluralize(
+            "{cli::qty(nrow(dev_pkgs))}{.val {nrow(dev_pkgs)}} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+          )
         )
       }
     } else {
@@ -95,7 +99,7 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
     {
       pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
       pak::pkg_install(behind$package, ask = FALSE)
-      cli::cli_alert_success("Successfully updated {nrow(behind)} package{?s}")
+      cli::cli_alert_success(cli::pluralize("Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"))
     },
     error = function(e) {
       cli::cli_alert_danger("Automatic update failed: {conditionMessage(e)}")
