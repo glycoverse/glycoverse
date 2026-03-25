@@ -210,6 +210,9 @@ test_that("glycoverse_update with dev_to_latest = TRUE includes dev versions", {
       installed_packages <<- pkgs
       invisible()
     },
+    repo_add = function(...) {
+      invisible()
+    },
     .package = "pak"
   )
 
