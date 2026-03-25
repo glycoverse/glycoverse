@@ -181,3 +181,46 @@ test_that("is_dev_version detects development versions correctly", {
   expect_false(is_dev_version("0.0.0.8999"))
   expect_false(is_dev_version(package_version("1.2.3")))
 })
+
+test_that("glycoverse_update with dev_to_latest = TRUE includes dev versions", {
+  skip_if_not_installed("pak")
+
+  # Mock deps with a dev version (not outdated, just dev)
+  mock_deps <- tibble::tibble(
+    package = c("glyrepr", "glyparse"),
+    source = c("runiverse", "runiverse"),
+    upstream = c("0.9.0", "0.5.0"),
+    local = c("0.9.0.9000", "0.5.0"),  # glyrepr is dev version
+    behind = c(FALSE, FALSE)  # Neither is "behind" in version comparison
+  )
+
+  pkg_install_called <- FALSE
+  installed_packages <- NULL
+
+  # Mock glycoverse_deps in glycoverse namespace
+  local_mocked_bindings(
+    glycoverse_deps = function(...) mock_deps,
+    .package = "glycoverse"
+  )
+
+  # Mock pak functions
+  local_mocked_bindings(
+    pkg_install = function(pkgs, ...) {
+      pkg_install_called <<- TRUE
+      installed_packages <<- pkgs
+      invisible()
+    },
+    .package = "pak"
+  )
+
+  # Mock menu to auto-confirm (skip the main update prompt)
+  local_mocked_bindings(
+    menu = function(...) 1,  # User selects "Yes"
+    .package = "utils"
+  )
+
+  suppressMessages(glycoverse_update(dev_to_latest = TRUE))
+
+  expect_true(pkg_install_called)
+  expect_true("glyrepr" %in% installed_packages)  # Dev version should be included
+})
