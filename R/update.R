@@ -28,7 +28,7 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
       if (interactive()) {
         n_dev <- nrow(dev_pkgs)
         dev_msg <- if (n_dev == 1) {
-          "Found {.val {n_dev}} development version: {.val {dev_pkgs$package}}"
+          "Found {.val {n_dev}} development version: {.val {dev_pkgs$package}} ({.val {dev_pkgs$local}})"
         } else {
           "Found {.val {n_dev}} development versions: {.val {dev_pkgs$package}}"
         }
