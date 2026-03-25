@@ -20,6 +20,8 @@ glycoverse_update <- function(
   repos = getOption("repos"),
   dev_to_latest = NULL
 ) {
+  checkmate::assert_flag(dev_to_latest, null.ok = TRUE)
+
   deps <- glycoverse_deps(recursive, repos)
 
   # Detect development versions (4th component >= 9000)
