@@ -167,3 +167,17 @@ test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
   expect_true(repo_add_called)
   expect_true(pkg_install_called)
 })
+
+test_that("is_dev_version detects development versions correctly", {
+  # Development versions (4th component >= 9000)
+  expect_true(is_dev_version("0.1.0.9000"))
+  expect_true(is_dev_version("1.0.0.9000"))
+  expect_true(is_dev_version("0.5.3.10000"))
+  expect_true(is_dev_version(package_version("0.2.0.9000")))
+
+  # Release versions (no 4th component or < 9000)
+  expect_false(is_dev_version("0.1.0"))
+  expect_false(is_dev_version("1.0.0"))
+  expect_false(is_dev_version("0.0.0.8999"))
+  expect_false(is_dev_version(package_version("1.2.3")))
+})

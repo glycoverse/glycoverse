@@ -278,3 +278,8 @@ runiverse_version <- function(pkg, all_pkgs = NULL) {
 
   all_pkgs[[pkg]]
 }
+
+is_dev_version <- function(version) {
+  pieces <- strsplit(as.character(version), ".", fixed = TRUE)[[1]]
+  length(pieces) >= 4 && suppressWarnings(as.numeric(pieces[4])) >= 9000
+}
