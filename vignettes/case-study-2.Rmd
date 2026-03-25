@@ -31,7 +31,7 @@ Quick readiness check:
 - What's a `tibble`?
 - How do you filter rows in a `tibble`?
 - What's the modern alternative to `for` loops?
-- What's the `%>%` operator? Do we still need it?
+- What's the `|>` operator?
 - What makes data "tidy"?
 
 ## TL;DR

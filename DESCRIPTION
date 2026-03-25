@@ -37,7 +37,6 @@ Imports:
     glystats (>= 0.5.5),
     glyvis (>= 0.4.1),
     glydraw (>= 0.1.0),
-    magrittr,
     pak,
     BiocManager
 Config/testthat/edition: 3
