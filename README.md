@@ -122,6 +122,14 @@ For a step-by-step guide, search for “How to set up GitHub PAT for R.”
 meta-package `glycoverse`. You need to install them seperately via
 r-universe or GitHub.
 
+### Update glycoverse packages
+
+**Note:** Updating the `glycoverse` meta-package itself will not
+automatically update other glycoverse packages.
+
+To update glycoverse packages (e.g., glyrepr), use
+`glycoverse::glycoverse_update()`.
+
 ## Important Note
 
 `glycoverse` before v0.2.5 used GitHub releases instead of r-universe
