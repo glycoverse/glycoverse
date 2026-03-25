@@ -341,5 +341,9 @@ runiverse_version <- function(pkg, all_pkgs = NULL) {
 
 is_dev_version <- function(version) {
   pieces <- strsplit(as.character(version), ".", fixed = TRUE)[[1]]
-  length(pieces) >= 4 && suppressWarnings(as.numeric(pieces[4])) >= 9000
+  if (length(pieces) < 4) {
+    return(FALSE)
+  }
+  fourth <- suppressWarnings(as.numeric(pieces[4]))
+  !is.na(fourth) && fourth >= 9000
 }
