@@ -5,12 +5,17 @@
 #' You can then choose to update automatically or get manual instructions.
 #'
 #' @inheritParams glycoverse_deps
+#' @param dev_to_latest If `TRUE`, replace development versions (versions with
+#'   a 4th component >= 9000, e.g., `0.1.0.9000`) with the latest release versions.
+#'   If `FALSE`, keep development versions as-is. If `NULL` (the default), and in
+#'   interactive mode, the user will be prompted. In non-interactive mode, `NULL`
+#'   defaults to `FALSE`.
 #' @export
 #' @examples
 #' \dontrun{
 #' glycoverse_update()
 #' }
-glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
+glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev_to_latest = NULL) {
   deps <- glycoverse_deps(recursive, repos)
   behind <- dplyr::filter(deps, behind)
 
