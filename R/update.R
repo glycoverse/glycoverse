@@ -40,7 +40,7 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos"), dev
         # Non-interactive: default to keeping dev versions
         downgrade_dev <- FALSE
         cli::cli_alert_info(
-          "Development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+          "{.val {nrow(dev_pkgs)}} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
         )
       }
     } else {
