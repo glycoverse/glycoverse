@@ -1,6 +1,9 @@
 #' @keywords internal
 "_PACKAGE"
 
+#' @importFrom rlang .data
+NULL
+
 # Suppress R CMD check note
 # Namespace in Imports field not imported from: PKG
 #   All declared Imports should be used.

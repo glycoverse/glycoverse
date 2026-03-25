@@ -5,14 +5,74 @@
 #' You can then choose to update automatically or get manual instructions.
 #'
 #' @inheritParams glycoverse_deps
+#' @param dev_to_latest If `TRUE`, replace development versions (versions with
+#'   a 4th component >= 9000, e.g., `0.1.0.9000`) with the latest release versions.
+#'   If `FALSE`, keep development versions as-is. If `NULL` (the default), and in
+#'   interactive mode, the user will be prompted. In non-interactive mode, `NULL`
+#'   defaults to `FALSE`.
 #' @export
 #' @examples
 #' \dontrun{
 #' glycoverse_update()
 #' }
-glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
+glycoverse_update <- function(
+  recursive = FALSE,
+  repos = getOption("repos"),
+  dev_to_latest = NULL
+) {
+  checkmate::assert_flag(dev_to_latest, null.ok = TRUE)
+
   deps <- glycoverse_deps(recursive, repos)
-  behind <- dplyr::filter(deps, behind)
+
+  # Detect development versions (4th component >= 9000)
+  dev_pkgs <- deps |>
+    dplyr::filter(purrr::map_lgl(.data$local, is_dev_version))
+
+  # Determine if we should downgrade dev versions
+  if (nrow(dev_pkgs) > 0) {
+    if (is.null(dev_to_latest)) {
+      if (interactive()) {
+        n_dev <- nrow(dev_pkgs)
+        dev_msg <- if (n_dev == 1) {
+          "Found {.val {n_dev}} development version: {.val {dev_pkgs$package}} ({.val {dev_pkgs$local}})"
+        } else {
+          "Found {.val {n_dev}} development versions: {.val {dev_pkgs$package}}"
+        }
+        cli::cli_alert_info(dev_msg)
+        menu_title <- if (n_dev == 1) {
+          "Replace development version with release version?"
+        } else {
+          "Replace development versions with release versions?"
+        }
+        q <- utils::menu(
+          c("Yes", "No"),
+          title = menu_title
+        )
+        downgrade_dev <- (q == 1)
+      } else {
+        # Non-interactive: default to keeping dev versions
+        downgrade_dev <- FALSE
+        cli::cli_alert_info(
+          cli::pluralize(
+            "{cli::qty(nrow(dev_pkgs))}{nrow(dev_pkgs)} development version{?s} detected but not replaced (set dev_to_latest = TRUE to replace)"
+          )
+        )
+      }
+    } else {
+      downgrade_dev <- dev_to_latest
+    }
+  } else {
+    downgrade_dev <- FALSE
+  }
+
+  # Build list of packages to update
+  behind <- dplyr::filter(deps, .data$behind)
+
+  if (downgrade_dev) {
+    # Add dev packages to the update list (even if not "behind" in version comparison)
+    behind <- dplyr::bind_rows(behind, dev_pkgs) |>
+      dplyr::distinct(.data$package, .keep_all = TRUE)
+  }
 
   if (nrow(behind) == 0) {
     cli::cat_line("All glycoverse packages up-to-date")
@@ -50,7 +110,9 @@ glycoverse_update <- function(recursive = FALSE, repos = getOption("repos")) {
     {
       pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
       pak::pkg_install(behind$package, ask = FALSE)
-      cli::cli_alert_success("Successfully updated {nrow(behind)} package{?s}")
+      cli::cli_alert_success(cli::pluralize(
+        "Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"
+      ))
     },
     error = function(e) {
       cli::cli_alert_danger("Automatic update failed: {conditionMessage(e)}")
@@ -277,4 +339,13 @@ runiverse_version <- function(pkg, all_pkgs = NULL) {
   }
 
   all_pkgs[[pkg]]
+}
+
+is_dev_version <- function(version) {
+  pieces <- strsplit(as.character(version), ".", fixed = TRUE)[[1]]
+  if (length(pieces) < 4) {
+    return(FALSE)
+  }
+  fourth <- suppressWarnings(as.numeric(pieces[4]))
+  !is.na(fourth) && fourth >= 9000
 }
