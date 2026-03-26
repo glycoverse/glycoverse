@@ -1,0 +1,90 @@
+# Changelog
+
+## glycoverse 0.3.0
+
+### New features
+
+- [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_update.md)
+  gains a `dev_to_latest` parameter to control whether development
+  versions should be updated to their latest versions (#2).
+
+## glycoverse 0.2.5
+
+### New features
+
+- Migrate from GitHub releases to r-universe for package installation.
+  [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_update.md)
+  now uses
+  [`pak::repo_add()`](https://pak.r-lib.org/reference/repo_add.html) and
+  [`pak::pkg_install()`](https://pak.r-lib.org/reference/pkg_install.html)
+  for automatic updates.
+
+### Minor improvements and bug fixes
+
+- Remove the `Remotes` field from `DESCRIPTION` as dependencies are now
+  installed from r-universe.
+- Update installation guide in README.
+
+## glycoverse 0.2.4
+
+### Minor improvements and bug fixes
+
+- Fix a bug in
+  [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_update.md)
+  that non-core packages were ignored.
+
+## glycoverse 0.2.3
+
+- Fig a bug in
+  [`glycoverse_deps()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_deps.md).
+
+## glycoverse 0.2.2
+
+### Minor improvements and bug fixes
+
+- Use the release version of glydraw.
+
+## glycoverse 0.2.1
+
+- Remove glysmith from core dependency.
+
+## glycoverse 0.2.0
+
+### New features
+
+- [`glycoverse_sitrep()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_sitrep.md)
+  only checks glycoverse packages now, including a few new packages,
+  i.e., glydraw, glydb, glyanno, glysmith.
+- Remove `glyenzy` from glycoverse core packages.
+- [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_update.md)
+  now updates glycoverse packages using `pak`, instead of just printing
+  the commands.
+
+### Minor improvements and bug fixes
+
+- Fix the bug that
+  [`glycoverse_deps()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_deps.md)
+  raised an error when `recursive` was TRUE.
+- Fix the bug that upstream version numbers of Bioconductor dependencies
+  could not be fetched.
+- Update all dependencies to their latest versions.
+- Add more packages to the end of the case study vignettes.
+
+## glycoverse 0.1.3
+
+- Use the CRAN version of glyparse.
+
+## glycoverse 0.1.2
+
+- Use the CRAN version of glyrepr.
+
+## glycoverse 0.1.1
+
+- Fix a bug in
+  [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/reference/glycoverse_update.md)
+  where the upstream packages were not set correctly (CRAN, instead of
+  GitHub).
+
+## glycoverse 0.1.0
+
+- Initial GitHub release.
