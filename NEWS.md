@@ -1,4 +1,9 @@
-# glycoverse (development version)
+# glycoverse 0.3.0
+
+## New features
+
+* `glycoverse_update()` gains a `dev_to_latest` parameter to control whether development versions should be updated to their latest versions (#2).
+
 
 # glycoverse 0.2.5
 
