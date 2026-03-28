@@ -11,11 +11,18 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R
+version](https://img.shields.io/badge/R_language-4.5-blue?logo=R)](https://www.r-project.org)
+[![GitHub
+release](https://img.shields.io/github/v/release/glycoverse/glycoverse?color=blue)](https://github.com/glycoverse/glycoverse/releases)
 [![R-universe
 version](https://glycoverse.r-universe.dev/glycoverse/badges/version)](https://glycoverse.r-universe.dev/glycoverse)
-[![R-CMD-check](https://github.com/glycoverse/glycoverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/glycoverse/glycoverse/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/glycoverse/glycoverse/graph/badge.svg)](https://app.codecov.io/gh/glycoverse/glycoverse)
+[![MIT
+license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![Awesome
+Glyco](https://img.shields.io/badge/Awesome-Glyco-pink)](https://github.com/fubin1999/awesome-glyco)
 <!-- badges: end -->
 
 **Glyco-Omics Data Analysis Made Easy**
