@@ -2,8 +2,6 @@
 
 ![glycoverse logo](reference/figures/logo.png)
 
-------------------------------------------------------------------------
-
 **Glyco-Omics Data Analysis Made Easy**
 
 ## Overview
