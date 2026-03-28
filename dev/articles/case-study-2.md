@@ -81,7 +81,7 @@ collection of specialized packages all at once.
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
 #> ✔ glyclean 0.12.2     ✔ glyparse 0.5.7 
-#> ✔ glydet   0.10.4     ✔ glyread  0.9.1 
+#> ✔ glydet   0.10.4     ✔ glyread  0.9.2 
 #> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
 #> ✔ glyexp   0.14.0     ✔ glystats 0.6.5 
 #> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 

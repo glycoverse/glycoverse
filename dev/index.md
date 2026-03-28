@@ -1,22 +1,66 @@
 # glycoverse
 
-The word `glycoverse` has two meanings:
+![glycoverse logo](reference/figures/logo.png)
 
-1.  The `glycoverse` ecosystem refers to a set of packages that together
-    form a comprehensive pipeline for glycomics and glycoproteomics data
-    analysis, including `glyrepr`, `glyexp`, etc.
-2.  The `glycoverse` meta-package is a meta-package that helps manage
-    glycoverse packages (installation, update, and status check).
+------------------------------------------------------------------------
 
-This repository is for the `glycoverse` meta-package.
+**Glyco-Omics Data Analysis Made Easy**
+
+## Overview
+
+`glycoverse` is a comprehensive R ecosystem designed for glycomics and
+glycoproteomics data analysis. It provides a unified pipeline that
+covers the entire analytical workflow, from data import and cleaning to
+statistical analysis and visualization. It also provides a dedicated
+infrastructure for glycan structure analysis.
+
+### Core Packages
+
+The glycoverse ecosystem is organized into two main categories:
+
+**Omics Data Analysis**
+
+| Package                                            | Description                            |
+|----------------------------------------------------|----------------------------------------|
+| [glyexp](https://glycoverse.github.io/glyexp/)     | Data management and experiment objects |
+| [glyread](https://glycoverse.github.io/glyread/)   | Data import from various sources       |
+| [glyclean](https://glycoverse.github.io/glyclean/) | Data cleaning and preprocessing        |
+| [glystats](https://glycoverse.github.io/glystats/) | Statistical analysis                   |
+| [glyvis](https://glycoverse.github.io/glyvis/)     | Data visualization                     |
+
+**Glycan Structure Analysis**
+
+| Package                                            | Description                     |
+|----------------------------------------------------|---------------------------------|
+| [glyrepr](https://glycoverse.github.io/glyrepr/)   | Glycan structure representation |
+| [glyparse](https://glycoverse.github.io/glyparse/) | Glycan structure parsing        |
+| [glymotif](https://glycoverse.github.io/glymotif/) | Motif analysis                  |
+| [glydet](https://glycoverse.github.io/glydet/)     | Derived trait analysis          |
+| [glydraw](https://glycoverse.github.io/glydraw/)   | Structure visualization         |
+
+### Optional Packages
+
+| Package                                            | Description                   |
+|----------------------------------------------------|-------------------------------|
+| [glydb](https://glycoverse.github.io/glydb/)       | Glycan database               |
+| [glyanno](https://glycoverse.github.io/glyanno/)   | Glycan annotation             |
+| [glyenzy](https://glycoverse.github.io/glyenzy/)   | Biosynthesis pathway analysis |
+| [glysmith](https://glycoverse.github.io/glysmith/) | Full analytical pipeline      |
+
+### glycoverse Meta-Package
+
+This repository contains the `glycoverse` meta-package, which provides
+convenient tools for managing the entire glycoverse ecosystem:
+
+- **One-command installation**: Install all core packages at once
+- **Package updates**: Update all glycoverse packages with a single
+  function
+- **Situation report**: Check the status of all installed glycoverse
+  packages
 
 ## Installation
 
-### Install from r-universe
-
-You can install the latest release of glycoverse core packages from
-[r-universe](https://glycoverse.r-universe.dev/glycoverse)
-(**recommended**) with:
+### Install from r-universe (Recommended)
 
 ``` r
 # install.packages("pak")
@@ -24,24 +68,24 @@ pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glycoverse")
 ```
 
-This will install the meta-package `glycoverse`, as well as all
-glycoverse core packages, including `glyexp`, `glyread`, `glyclean`,
-`glystats`, `glyvis`, `glyrepr`, `glyparse`, `glymotif`, `glydet`, and
-`glydraw`.
+This installs the meta-package and all core packages: `glyexp`,
+`glyread`, `glyclean`, `glystats`, `glyvis`, `glyrepr`, `glyparse`,
+`glymotif`, `glydet`, and `glydraw`.
 
-**Troubleshooting:** If you encounter a “Failed to download xxx” or
-“403” error, it is likely a network issue. R-universe has strict rate
-limiting (or access controls). Try switching your network environment or
-installing directly from GitHub.
+**Troubleshooting:** “Failed to download” or “403” errors usually
+indicate network issues with r-universe rate limiting. Try switching
+network environments or installing from GitHub.
 
-Note that you can also install packages individually:
+### Install Individual Packages
 
 ``` r
-pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")  # you only need to run this once in a session
-pak::pkg_install("glymotif")  # this will also install glyrepr, glyparse, and glyexp
+pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+pak::pkg_install("glymotif")  # Also installs dependencies: glyrepr, glyparse, glyexp
 ```
 
 ### Install from GitHub
+
+Click to expand detailed GitHub installation instructions
 
 **Prerequisite:** To install packages from GitHub, you’ll need the
 proper compilation tools installed on your system. This means
@@ -104,180 +148,76 @@ For a step-by-step guide, search for “How to set up GitHub PAT for R.”
 
 ### Install optional packages
 
-`glydb`, `glyanno`, `glyenzy` and `glysmith` are not bundled with the
-meta-package `glycoverse`. You need to install them seperately via
-r-universe or GitHub.
-
-### Update glycoverse packages
-
-**Note:** Updating the `glycoverse` meta-package itself will not
-automatically update other glycoverse packages.
-
-To update glycoverse packages (e.g., glyrepr), use
-[`glycoverse::glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md).
-
-## Important Note
-
-`glycoverse` before v0.2.5 used GitHub releases instead of r-universe
-releases. We recommend all users to update the meta-package `glycoverse`
-to the latest version for better package update experience.
+`glydb`, `glyanno`, `glyenzy`, and `glysmith` are installed separately:
 
 ``` r
-pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
-pak::pkg_install("glycoverse")
+pak::pkg_install("glydb")
+pak::pkg_install("glyanno")
 ```
 
-## Learning glycoverse
+## Getting Started
 
-If you want an out-of-box data analysis experience, learn
-[glyexp](https://glycoverse.github.io/glyexp/) and
-[glyread](https://glycoverse.github.io/glyread/), then try
-[glysmith](https://glycoverse.github.io/glysmith/).
+### Quick Start
 
-If you want to learn glycoverse systematically, first checkout one of
-the following case studies that showcase the basic workflow of
-`glycoverse`:
-
-- [Case Study:
-  Glycoproteomics](https://glycoverse.github.io/glycoverse/articles/case-study-1.html)
-- [Case Study:
-  Glycomics](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
-
-Then refer to the documentation of the individual packages for more
-details.
-
-We recommend the following learning order for regular omics data
-analysis:
-
-[glyexp](https://glycoverse.github.io/glyexp/) (**very important**) -\>
-[glyread](https://glycoverse.github.io/glyread/) -\>
-[glyclean](https://glycoverse.github.io/glyclean/) -\>
-[glystats](https://glycoverse.github.io/glystats/) -\>
-[glyvis](https://glycoverse.github.io/glyvis/)
-
-If you’re dealing with glycan structures, learn these additional
-packages:
-
-[glyrepr](https://glycoverse.github.io/glyrepr/) (**very important**)
--\> [glyparse](https://glycoverse.github.io/glyparse/) -\>
-[glymotif](https://glycoverse.github.io/glymotif/) -\>
-[glydet](https://glycoverse.github.io/glydet/) -\>
-[glydraw](https://glycoverse.github.io/glydraw/)
-
-You will also find [glydb](https://glycoverse.github.io/glydb/) and
-[glyanno](https://glycoverse.github.io/glyanno/) very useful, if your
-glycan compositions or structures are in low resolution.
-
-## Usage
-
-[`library(glycoverse)`](https://glycoverse.github.io/glycoverse/) will
-load all the core packages in the `glycoverse` ecosystem:
+Load all core packages:
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.2.5.9000 ──
-#> ✔ glyclean 0.12.2     ✔ glyparse 0.5.7 
-#> ✔ glydet   0.10.3     ✔ glyread  0.9.1 
-#> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
-#> ✔ glyexp   0.13.0     ✔ glystats 0.6.5 
-#> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
+#> Warning: 程序包'glyexp'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyread'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyclean'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
+#> ✔ glyclean 0.12.2         ✔ glyparse 0.5.7     
+#> ✔ glydet   0.10.4         ✔ glyread  0.9.1     
+#> ✔ glydraw  0.3.1.9000     ✔ glyrepr  0.10.1    
+#> ✔ glyexp   0.14.0         ✔ glystats 0.6.5     
+#> ✔ glymotif 0.13.1         ✔ glyvis   0.5.1     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
-This includes:
-
-**Omics data analysis**
-
-- [glyexp](https://glycoverse.github.io/glyexp/), for data management
-- [glyread](https://glycoverse.github.io/glyread/), for data import
-- [glyclean](https://glycoverse.github.io/glyclean/), for data cleaning
-  and preprocessing
-- [glystats](https://glycoverse.github.io/glystats/), for statistical
-  analysis
-- [glyvis](https://glycoverse.github.io/glyvis/), for data visualization
-
-**Glycan structure analysis**
-
-- [glyrepr](https://glycoverse.github.io/glyrepr/), for glycan structure
-  representation
-- [glyparse](https://glycoverse.github.io/glyparse/), for glycan
-  structure parsing
-- [glymotif](https://glycoverse.github.io/glymotif/), for glycan
-  structure motif analysis
-- [glydet](https://glycoverse.github.io/glydet/), for glycan derived
-  trait analysis
-- [glydraw](https://glycoverse.github.io/glydraw/), for glycan structure
-  visualization
-
-You can also install the non-core glycoverse packages if needed:
-
-- [glyenzy](https://glycoverse.github.io/glyenzy/), for glycan
-  biosynthesis pathway analysis
-- [glydb](https://glycoverse.github.io/glydb/), for glycan database
-- [glyanno](https://glycoverse.github.io/glyanno/), for glycan
-  annotation
-- [glysmith](https://glycoverse.github.io/glysmith/), for full
-  analytical pipeline
-
-You can get a situation report of all the packages in the `glycoverse`
-ecosystem with
-[`glycoverse_sitrep()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_sitrep.md):
+Check your installation:
 
 ``` r
 glycoverse_sitrep()
-#> ── R & RStudio ─────────────────────────────────────────────────────────────────
-#> • R: 4.5.1
-#> 'getOption("repos")' replaces Bioconductor standard repositories, see
-#> 'help("repositories", package = "BiocManager")' for details.
-#> Replacement repositories:
-#>     CRAN: https://cloud.r-project.org
-#> ── Core packages ───────────────────────────────────────────────────────────────
-#> • glyexp      (0.13.0 < 0.14.0)
-#> • glyread     (0.9.1)
-#> • glyclean    (0.12.2)
-#> • glystats    (0.6.5)
-#> • glyvis      (0.5.1)
-#> • glyrepr     (0.10.1)
-#> • glyparse    (0.5.7)
-#> • glymotif    (0.13.1)
-#> • glydet      (0.10.3 < 0.10.4)
-#> • glydraw     (0.3.1)
-#> ── Non-core packages ───────────────────────────────────────────────────────────
-#> • glyenzy     (0.4.3)
-#> • glydb       (0.4.0)
-#> • glyanno     (0.3.0)
-#> • glysmith    (0.10.1)
 ```
 
-To list all dependencies of glycoverse core packages, run:
+### Learning Path
+
+**For out-of-box analysis:** Start with
+[glyexp](https://glycoverse.github.io/glyexp/) →
+[glyread](https://glycoverse.github.io/glyread/) →
+[glysmith](https://glycoverse.github.io/glysmith/)
+
+**For systematic learning:**
+
+1.  Read the case studies:
+    - [Glycoproteomics
+      Analysis](https://glycoverse.github.io/glycoverse/articles/case-study-1.html)
+    - [Glycomics
+      Analysis](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
+2.  Follow the recommended learning order:
+    - Omics: glyexp → glyread → glyclean → glystats → glyvis
+    - Structures: glyrepr → glyparse → glymotif → glydet → glydraw
+
+### Updating Packages
 
 ``` r
-glycoverse_deps(recursive = TRUE)  # recursive = TRUE to list dependencies of each package
-#> 'getOption("repos")' replaces Bioconductor standard repositories, see
-#> 'help("repositories", package = "BiocManager")' for details.
-#> Replacement repositories:
-#>     CRAN: https://cloud.r-project.org
-#> # A tibble: 127 × 5
-#>    package  source    upstream local  behind
-#>    <chr>    <chr>     <chr>    <chr>  <lgl> 
-#>  1 glyclean runiverse 0.12.2   0.12.2 FALSE 
-#>  2 glydet   runiverse 0.10.4   0.10.3 TRUE  
-#>  3 glydraw  runiverse 0.3.1    0.3.1  FALSE 
-#>  4 glyexp   runiverse 0.14.0   0.13.0 TRUE  
-#>  5 glymotif runiverse 0.13.1   0.13.1 FALSE 
-#>  6 glyparse runiverse 0.5.7    0.5.7  FALSE 
-#>  7 glyread  runiverse 0.9.1    0.9.1  FALSE 
-#>  8 glyrepr  runiverse 0.10.1   0.10.1 FALSE 
-#>  9 glystats runiverse 0.6.5    0.6.5  FALSE 
-#> 10 glyvis   runiverse 0.5.1    0.5.1  FALSE 
-#> # ℹ 117 more rows
-```
-
-And you can update all the packages with
-[`glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md):
-
-``` r
+# Update all glycoverse packages
 glycoverse_update()
+
+# List all dependencies
+glycoverse_deps(recursive = TRUE)
 ```
+
+## Important Notes
+
+- glycoverse v0.2.5+ uses r-universe for releases. Update the
+  meta-package for better package management.
+- Updating the meta-package itself does not automatically update other
+  glycoverse packages. Use
+  [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md)
+  for that.
