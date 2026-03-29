@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 [![R-universe version](https://glycoverse.r-universe.dev/glycoverse/badges/version)](https://glycoverse.r-universe.dev/glycoverse)
 [![Codecov test coverage](https://codecov.io/gh/glycoverse/glycoverse/graph/badge.svg)](https://app.codecov.io/gh/glycoverse/glycoverse)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![Awesome Glyco](https://img.shields.io/badge/Awesome-Glyco-pink)](https://github.com/fubin1999/awesome-glyco)
+[![Awesome Glyco](https://img.shields.io/badge/Awesome-Glyco-pink)](https://github.com/amanzadi/awesome-glyco)
 <!-- badges: end -->
 
 **Glyco-Omics Data Analysis Made Easy**
