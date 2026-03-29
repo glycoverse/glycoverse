@@ -161,11 +161,17 @@ Load all core packages:
 
 ``` r
 library(glycoverse)
+#> Warning: 程序包'glyexp'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyread'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyclean'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glystats'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
 #> ✔ glyclean 0.12.2         ✔ glyparse 0.5.7     
-#> ✔ glydet   0.10.4         ✔ glyread  0.9.1     
+#> ✔ glydet   0.10.4         ✔ glyread  0.9.2     
 #> ✔ glydraw  0.3.1.9000     ✔ glyrepr  0.10.1    
-#> ✔ glyexp   0.14.0         ✔ glystats 0.6.5     
+#> ✔ glyexp   0.14.0         ✔ glystats 0.7.0     
 #> ✔ glymotif 0.13.1         ✔ glyvis   0.5.1     
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
