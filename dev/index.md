@@ -20,30 +20,30 @@ The glycoverse ecosystem is organized into two main categories:
 
 | Package                                            | Description                            |
 |----------------------------------------------------|----------------------------------------|
-| [glyexp](https://glycoverse.github.io/glyexp/)     | Data management and experiment objects |
-| [glyread](https://glycoverse.github.io/glyread/)   | Data import from various sources       |
-| [glyclean](https://glycoverse.github.io/glyclean/) | Data cleaning and preprocessing        |
-| [glystats](https://glycoverse.github.io/glystats/) | Statistical analysis                   |
-| [glyvis](https://glycoverse.github.io/glyvis/)     | Data visualization                     |
+| [glyexp](https://github.com/glycoverse/glyexp)     | Data management and experiment objects |
+| [glyread](https://github.com/glycoverse/glyread)   | Data import from various sources       |
+| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing        |
+| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis                   |
+| [glyvis](https://github.com/glycoverse/glyvis)     | Data visualization                     |
 
 **Glycan Structure Analysis**
 
 | Package                                            | Description                     |
 |----------------------------------------------------|---------------------------------|
-| [glyrepr](https://glycoverse.github.io/glyrepr/)   | Glycan structure representation |
-| [glyparse](https://glycoverse.github.io/glyparse/) | Glycan structure parsing        |
-| [glymotif](https://glycoverse.github.io/glymotif/) | Motif analysis                  |
-| [glydet](https://glycoverse.github.io/glydet/)     | Derived trait analysis          |
-| [glydraw](https://glycoverse.github.io/glydraw/)   | Structure visualization         |
+| [glyrepr](https://github.com/glycoverse/glyrepr)   | Glycan structure representation |
+| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing        |
+| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis                  |
+| [glydet](https://github.com/glycoverse/glydet)     | Derived trait analysis          |
+| [glydraw](https://github.com/glycoverse/glydraw)   | Structure visualization         |
 
 ### Optional Packages
 
 | Package                                            | Description                   |
 |----------------------------------------------------|-------------------------------|
-| [glydb](https://glycoverse.github.io/glydb/)       | Glycan database               |
-| [glyanno](https://glycoverse.github.io/glyanno/)   | Glycan annotation             |
-| [glyenzy](https://glycoverse.github.io/glyenzy/)   | Biosynthesis pathway analysis |
-| [glysmith](https://glycoverse.github.io/glysmith/) | Full analytical pipeline      |
+| [glydb](https://github.com/glycoverse/glydb)       | Glycan database               |
+| [glyanno](https://github.com/glycoverse/glyanno)   | Glycan annotation             |
+| [glyenzy](https://github.com/glycoverse/glyenzy)   | Biosynthesis pathway analysis |
+| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline      |
 
 ### glycoverse Meta-Package
 
@@ -187,20 +187,28 @@ glycoverse_sitrep()
 ### Learning Path
 
 **For out-of-box analysis:** Start with
-[glyexp](https://glycoverse.github.io/glyexp/) →
-[glyread](https://glycoverse.github.io/glyread/) →
-[glysmith](https://glycoverse.github.io/glysmith/)
+[glyexp](https://github.com/glycoverse/glyexp) →
+[glyread](https://github.com/glycoverse/glyread) →
+[glysmith](https://github.com/glycoverse/glysmith)
 
 **For systematic learning:**
 
 1.  Read the case studies:
     - [Glycoproteomics
-      Analysis](https://glycoverse.github.io/glycoverse/articles/case-study-1.html)
+      Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-1.html)
     - [Glycomics
-      Analysis](https://glycoverse.github.io/glycoverse/articles/case-study-2.html)
+      Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-2.html)
 2.  Follow the recommended learning order:
-    - Omics: glyexp → glyread → glyclean → glystats → glyvis
-    - Structures: glyrepr → glyparse → glymotif → glydet → glydraw
+    - Omics: [glyexp](https://github.com/glycoverse/glyexp) →
+      [glyread](https://github.com/glycoverse/glyread) →
+      [glyclean](https://github.com/glycoverse/glyclean) →
+      [glystats](https://github.com/glycoverse/glystats) →
+      [glyvis](https://github.com/glycoverse/glyvis)
+    - Structures: [glyrepr](https://github.com/glycoverse/glyrepr) →
+      [glyparse](https://github.com/glycoverse/glyparse) →
+      [glymotif](https://github.com/glycoverse/glymotif) →
+      [glydet](https://github.com/glycoverse/glydet) →
+      [glydraw](https://github.com/glycoverse/glydraw)
 
 ### Updating Packages
 
