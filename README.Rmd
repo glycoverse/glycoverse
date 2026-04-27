@@ -68,6 +68,7 @@ The glycoverse ecosystem is organized into two main categories:
 | [glydb](https://github.com/glycoverse/glydb) | Glycan database |
 | [glyanno](https://github.com/glycoverse/glyanno) | Glycan annotation |
 | [glyenzy](https://github.com/glycoverse/glyenzy) | Biosynthesis pathway analysis |
+| [glyfun](https://github.com/glycoverse/glyfun) | Functional enrichment analysis |
 | [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline |
 
 ### glycoverse Meta-Package
@@ -197,6 +198,8 @@ Start with [glyexp](https://github.com/glycoverse/glyexp) → [glyread](https://
 2. Follow the recommended learning order:
    - Omics: [glyexp](https://github.com/glycoverse/glyexp) → [glyread](https://github.com/glycoverse/glyread) → [glyclean](https://github.com/glycoverse/glyclean) → [glystats](https://github.com/glycoverse/glystats) → [glyvis](https://github.com/glycoverse/glyvis)
    - Structures: [glyrepr](https://github.com/glycoverse/glyrepr) → [glyparse](https://github.com/glycoverse/glyparse) → [glymotif](https://github.com/glycoverse/glymotif) → [glydet](https://github.com/glycoverse/glydet) → [glydraw](https://github.com/glycoverse/glydraw)
+
+You might also find [glydb](https://github.com/glycoverse/glydb), [glyanno](https://github.com/glycoverse/glyanno), [glyenzy](https://github.com/glycoverse/glyenzy), and [glyfun](https://github.com/glycoverse/glyfun) useful for specific tasks.
 
 ### Updating Packages
 
