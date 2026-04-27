@@ -63,11 +63,11 @@ We first load the `tidyverse` package, as usual.
 ``` r
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.2.0     ✔ readr     2.2.0
+#> ✔ dplyr     1.2.1     ✔ readr     2.2.0
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+#> ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-#> ✔ purrr     1.2.1     
+#> ✔ purrr     1.2.2     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
@@ -80,10 +80,10 @@ collection of specialized packages all at once.
 ``` r
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.12.2     ✔ glyparse 0.5.7 
-#> ✔ glydet   0.10.4     ✔ glyread  0.9.2 
-#> ✔ glydraw  0.3.1      ✔ glyrepr  0.10.1
-#> ✔ glyexp   0.14.1     ✔ glystats 0.7.0 
+#> ✔ glyclean 0.13.0     ✔ glyparse 0.5.7 
+#> ✔ glydet   0.10.4     ✔ glyread  0.10.0
+#> ✔ glydraw  0.4.0      ✔ glyrepr  0.10.1
+#> ✔ glyexp   0.14.1     ✔ glystats 0.10.0
 #> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
@@ -366,7 +366,14 @@ clean_exp |>
   filter_sig_vars(limma_res, p_adj_cutoff = 0.05, fc_cutoff = 2) |>
   gly_enrich_go() |>
   autoplot()
+#> Warning: `gly_enrich_go()` was deprecated in glystats 0.10.0.
+#> ℹ Please use `glyfun::enrich_ora_go()` instead.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 #> 
+#> Warning in bitr(gene, fromType = fromType, toType = "ENTREZID", OrgDb = OrgDb):
+#> 9.09% of input gene IDs are fail to map...
 ```
 
 ![](case-study-1_files/figure-html/unnamed-chunk-13-1.png)
@@ -473,7 +480,7 @@ motif_anova_res <- clean_exp |>
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 
 get_tidy_result(motif_anova_res, "main_test")
-#> # A tibble: 828 × 14
+#> # A tibble: 828 × 15
 #>    variable         protein protein_site motif gene  motif_structure term     df
 #>    <glue>           <chr>          <int> <chr> <chr> <struct>        <chr> <dbl>
 #>  1 A6NJW9-49-lewis… A6NJW9            49 lewi… CD8B2 dHex(??-?)Hex(… group     3
@@ -487,8 +494,8 @@ get_tidy_result(motif_anova_res, "main_test")
 #>  9 O43866-226-sia_… O43866           226 sia_… CD5L  NeuAc(??-?)Hex… group     3
 #> 10 O75437-244-lewi… O75437           244 lewi… ZNF2… dHex(??-?)Hex(… group     3
 #> # ℹ 818 more rows
-#> # ℹ 6 more variables: sumsq <dbl>, meansq <dbl>, statistic <dbl>, p_val <dbl>,
-#> #   p_adj <dbl>, post_hoc <chr>
+#> # ℹ 7 more variables: sumsq <dbl>, meansq <dbl>, statistic <dbl>, p_val <dbl>,
+#> #   p_adj <dbl>, effect_size <dbl>, post_hoc <chr>
 ```
 
 `quantify_motifs()` transforms your data into a new `experiment()`
@@ -551,6 +558,11 @@ kegg_res <- clean_exp |>
   add_motifs_lgl(motifs) |>
   filter_var(lewis_ax) |>
   gly_enrich_kegg()
+#> Warning: `gly_enrich_kegg()` was deprecated in glystats 0.10.0.
+#> ℹ Please use `glyfun::enrich_ora_kegg()` instead.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 
 autoplot(kegg_res)
 ```
@@ -650,7 +662,7 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 20 × 14
+#> # A tibble: 20 × 15
 #>    variable     protein protein_site trait gene  explanation term     df   sumsq
 #>    <glue>       <chr>          <int> <chr> <chr> <chr>       <chr> <dbl>   <dbl>
 #>  1 P00450-397-… P00450           397 TFc   CP    Proportion… group     3 2.21e-2
@@ -673,8 +685,8 @@ trait_exp |>
 #> 18 P25311-112-… P25311           112 TFc   AZGP1 Proportion… group     3 3.05e-2
 #> 19 P25311-128-… P25311           128 TFc   AZGP1 Proportion… group     3 5.19e-4
 #> 20 P43652-33-T… P43652            33 TFc   AFM   Proportion… group     3 5.47e-3
-#> # ℹ 5 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
-#> #   post_hoc <chr>
+#> # ℹ 6 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
+#> #   effect_size <dbl>, post_hoc <chr>
 ```
 
 Once again, it’s just that straightforward.

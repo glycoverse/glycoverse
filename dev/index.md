@@ -38,12 +38,13 @@ The glycoverse ecosystem is organized into two main categories:
 
 ### Optional Packages
 
-| Package                                            | Description                   |
-|----------------------------------------------------|-------------------------------|
-| [glydb](https://github.com/glycoverse/glydb)       | Glycan database               |
-| [glyanno](https://github.com/glycoverse/glyanno)   | Glycan annotation             |
-| [glyenzy](https://github.com/glycoverse/glyenzy)   | Biosynthesis pathway analysis |
-| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline      |
+| Package                                            | Description                    |
+|----------------------------------------------------|--------------------------------|
+| [glydb](https://github.com/glycoverse/glydb)       | Glycan database                |
+| [glyanno](https://github.com/glycoverse/glyanno)   | Glycan annotation              |
+| [glyenzy](https://github.com/glycoverse/glyenzy)   | Biosynthesis pathway analysis  |
+| [glyfun](https://github.com/glycoverse/glyfun)     | Functional enrichment analysis |
+| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline       |
 
 ### glycoverse Meta-Package
 
@@ -162,17 +163,17 @@ Load all core packages:
 ``` r
 library(glycoverse)
 #> Warning: 程序包'glyexp'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyread'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyclean'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyclean'是用R版本4.5.3 来建造的
 #> Warning: 程序包'glystats'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyparse'是用R版本4.5.2 来建造的
 #> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glydraw'是用R版本4.5.3 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.12.2         ✔ glyparse 0.5.7     
-#> ✔ glydet   0.10.4         ✔ glyread  0.9.2     
-#> ✔ glydraw  0.3.1.9000     ✔ glyrepr  0.10.1    
-#> ✔ glyexp   0.14.0         ✔ glystats 0.7.0     
-#> ✔ glymotif 0.13.1         ✔ glyvis   0.5.1     
+#> ✔ glyclean 0.13.0          ✔ glyparse 0.5.7      
+#> ✔ glydet   0.10.4          ✔ glyread  0.10.0     
+#> ✔ glydraw  0.4.0           ✔ glyrepr  0.10.1.9000
+#> ✔ glyexp   0.14.1          ✔ glystats 0.9.0      
+#> ✔ glymotif 0.13.1          ✔ glyvis   0.5.1      
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -209,6 +210,12 @@ glycoverse_sitrep()
       [glymotif](https://github.com/glycoverse/glymotif) →
       [glydet](https://github.com/glycoverse/glydet) →
       [glydraw](https://github.com/glycoverse/glydraw)
+
+You might also find [glydb](https://github.com/glycoverse/glydb),
+[glyanno](https://github.com/glycoverse/glyanno),
+[glyenzy](https://github.com/glycoverse/glyenzy), and
+[glyfun](https://github.com/glycoverse/glyfun) useful for specific
+tasks.
 
 ### Updating Packages
 
