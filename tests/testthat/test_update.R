@@ -12,7 +12,7 @@ test_that("non-core filtering logic works correctly", {
     "glydet",
     "glydraw"
   )
-  non_core <- c("glyenzy", "glydb", "glyanno", "glysmith")
+  non_core <- c("glyenzy", "glydb", "glyanno", "glyfun", "glysmith")
 
   # Case 1: Only core packages installed
   installed_pkgs <- c("glyexp", "glyread", "glycoverse")
@@ -44,7 +44,7 @@ test_that("core packages always included regardless of installation", {
     "glyglydet",
     "glydraw"
   )
-  non_core <- c("glyenzy", "glydb", "glyanno", "glysmith")
+  non_core <- c("glyenzy", "glydb", "glyanno", "glyfun", "glysmith")
 
   # Simulate pkg_deps filtering
   pkg_deps <- c(core, non_core)
@@ -61,6 +61,11 @@ test_that("core packages always included regardless of installation", {
   expect_true(all(core %in% result))
   # Non-core should NOT be included (not installed)
   expect_true(length(intersect(result, non_core)) == 0)
+})
+
+test_that("glyfun is managed as a non-core glycoverse package", {
+  expect_false("glyfun" %in% core)
+  expect_true("glyfun" %in% non_core)
 })
 
 test_that("runiverse_packages fetches package list from r-universe", {
@@ -101,8 +106,19 @@ test_that("glycoverse_deps uses r-universe for version checking", {
   local_mocked_bindings(
     runiverse_packages = function() c(glyrepr = "0.9.0", glyparse = "0.5.3")
   )
+  local_mocked_bindings(
+    available.packages = function(...) {
+      matrix(
+        character(),
+        nrow = 0,
+        ncol = 2,
+        dimnames = list(NULL, c("Package", "Version"))
+      )
+    },
+    .package = "utils"
+  )
 
-  deps <- glycoverse_deps()
+  deps <- glycoverse_deps(repos = c(test = "https://example.test"))
 
   # Should be a tibble with expected columns (no 'remote' column in new implementation)
   expect_s3_class(deps, "tbl_df")

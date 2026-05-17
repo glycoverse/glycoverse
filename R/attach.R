@@ -15,6 +15,7 @@ non_core <- c(
   "glyenzy",
   "glydb",
   "glyanno",
+  "glyfun",
   "glysmith"
 )
 

@@ -177,11 +177,13 @@ For a step-by-step guide, search for “How to set up GitHub PAT for R.”
 
 ### Install optional packages
 
-`glydb`, `glyanno`, `glyenzy`, and `glysmith` are installed separately:
+`glydb`, `glyanno`, `glyenzy`, `glyfun`, and `glysmith` are installed
+separately:
 
 ``` r
 pak::pkg_install("glydb")
 pak::pkg_install("glyanno")
+pak::pkg_install("glyfun")
 ```
 
 ## Getting Started
