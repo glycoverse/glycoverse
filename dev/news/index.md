@@ -2,6 +2,8 @@
 
 ## glycoverse (development version)
 
+- `glyfun` is now managed as a non-core glycoverse package.
+
 ## glycoverse 0.3.0
 
 ### New features

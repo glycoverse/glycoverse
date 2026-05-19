@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Easy Install and Load the `Glycoverse` • glycoverse</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Easy Install and Load the `Glycoverse`">
 <meta name="description" content="The glycoverse is a set of packages that together form a comprehensive pipeline for glycomics and glycoproteomics data analysis. This package is designed to make it easy to install and load multiple glycoverse packages in a single step.">
@@ -80,28 +80,28 @@
 <col width="56%">
 <col width="43%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Package</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glyexp" class="external-link">glyexp</a></td>
 <td>Data management and experiment objects</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glyread" class="external-link">glyread</a></td>
 <td>Data import from various sources</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glyclean" class="external-link">glyclean</a></td>
 <td>Data cleaning and preprocessing</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glystats" class="external-link">glystats</a></td>
 <td>Statistical analysis</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glyvis" class="external-link">glyvis</a></td>
 <td>Data visualization</td>
 </tr>
@@ -113,28 +113,28 @@
 <col width="61%">
 <col width="38%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Package</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glyrepr" class="external-link">glyrepr</a></td>
 <td>Glycan structure representation</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glyparse" class="external-link">glyparse</a></td>
 <td>Glycan structure parsing</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glymotif" class="external-link">glymotif</a></td>
 <td>Motif analysis</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glydet" class="external-link">glydet</a></td>
 <td>Derived trait analysis</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glydraw" class="external-link">glydraw</a></td>
 <td>Structure visualization</td>
 </tr>
@@ -149,28 +149,28 @@
 <col width="61%">
 <col width="38%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th>Package</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glydb" class="external-link">glydb</a></td>
 <td>Glycan database</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glyanno" class="external-link">glyanno</a></td>
 <td>Glycan annotation</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glyenzy" class="external-link">glyenzy</a></td>
 <td>Biosynthesis pathway analysis</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="https://github.com/glycoverse/glyfun" class="external-link">glyfun</a></td>
 <td>Functional enrichment analysis</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="https://github.com/glycoverse/glysmith" class="external-link">glysmith</a></td>
 <td>Full analytical pipeline</td>
 </tr>
@@ -251,10 +251,11 @@ Click to expand detailed GitHub installation instructions
 <div class="section level3">
 <h3 id="install-optional-packages">Install optional packages<a class="anchor" aria-label="anchor" href="#install-optional-packages"></a>
 </h3>
-<p><code>glydb</code>, <code>glyanno</code>, <code>glyenzy</code>, and <code>glysmith</code> are installed separately:</p>
+<p><code>glydb</code>, <code>glyanno</code>, <code>glyenzy</code>, <code>glyfun</code>, and <code>glysmith</code> are installed separately:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glydb"</span><span class="op">)</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyanno"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyanno"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyfun"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

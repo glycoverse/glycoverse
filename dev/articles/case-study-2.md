@@ -25,6 +25,7 @@ Quick readiness check:
 In case you’re in a hurry…
 
 ``` r
+
 # Load the packages
 library(tidyverse)
 library(glycoverse)
@@ -61,6 +62,7 @@ get_tidy_result(trait_anova_res, "main_test")
 We first load the `tidyverse` package, as usual.
 
 ``` r
+
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -78,13 +80,14 @@ Just like `tidyverse`, `glycoverse` is a meta-package that loads a
 collection of specialized packages all at once.
 
 ``` r
+
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.13.0     ✔ glyparse 0.5.7 
-#> ✔ glydet   0.10.4     ✔ glyread  0.10.0
-#> ✔ glydraw  0.4.0      ✔ glyrepr  0.10.1
+#> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
+#> ✔ glydet   0.11.0     ✔ glyread  0.11.0
+#> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
 #> ✔ glyexp   0.14.1     ✔ glystats 0.10.0
-#> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
+#> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -105,6 +108,7 @@ across four liver conditions: healthy controls (H), hepatitis (M),
 cirrhosis (Y), and hepatocellular carcinoma (C).
 
 ``` r
+
 real_experiment2
 #> 
 #> ── Glycomics Experiment ────────────────────────────────────────────────────────
@@ -134,6 +138,7 @@ You can get these data components by using `get_expr_mat()`,
 `get_sample_info()`, and `get_var_info()`.
 
 ``` r
+
 get_expr_mat(real_experiment2)[1:5, 1:5]
 #>                                      S1       S2       S3       S4       S5
 #> Man(3)GlcNAc(3)                1354.352 1884.387 1389.444 2034.693 1472.504
@@ -144,6 +149,7 @@ get_expr_mat(real_experiment2)[1:5, 1:5]
 ```
 
 ``` r
+
 get_sample_info(real_experiment2)
 #> # A tibble: 144 × 2
 #>    sample group
@@ -162,6 +168,7 @@ get_sample_info(real_experiment2)
 ```
 
 ``` r
+
 get_var_info(real_experiment2)
 #> # A tibble: 67 × 3
 #>    variable                             glycan_composition      glycan_structure
@@ -192,30 +199,30 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 `experiment()` object and you’re good to go.
 
 ``` r
+
 clean_exp <- auto_clean(real_experiment2)
 #> 
 #> ── Removing variables with too many missing values ──
 #> 
-#> ℹ No QC samples found. Using all samples.
 #> ℹ Applying preset "discovery"...
 #> ℹ Total removed: 10 (14.93%) variables.
 #> ✔ Variable removal completed.
 #> 
 #> ── Imputing missing values ──
 #> 
-#> ℹ No QC samples found. Using default imputation method based on sample size.
-#> ℹ Sample size > 100, using `impute_miss_forest()`.
+#> ℹ Imputation method: `impute_miss_forest()`
+#> ℹ Reason: default for "glycomics" with n_samples > 100.
 #> ✔ Imputation completed.
 #> 
 #> ── Normalizing data ──
 #> 
-#> ℹ No QC samples found. Using default normalization method based on experiment type.
-#> ℹ Experiment type is "glycomics" with "nrow(exp)" glycans.
+#> ℹ Normalization method: `normalize_total_area()`
+#> ℹ Reason: default for "glycomics".
 #> ✔ Normalization completed.
 #> 
 #> ── Correcting batch effects ──
 #> 
-#> ℹ Batch column  not found in sample_info. Skipping batch correction.
+#> ℹ Batch column batch not found in sample_info. Skipping batch correction.
 #> ✔ Batch correction completed.
 ```
 
@@ -234,6 +241,7 @@ results visually.
 Let’s kick off with PCA to get a bird’s-eye view of our data structure.
 
 ``` r
+
 plot_pca(clean_exp)  # from `glyvis`
 ```
 
@@ -246,6 +254,7 @@ calls `gly_pca()` from `glystats` and renders the results.
 You can also break this down into separate steps:
 
 ``` r
+
 pca_res <- gly_pca(clean_exp)  # from `glystats`
 autoplot(pca_res)  # from `glyvis`
 ```
@@ -276,6 +285,7 @@ and the raw result list from a glystats result object:
 `samples` tibble looks like:
 
 ``` r
+
 get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
 #> # A tibble: 8,208 × 4
 #>    sample group    PC  value
@@ -308,6 +318,7 @@ Now let’s dive into differential expression analysis using the
 tried-and-true `limma` package.
 
 ``` r
+
 limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
@@ -334,6 +345,7 @@ Excellent! Now let’s identify significantly differentially expressed
 glycans between HCC and healthy samples.
 
 ``` r
+
 
 limma_res |>
   get_tidy_result() |>
@@ -374,6 +386,7 @@ Before diving into motifs, let’s get acquainted with
 vectors.
 
 ``` r
+
 clean_exp |>
   get_var_info() |>
   pull(glycan_structure)
@@ -430,6 +443,7 @@ a1-3 Fuc):
 Here’s how we express these motifs in IUPAC-condensed notation:
 
 ``` r
+
 motifs <- c(
   motif1 = "Neu5Ac(??-?)Gal(??-?)GlcNAc(??-",
   motif2 = "Gal(??-?)GlcNAc(??-",
@@ -448,6 +462,7 @@ this by hand!
 Now, the `glycoverse` solution:
 
 ``` r
+
 motif_anova_res <- clean_exp |>
   quantify_motifs(motifs, alignments = "terminal") |>  # quantify these motifs
   gly_anova()  # and perform ANOVA
@@ -474,6 +489,7 @@ Now we can answer our question using standard `tidyverse` operations,
 since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 
 ``` r
+
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05)
@@ -493,6 +509,7 @@ know which glycans have these motifs.
 is perfect for this.
 
 ``` r
+
 clean_exp |>
   add_motifs_lgl(motifs, alignments = "terminal") |>
   get_var_info() |>
@@ -528,6 +545,7 @@ examples include:
 simpler:
 
 ``` r
+
 trait_exp <- derive_traits(clean_exp)  # from `glydet`
 trait_exp
 #> 
@@ -543,6 +561,7 @@ new `experiment()` object, but now with trait values per sample.
 The variable information shows what we’re working with:
 
 ``` r
+
 get_var_info(trait_exp)
 #> # A tibble: 14 × 3
 #>    variable trait explanation                                                   
@@ -589,6 +608,7 @@ Let’s identify traits with significantly different values across
 conditions:
 
 ``` r
+
 trait_exp |>
   gly_anova() |>
   get_tidy_result("main_test") |>

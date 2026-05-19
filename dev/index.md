@@ -18,33 +18,33 @@ The glycoverse ecosystem is organized into two main categories:
 
 **Omics Data Analysis**
 
-| Package                                            | Description                            |
-|----------------------------------------------------|----------------------------------------|
-| [glyexp](https://github.com/glycoverse/glyexp)     | Data management and experiment objects |
-| [glyread](https://github.com/glycoverse/glyread)   | Data import from various sources       |
-| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing        |
-| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis                   |
-| [glyvis](https://github.com/glycoverse/glyvis)     | Data visualization                     |
+| Package | Description |
+|----|----|
+| [glyexp](https://github.com/glycoverse/glyexp) | Data management and experiment objects |
+| [glyread](https://github.com/glycoverse/glyread) | Data import from various sources |
+| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing |
+| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis |
+| [glyvis](https://github.com/glycoverse/glyvis) | Data visualization |
 
 **Glycan Structure Analysis**
 
-| Package                                            | Description                     |
-|----------------------------------------------------|---------------------------------|
-| [glyrepr](https://github.com/glycoverse/glyrepr)   | Glycan structure representation |
-| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing        |
-| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis                  |
-| [glydet](https://github.com/glycoverse/glydet)     | Derived trait analysis          |
-| [glydraw](https://github.com/glycoverse/glydraw)   | Structure visualization         |
+| Package | Description |
+|----|----|
+| [glyrepr](https://github.com/glycoverse/glyrepr) | Glycan structure representation |
+| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing |
+| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis |
+| [glydet](https://github.com/glycoverse/glydet) | Derived trait analysis |
+| [glydraw](https://github.com/glycoverse/glydraw) | Structure visualization |
 
 ### Optional Packages
 
-| Package                                            | Description                    |
-|----------------------------------------------------|--------------------------------|
-| [glydb](https://github.com/glycoverse/glydb)       | Glycan database                |
-| [glyanno](https://github.com/glycoverse/glyanno)   | Glycan annotation              |
-| [glyenzy](https://github.com/glycoverse/glyenzy)   | Biosynthesis pathway analysis  |
-| [glyfun](https://github.com/glycoverse/glyfun)     | Functional enrichment analysis |
-| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline       |
+| Package | Description |
+|----|----|
+| [glydb](https://github.com/glycoverse/glydb) | Glycan database |
+| [glyanno](https://github.com/glycoverse/glyanno) | Glycan annotation |
+| [glyenzy](https://github.com/glycoverse/glyenzy) | Biosynthesis pathway analysis |
+| [glyfun](https://github.com/glycoverse/glyfun) | Functional enrichment analysis |
+| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline |
 
 ### glycoverse Meta-Package
 
@@ -62,6 +62,7 @@ convenient tools for managing the entire glycoverse ecosystem:
 ### Install from r-universe (Recommended)
 
 ``` r
+
 # install.packages("pak")
 pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glycoverse")
@@ -78,6 +79,7 @@ network environments or installing from GitHub.
 ### Install Individual Packages
 
 ``` r
+
 pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glymotif")  # Also installs dependencies: glyrepr, glyparse, glyexp
 ```
@@ -102,6 +104,7 @@ assuming all packages are on r-universe (some on CRAN or Bioconductor).
 It means that when running the following code:
 
 ``` r
+
 # Do NOT run:
 pak::pkg_install("glycoverse/glyxxx@*release")  # common practice to install a GitHub package
 ```
@@ -116,6 +119,7 @@ dependencies), you have to install them one by one following the
 dependency tree:
 
 ``` r
+
 pak::pkg_install("glyrepr")  # from CRAN
 pak::pkg_install("glyparse")  # from CRAN
 pak::pkg_install("glycoverse/glyexp@*release")
@@ -147,11 +151,14 @@ For a step-by-step guide, search for “How to set up GitHub PAT for R.”
 
 ### Install optional packages
 
-`glydb`, `glyanno`, `glyenzy`, and `glysmith` are installed separately:
+`glydb`, `glyanno`, `glyenzy`, `glyfun`, and `glysmith` are installed
+separately:
 
 ``` r
+
 pak::pkg_install("glydb")
 pak::pkg_install("glyanno")
+pak::pkg_install("glyfun")
 ```
 
 ## Getting Started
@@ -161,6 +168,7 @@ pak::pkg_install("glyanno")
 Load all core packages:
 
 ``` r
+
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
 #> ✔ glyclean 0.13.0          ✔ glyparse 0.5.7      
@@ -176,6 +184,7 @@ library(glycoverse)
 Check your installation:
 
 ``` r
+
 glycoverse_sitrep()
 ```
 
@@ -214,6 +223,7 @@ tasks.
 ### Updating Packages
 
 ``` r
+
 # Update all glycoverse packages
 glycoverse_update()
 

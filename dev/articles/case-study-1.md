@@ -25,6 +25,7 @@ Quick readiness check:
 In case you’re in a hurry…
 
 ``` r
+
 # Load the packages
 library(tidyverse)
 library(glycoverse)
@@ -61,6 +62,7 @@ get_tidy_result(trait_anova_res, "main_test")
 We first load the `tidyverse` package, as usual.
 
 ``` r
+
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -78,13 +80,14 @@ Just like `tidyverse`, `glycoverse` is a meta-package that loads a
 collection of specialized packages all at once.
 
 ``` r
+
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.13.0     ✔ glyparse 0.5.7 
-#> ✔ glydet   0.10.4     ✔ glyread  0.10.0
-#> ✔ glydraw  0.4.0      ✔ glyrepr  0.10.1
+#> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
+#> ✔ glydet   0.11.0     ✔ glyread  0.11.0
+#> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
 #> ✔ glyexp   0.14.1     ✔ glystats 0.10.0
-#> ✔ glymotif 0.13.1     ✔ glyvis   0.5.1 
+#> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -106,6 +109,7 @@ patients across four liver conditions: healthy controls (H), hepatitis
 condition.
 
 ``` r
+
 real_experiment
 #> 
 #> ── Glycoproteomics Experiment ──────────────────────────────────────────────────
@@ -140,6 +144,7 @@ You can get these data components by using `get_expr_mat()`,
 `get_sample_info()`, and `get_var_info()`.
 
 ``` r
+
 get_expr_mat(real_experiment)[1:5, 1:5]
 #>                                               C1         C2           C3
 #> P08185-N176-Hex(5)HexNAc(4)NeuAc(2)           NA         NA     10655.62
@@ -156,6 +161,7 @@ get_expr_mat(real_experiment)[1:5, 1:5]
 ```
 
 ``` r
+
 get_sample_info(real_experiment)
 #> # A tibble: 12 × 2
 #>    sample group
@@ -175,6 +181,7 @@ get_sample_info(real_experiment)
 ```
 
 ``` r
+
 get_var_info(real_experiment)
 #> # A tibble: 4,262 × 8
 #>    variable   peptide peptide_site protein protein_site gene  glycan_composition
@@ -206,25 +213,25 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 `experiment()` object and you’re good to go.
 
 ``` r
+
 clean_exp <- auto_clean(real_experiment)
 #> 
 #> ── Normalizing data ──
 #> 
-#> ℹ No QC samples found. Using default normalization method based on experiment type.
-#> ℹ Experiment type is "glycoproteomics". Using `normalize_median()`.
+#> ℹ Normalization method: `normalize_median()`
+#> ℹ Reason: default for "glycoproteomics".
 #> ✔ Normalization completed.
 #> 
 #> ── Removing variables with too many missing values ──
 #> 
-#> ℹ No QC samples found. Using all samples.
 #> ℹ Applying preset "discovery"...
 #> ℹ Total removed: 24 (0.56%) variables.
 #> ✔ Variable removal completed.
 #> 
 #> ── Imputing missing values ──
 #> 
-#> ℹ No QC samples found. Using default imputation method based on sample size.
-#> ℹ Sample size <= 30, using `impute_sample_min()`.
+#> ℹ Imputation method: `impute_min_prob()`
+#> ℹ Reason: default for "glycoproteomics" with n_samples < 30.
 #> ✔ Imputation completed.
 #> 
 #> ── Aggregating data ──
@@ -234,13 +241,13 @@ clean_exp <- auto_clean(real_experiment)
 #> 
 #> ── Normalizing data again ──
 #> 
-#> ℹ No QC samples found. Using default normalization method based on experiment type.
-#> ℹ Experiment type is "glycoproteomics". Using `normalize_median()`.
+#> ℹ Normalization method: `normalize_median()`
+#> ℹ Reason: default for "glycoproteomics".
 #> ✔ Normalization completed.
 #> 
 #> ── Correcting batch effects ──
 #> 
-#> ℹ Batch column  not found in sample_info. Skipping batch correction.
+#> ℹ Batch column batch not found in sample_info. Skipping batch correction.
 #> ✔ Batch correction completed.
 ```
 
@@ -259,6 +266,7 @@ results visually.
 Let’s kick off with PCA to get a bird’s-eye view of our data structure.
 
 ``` r
+
 plot_pca(clean_exp)  # from `glyvis`
 ```
 
@@ -271,6 +279,7 @@ calls `gly_pca()` from `glystats` and renders the results.
 You can also break this down into separate steps:
 
 ``` r
+
 pca_res <- gly_pca(clean_exp)  # from `glystats`
 autoplot(pca_res)  # from `glyvis`
 ```
@@ -301,20 +310,21 @@ and the raw result list from a glystats result object:
 `samples` tibble looks like:
 
 ``` r
+
 get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
 #> # A tibble: 144 × 4
 #>    sample group    PC  value
 #>    <chr>  <fct> <dbl>  <dbl>
-#>  1 C1     C         1 -21.7 
-#>  2 C1     C         2  24.7 
-#>  3 C1     C         3   1.89
-#>  4 C1     C         4   1.05
-#>  5 C1     C         5 -11.5 
-#>  6 C1     C         6  26.5 
-#>  7 C1     C         7   5.81
-#>  8 C1     C         8   5.21
-#>  9 C1     C         9 -27.8 
-#> 10 C1     C        10  -7.01
+#>  1 C1     C         1 -21.8 
+#>  2 C1     C         2  24.6 
+#>  3 C1     C         3   1.47
+#>  4 C1     C         4   2.15
+#>  5 C1     C         5  10.8 
+#>  6 C1     C         6 -25.1 
+#>  7 C1     C         7   5.79
+#>  8 C1     C         8   3.00
+#>  9 C1     C         9  27.9 
+#> 10 C1     C        10 -10.6 
 #> # ℹ 134 more rows
 ```
 
@@ -334,6 +344,7 @@ condition—always a good sign! Now let’s dive into differential
 expression analysis using the tried-and-true `limma` package.
 
 ``` r
+
 limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
@@ -362,6 +373,7 @@ glycoforms between HCC and healthy samples, then see what biological
 pathways they’re involved in.
 
 ``` r
+
 clean_exp |>
   filter_sig_vars(limma_res, p_adj_cutoff = 0.05, fc_cutoff = 2) |>
   gly_enrich_go() |>
@@ -373,7 +385,7 @@ clean_exp |>
 #> generated.
 #> 
 #> Warning in bitr(gene, fromType = fromType, toType = "ENTREZID", OrgDb = OrgDb):
-#> 9.09% of input gene IDs are fail to map...
+#> 8.89% of input gene IDs are fail to map...
 ```
 
 ![](case-study-1_files/figure-html/unnamed-chunk-13-1.png)
@@ -399,6 +411,7 @@ Before diving into motifs, let’s get acquainted with
 vectors.
 
 ``` r
+
 clean_exp |>
   get_var_info() |>
   pull(glycan_structure)
@@ -447,6 +460,7 @@ families:
 Here’s how we express these motifs in IUPAC-condensed notation:
 
 ``` r
+
 motifs <- c(
   lewis_by = "dHex(??-?)Hex(??-?)[dHex(??-?)]HexNAc(??-",
   lewis_ax = "Hex(??-?)[dHex(??-?)]HexNAc(??-",
@@ -472,6 +486,7 @@ pain of doing this by hand!
 Now, the `glycoverse` solution:
 
 ``` r
+
 motif_anova_res <- clean_exp |>
   quantify_motifs(motifs) |>  # quantify these motifs
   gly_anova()  # and perform ANOVA
@@ -508,6 +523,7 @@ Now we can answer our question using standard `tidyverse` operations,
 since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 
 ``` r
+
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
@@ -525,6 +541,7 @@ motif_anova_res |>
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
 
 ``` r
+
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05, motif == "lewis_ax") |>
@@ -554,6 +571,7 @@ know which proteins have these motifs.
 is perfect for this.
 
 ``` r
+
 kegg_res <- clean_exp |>
   add_motifs_lgl(motifs) |>
   filter_var(lewis_ax) |>
@@ -595,6 +613,7 @@ calculation and much richer biological insights.
 Using `glydet` couldn’t be simpler:
 
 ``` r
+
 trait_exp <- derive_traits(clean_exp)  # from `glydet`
 trait_exp
 #> 
@@ -611,6 +630,7 @@ sample.
 The variable information shows what we’re working with:
 
 ``` r
+
 get_var_info(trait_exp)
 #> # A tibble: 3,864 × 6
 #>    variable      protein protein_site trait gene  explanation                   
@@ -654,6 +674,7 @@ Let’s identify glycosites with significantly different core-fucosylation
 levels (TFc) across conditions:
 
 ``` r
+
 trait_exp |>
   filter_var(trait == "TFc") |>  # from `glyexp`
   gly_anova() |>
@@ -669,22 +690,22 @@ trait_exp |>
 #>  2 P00738-211-… P00738           211 TFc   HP    Proportion… group     3 8.53e-2
 #>  3 P00738-241-… P00738           241 TFc   HP    Proportion… group     3 7.84e-4
 #>  4 P00748-249-… P00748           249 TFc   F12   Proportion… group     3 5.48e-4
-#>  5 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 7.71e-2
+#>  5 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 7.70e-2
 #>  6 P01877-92-T… P01877            92 TFc   IGHA2 Proportion… group     3 2.02e-3
 #>  7 P02679-78-T… P02679            78 TFc   FGG   Proportion… group     3 3.65e-3
 #>  8 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 9.41e-5
 #>  9 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 6.29e-2
-#> 10 P03952-494-… P03952           494 TFc   KLKB1 Proportion… group     3 2.31e-3
-#> 11 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 6.50e-3
+#> 10 P03952-494-… P03952           494 TFc   KLKB1 Proportion… group     3 2.24e-3
+#> 11 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 6.49e-3
 #> 12 P04278-396-… P04278           396 TFc   SHBG  Proportion… group     3 2.99e-2
 #> 13 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 1.70e-2
-#> 14 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 5.49e-2
+#> 14 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 5.36e-2
 #> 15 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 1.74e-2
 #> 16 P0C0L4-1391… P0C0L4          1391 TFc   C4A   Proportion… group     3 4.17e-5
 #> 17 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 6.44e-2
 #> 18 P25311-112-… P25311           112 TFc   AZGP1 Proportion… group     3 3.05e-2
 #> 19 P25311-128-… P25311           128 TFc   AZGP1 Proportion… group     3 5.19e-4
-#> 20 P43652-33-T… P43652            33 TFc   AFM   Proportion… group     3 5.47e-3
+#> 20 P43652-33-T… P43652            33 TFc   AFM   Proportion… group     3 5.48e-3
 #> # ℹ 6 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
 #> #   effect_size <dbl>, post_hoc <chr>
 ```
