@@ -170,6 +170,7 @@ You can also break this down into separate steps:
 #| fig-height: 4
 pca_res <- gly_pca(clean_exp)  # from `glystats`
 autoplot(pca_res)  # from `glyvis`
+# you can also use `plot_pca(pca_res)`
 ```
 
 We actually recommend the two-step approach,
@@ -220,18 +221,21 @@ between HCC and healthy samples, then see what biological pathways they're invol
 #| fig-width: 6
 #| fig-height: 6
 
-clean_exp |>
-  filter_sig_vars(limma_res, p_adj_cutoff = 0.05, fc_cutoff = 2) |>
-  gly_enrich_go() |>
-  autoplot()
+library(glyfun)
+
+limma_res |>
+  enrich_ora_go(dea_p_cutoff = 0.05, dea_log2fc_cutoff = c(-2, 2)) |>
+  clusterProfiler::dotplot()
 ```
 
 And that's it—pathway enrichment in just a few lines!
-Here we filtered the experiment to keep only significant variables and then performed pathway enrichment.
-As this operation is so common, `glystats` provides a dedicated function for it: `filter_sig_vars()`.
+We used `enrich_ora_go()` from `glyfun` to perform GO over-representation analysis
+on the significant hits from our `gly_limma()` results.
+`glyfun` is not a core `glycoverse` package, so you need to load it separately.
 
 For the full statistical arsenal, check out [Get Started with glystats](https://glycoverse.github.io/glystats/articles/glystats.html)
 and [Get Started with glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html).
+To explore more functional enrichment options, see [Get Started with glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html).
 
 ## Advanced Motif Analysis
 
@@ -444,6 +448,7 @@ Here's your roadmap to mastering each component:
 - **[glydraw](https://glycoverse.github.io/glydraw/articles/glydraw.html)** — Draw glycan structures
 - **[glydb](https://glycoverse.github.io/glydb/articles/glydb.html)** — Access glycan databases
 - **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)** — Annotate glycan structures
+- **[glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html)** — Perform functional enrichment analysis
 - **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)** — Master the full analytical pipeline
 
 Happy glycan hunting! 🧬

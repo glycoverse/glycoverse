@@ -51,8 +51,8 @@ pca_res <- gly_pca(clean_exp)
 autoplot(pca_res)
 
 # Perform differential expression analysis
-limma_res <- gly_limma(clean_exp)
-get_tidy_result(limma_res)
+anova_res <- gly_lanova(clean_exp)
+get_tidy_result(anova_res, "main_test")
 
 # Perform motif analysis
 motifs <- c(
@@ -140,7 +140,6 @@ Your data is now analysis-ready!
 Want to customize the preprocessing steps?
 See [Get Started with glyclean](https://glycoverse.github.io/glyclean/articles/glyclean.html) for the full toolkit.
 
-
 ## Statistical Analysis and Visualization
 
 Time for the fun part—statistical analysis and visualization!
@@ -167,6 +166,7 @@ You can also break this down into separate steps:
 #| fig-height: 4
 pca_res <- gly_pca(clean_exp)  # from `glystats`
 autoplot(pca_res)  # from `glyvis`
+# you can also use `plot_pca(pca_res)`
 ```
 
 We actually recommend the two-step approach,
@@ -202,21 +202,20 @@ It automatically recognizes different `glystats` result types and plots accordin
 no manual specification needed.
 The plots won't win any beauty contests, but they'll get your data insights across fast.
 
-Now let's dive into differential expression analysis using the tried-and-true `limma` package.
+Now let's dive into differential expression analysis with ANOVA.
 
 ```{r}
-limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
-get_tidy_result(limma_res)  # only one tibble here
+anova_res <- gly_anova(clean_exp, contrasts = "H_vs_C")  # from `glystats`
+get_tidy_result(anova_res, "main_test")  # only one tibble here
 ```
 
 Excellent! Now let's identify significantly differentially expressed glycans between HCC and healthy samples.
 
 ```{r}
-
-limma_res |>
-  get_tidy_result() |>
+anova_res |>
+  get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
-  select(glycan_composition, p_adj, log2fc)
+  select(glycan_composition, p_adj, effect_size, post_hoc)
 ```
 
 For the full statistical arsenal, check out [Get Started with glystats](https://glycoverse.github.io/glystats/articles/glystats.html)
@@ -413,6 +412,7 @@ Here's your roadmap to mastering each component:
 - **[glydraw](https://glycoverse.github.io/glydraw/articles/glydraw.html)** — Draw glycan structures
 - **[glydb](https://glycoverse.github.io/glydb/articles/glydb.html)** — Access glycan databases
 - **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)** — Annotate glycan structures
+- **[glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html)** — Perform functional enrichment analysis
 - **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)** — Master the full analytical pipeline
 
 Happy glycan hunting! 🧬
