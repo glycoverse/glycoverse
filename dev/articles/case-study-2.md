@@ -38,8 +38,8 @@ pca_res <- gly_pca(clean_exp)
 autoplot(pca_res)
 
 # Perform differential expression analysis
-limma_res <- gly_limma(clean_exp)
-get_tidy_result(limma_res)
+anova_res <- gly_lanova(clean_exp)
+get_tidy_result(anova_res, "main_test")
 
 # Perform motif analysis
 motifs <- c(
@@ -86,7 +86,7 @@ library(glycoverse)
 #> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
 #> ✔ glydet   0.11.0     ✔ glyread  0.11.0
 #> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
-#> ✔ glyexp   0.14.1     ✔ glystats 0.10.0
+#> ✔ glyexp   0.14.1     ✔ glystats 0.10.1
 #> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
@@ -261,6 +261,11 @@ autoplot(pca_res)  # from `glyvis`
 
 ![](case-study-2_files/figure-html/unnamed-chunk-10-1.png)
 
+``` r
+
+# you can also use `plot_pca(pca_res)`
+```
+
 We actually recommend the two-step approach, since it gives you more
 flexibility with the results. You can create custom `ggplot2`
 visualizations for publications or extract the underlying data when
@@ -314,31 +319,39 @@ result types and plots accordingly— no manual specification needed. The
 plots won’t win any beauty contests, but they’ll get your data insights
 across fast.
 
-Now let’s dive into differential expression analysis using the
-tried-and-true `limma` package.
+Now let’s dive into differential expression analysis with ANOVA.
 
 ``` r
 
-limma_res <- gly_limma(clean_exp, contrasts = "H_vs_C")  # from `glystats`
+anova_res <- gly_anova(clean_exp, contrasts = "H_vs_C")  # from `glystats`
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-get_tidy_result(limma_res)  # only one tibble here
-#> # A tibble: 57 × 11
-#>    variable    glycan_composition glycan_structure  log2fc AveExpr      t  p_val
-#>    <glue>      <comp>             <struct>           <dbl>   <dbl>  <dbl>  <dbl>
-#>  1 Man(3)GlcN… Man(3)GlcNAc(3)    GlcNAc(?1-?)Man… -0.183   -10.1  -1.41  0.160 
-#>  2 Man(3)GlcN… Man(3)GlcNAc(7)    GlcNAc(?1-?)[Gl… -0.0848   -9.18 -0.842 0.401 
-#>  3 Man(5)GlcN… Man(5)GlcNAc(2)    Man(?1-?)[Man(?…  0.102    -8.10  0.754 0.452 
-#>  4 Man(4)Gal(… Man(4)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… -0.0783   -8.50 -0.515 0.607 
-#>  5 Man(3)Gal(… Man(3)Gal(1)GlcNA… Gal(?1-?)GlcNAc… -0.113   -10.1  -1.15  0.251 
-#>  6 Man(3)Gal(… Man(3)Gal(2)GlcNA… Gal(?1-?)GlcNAc…  0.0127   -9.91  0.110 0.913 
-#>  7 Man(3)GlcN… Man(3)GlcNAc(3)Fu… GlcNAc(?1-?)Man…  0.0800  -10.8   0.637 0.525 
-#>  8 Man(3)GlcN… Man(3)GlcNAc(4)    GlcNAc(?1-?)Man…  0.105   -10.5   0.693 0.489 
-#>  9 Man(3)Gal(… Man(3)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… -0.0270   -5.95 -0.485 0.628 
-#> 10 Man(3)Gal(… Man(3)Gal(1)GlcNA… Neu5Ac(?2-?)Gal…  0.266    -8.42  2.41  0.0170
+#> Warning: There were 57 warnings in `dplyr::mutate()`.
+#> The first warning was:
+#> ℹ In argument: `test_result = list(safe_f(formula, data = .data$data, contrasts
+#>   = "H_vs_C"))`.
+#> ℹ In row 1.
+#> Caused by warning in `model.matrix.default()`:
+#> ! non-list contrasts argument ignored
+#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 56 remaining warnings.
+get_tidy_result(anova_res, "main_test")  # only one tibble here
+#> # A tibble: 57 × 12
+#>    variable         glycan_composition glycan_structure term     df sumsq meansq
+#>    <glue>           <comp>             <struct>         <chr> <dbl> <dbl>  <dbl>
+#>  1 Man(3)GlcNAc(3)  Man(3)GlcNAc(3)    GlcNAc(?1-?)Man… group     3 0.566 0.189 
+#>  2 Man(3)GlcNAc(7)  Man(3)GlcNAc(7)    GlcNAc(?1-?)[Gl… group     3 0.972 0.324 
+#>  3 Man(5)GlcNAc(2)  Man(5)GlcNAc(2)    Man(?1-?)[Man(?… group     3 0.887 0.296 
+#>  4 Man(4)Gal(2)Glc… Man(4)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… group     3 0.920 0.307 
+#>  5 Man(3)Gal(1)Glc… Man(3)Gal(1)GlcNA… Gal(?1-?)GlcNAc… group     3 0.303 0.101 
+#>  6 Man(3)Gal(2)Glc… Man(3)Gal(2)GlcNA… Gal(?1-?)GlcNAc… group     3 1.12  0.374 
+#>  7 Man(3)GlcNAc(3)… Man(3)GlcNAc(3)Fu… GlcNAc(?1-?)Man… group     3 0.571 0.190 
+#>  8 Man(3)GlcNAc(4)  Man(3)GlcNAc(4)    GlcNAc(?1-?)Man… group     3 1.25  0.416 
+#>  9 Man(3)Gal(2)Glc… Man(3)Gal(2)GlcNA… Neu5Ac(?2-?)Gal… group     3 0.194 0.0648
+#> 10 Man(3)Gal(1)Glc… Man(3)Gal(1)GlcNA… Neu5Ac(?2-?)Gal… group     3 3.25  1.08  
 #> # ℹ 47 more rows
-#> # ℹ 4 more variables: p_adj <dbl>, b <dbl>, ref_group <chr>, test_group <chr>
+#> # ℹ 5 more variables: statistic <dbl>, p_val <dbl>, p_adj <dbl>,
+#> #   effect_size <dbl>, post_hoc <chr>
 ```
 
 Excellent! Now let’s identify significantly differentially expressed
@@ -346,28 +359,31 @@ glycans between HCC and healthy samples.
 
 ``` r
 
-
-limma_res |>
-  get_tidy_result() |>
+anova_res |>
+  get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
-  select(glycan_composition, p_adj, log2fc)
-#> # A tibble: 14 × 3
-#>    glycan_composition                          p_adj log2fc
-#>    <comp>                                      <dbl>  <dbl>
-#>  1 Man(3)GlcNAc(4)Fuc(1)                0.0000000425  1.24 
-#>  2 Man(3)GlcNAc(5)                      0.00678       0.645
-#>  3 Man(3)GlcNAc(5)Fuc(1)                0.000185      0.689
-#>  4 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00267       0.540
-#>  5 Man(3)Gal(2)GlcNAc(4)Fuc(1)Neu5Ac(2) 0.0349        0.241
-#>  6 Man(3)Gal(1)GlcNAc(5)                0.0112        0.482
-#>  7 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.00720       0.427
-#>  8 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00267      -0.245
-#>  9 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.000816     -0.427
-#> 10 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.000000140   0.739
-#> 11 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.00381      -0.532
-#> 12 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.0283        0.335
-#> 13 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000425  1.06 
-#> 14 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.000748      0.638
+  select(glycan_composition, p_adj, effect_size, post_hoc)
+#> # A tibble: 18 × 4
+#>    glycan_composition                          p_adj effect_size post_hoc       
+#>    <comp>                                      <dbl>       <dbl> <chr>          
+#>  1 Man(3)Gal(1)GlcNAc(5)Fuc(1)Neu5Ac(1) 0.00679           0.102  M_vs_C         
+#>  2 Man(3)GlcNAc(4)Fuc(1)                0.000000229       0.246  H_vs_Y;H_vs_C;…
+#>  3 Man(3)GlcNAc(5)                      0.00185           0.127  H_vs_C;M_vs_C  
+#>  4 Man(3)Gal(1)GlcNAc(5)Neu5Ac(1)       0.0267            0.0817 M_vs_C         
+#>  5 Man(4)Gal(1)GlcNAc(3)Neu5Ac(1)       0.0385            0.0748 H_vs_Y;M_vs_Y  
+#>  6 Man(3)GlcNAc(5)Fuc(1)                0.000739          0.145  H_vs_Y;H_vs_C;…
+#>  7 Man(3)Gal(1)GlcNAc(5)Fuc(1)          0.00423           0.112  H_vs_Y;H_vs_C  
+#>  8 Man(3)Gal(1)GlcNAc(5)                0.00584           0.105  H_vs_C;M_vs_C  
+#>  9 Man(3)Gal(1)GlcNAc(4)Fuc(1)          0.0385            0.0752 H_vs_Y;H_vs_C  
+#> 10 Man(3)Gal(2)GlcNAc(4)Neu5Ac(1)       0.00528           0.108  H_vs_C;M_vs_C  
+#> 11 Man(3)Gal(2)GlcNAc(4)Fuc(1)          0.00185           0.127  M_vs_C;Y_vs_C  
+#> 12 Man(3)Gal(3)GlcNAc(5)Neu5Ac(2)       0.00332           0.117  H_vs_M;H_vs_Y;…
+#> 13 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(2) 0.0000000455      0.268  H_vs_C;M_vs_C;…
+#> 14 Man(3)Gal(3)GlcNAc(5)Neu5Ac(3)       0.0267            0.0816 H_vs_M;H_vs_C  
+#> 15 Man(3)Gal(4)GlcNAc(6)Neu5Ac(2)       0.00185           0.128  H_vs_C;M_vs_C;…
+#> 16 Man(3)Gal(3)GlcNAc(5)Fuc(1)Neu5Ac(3) 0.0000000171      0.286  H_vs_C;M_vs_C;…
+#> 17 Man(3)Gal(3)GlcNAc(5)Fuc(2)Neu5Ac(3) 0.0000109         0.199  H_vs_C;M_vs_C;…
+#> 18 Man(3)Gal(4)GlcNAc(6)Fuc(1)Neu5Ac(2) 0.00185           0.126  M_vs_C
 ```
 
 For the full statistical arsenal, check out [Get Started with
@@ -472,11 +488,11 @@ motif_anova_res <- clean_exp |>
 
 get_tidy_result(motif_anova_res, "main_test")
 #> # A tibble: 3 × 12
-#>   variable motif  motif_structure   term     df  sumsq  meansq statistic   p_val
-#>   <glue>   <chr>  <struct>          <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>
-#> 1 motif1   motif1 Neu5Ac(??-?)Gal(… group     3 0.0205 0.00682      1.17 0.324  
-#> 2 motif2   motif2 Gal(??-?)GlcNAc(… group     3 0.0261 0.00870      2.03 0.112  
-#> 3 motif3   motif3 GlcNAc(??-        group     3 0.0958 0.0319       5.60 0.00118
+#>   variable motif  motif_structure    term     df  sumsq meansq statistic   p_val
+#>   <glue>   <chr>  <struct>           <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>
+#> 1 motif1   motif1 Neu5Ac(??-?)Gal(?… group     3 0.0550 0.0183      1.14 3.33e-1
+#> 2 motif2   motif2 Gal(??-?)GlcNAc(?… group     3 0.420  0.140       2.23 8.75e-2
+#> 3 motif3   motif3 GlcNAc(??-         group     3 3.12   1.04        5.88 8.26e-4
 #> # ℹ 3 more variables: p_adj <dbl>, effect_size <dbl>, post_hoc <chr>
 ```
 
@@ -494,9 +510,9 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05)
 #> # A tibble: 1 × 12
-#>   variable motif  motif_structure term     df  sumsq meansq statistic   p_val
-#>   <glue>   <chr>  <struct>        <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>
-#> 1 motif3   motif3 GlcNAc(??-      group     3 0.0958 0.0319      5.60 0.00118
+#>   variable motif  motif_structure term     df sumsq meansq statistic    p_val
+#>   <glue>   <chr>  <struct>        <chr> <dbl> <dbl>  <dbl>     <dbl>    <dbl>
+#> 1 motif3   motif3 GlcNAc(??-      group     3  3.12   1.04      5.88 0.000826
 #> # ℹ 3 more variables: p_adj <dbl>, effect_size <dbl>, post_hoc <chr>
 ```
 
@@ -617,16 +633,16 @@ trait_exp |>
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 #> # A tibble: 8 × 12
-#>   variable trait explanation       term     df   sumsq  meansq statistic   p_val
-#>   <glue>   <chr> <chr>             <chr> <dbl>   <dbl>   <dbl>     <dbl>   <dbl>
-#> 1 CA2      CA2   Proportion of bi… group     3 8.62e-3 2.87e-3      5.72 1.01e-3
-#> 2 CA3      CA3   Proportion of tr… group     3 2.05e-2 6.83e-3      5.35 1.61e-3
-#> 3 CA4      CA4   Proportion of te… group     3 1.18e-4 3.93e-5      4.17 7.30e-3
-#> 4 TF       TF    Proportion of fu… group     3 1.07e-1 3.58e-2      7.87 6.84e-5
-#> 5 TFc      TFc   Proportion of co… group     3 1.07e-1 3.58e-2      7.87 6.84e-5
-#> 6 TFa      TFa   Proportion of ar… group     3 1.27e-4 4.25e-5      5.44 1.44e-3
-#> 7 TB       TB    Proportion of gl… group     3 1.12e-2 3.72e-3      3.57 1.58e-2
-#> 8 AG       AG    Abundance-weight… group     3 4.96e-3 1.65e-3      3.62 1.48e-2
+#>   variable trait explanation        term     df  sumsq  meansq statistic   p_val
+#>   <glue>   <chr> <chr>              <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>
+#> 1 CA2      CA2   Proportion of bi-… group     3 0.0404 0.0135       5.71 1.02e-3
+#> 2 CA3      CA3   Proportion of tri… group     3 1.75   0.584        5.38 1.56e-3
+#> 3 CA4      CA4   Proportion of tet… group     3 1.12   0.372        4.82 3.19e-3
+#> 4 TF       TF    Proportion of fuc… group     3 2.15   0.716        8.45 3.36e-5
+#> 5 TFc      TFc   Proportion of cor… group     3 2.15   0.716        8.45 3.36e-5
+#> 6 TFa      TFa   Proportion of arm… group     3 2.72   0.906        7.46 1.14e-4
+#> 7 TB       TB    Proportion of gly… group     3 1.64   0.545        3.68 1.37e-2
+#> 8 AG       AG    Abundance-weighte… group     3 0.0222 0.00739      3.61 1.51e-2
 #> # ℹ 3 more variables: p_adj <dbl>, effect_size <dbl>, post_hoc <chr>
 ```
 
@@ -673,6 +689,8 @@ Here’s your roadmap to mastering each component:
   Access glycan databases
 - **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)**
   — Annotate glycan structures
+- **[glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html)**
+  — Perform functional enrichment analysis
 - **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)**
   — Master the full analytical pipeline
 

@@ -101,8 +101,8 @@ Science</a>. Trust us, it’s worth the investment!</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Perform differential expression analysis</span></span>
-<span><span class="va">limma_res</span> <span class="op">&lt;-</span> <span class="fu">gly_limma</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
-<span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">limma_res</span><span class="op">)</span></span>
+<span><span class="va">anova_res</span> <span class="op">&lt;-</span> <span class="fu">gly_lanova</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
+<span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">anova_res</span>, <span class="st">"main_test"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Perform motif analysis</span></span>
 <span><span class="va">motifs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -144,7 +144,7 @@ once.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyclean</span> 0.14.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyparse</span> 0.6.0 </span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydet  </span> 0.11.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyread </span> 0.11.0</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glydraw </span> 0.4.0      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyrepr </span> 0.12.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.14.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.10.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyexp  </span> 0.14.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glystats</span> 0.10.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glymotif</span> 0.14.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">glyvis  </span> 0.6.0 </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyclean</span>::<span style="color: #00BB00;">aggregate()</span>  masks <span style="color: #0000BB;">stats</span>::aggregate()</span></span>
@@ -296,6 +296,8 @@ it’s perfect for quick exploratory visualization. Behind the scenes,
 <code class="sourceCode R"><span><span class="va">pca_res</span> <span class="op">&lt;-</span> <span class="fu">gly_pca</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">)</span>  <span class="co"># from `glyvis`</span></span></code></pre></div>
 <p><img src="case-study-2_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="384"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># you can also use `plot_pca(pca_res)`</span></span></code></pre></div>
 <p>We actually recommend the two-step approach, since it gives you more
 flexibility with the results. You can create custom <code>ggplot2</code>
 visualizations for publications or extract the underlying data when
@@ -322,7 +324,7 @@ advanced analyses.</li>
 result tibble and the raw result list from a glystats result object:
 <code>get_tidy_result()</code> and <code>get_raw_result()</code>. Let’s
 now see what the <code>samples</code> tibble looks like:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">pca_res</span>, <span class="st">"samples"</span><span class="op">)</span>  <span class="co"># many tibbles, so we specify one of them</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8,208 × 4</span></span></span>
 <span><span class="co">#&gt;    sample group    PC  value</span></span>
@@ -347,54 +349,65 @@ automatically recognizes different <code>glystats</code> result types
 and plots accordingly— no manual specification needed. The plots won’t
 win any beauty contests, but they’ll get your data insights across
 fast.</p>
-<p>Now let’s dive into differential expression analysis using the
-tried-and-true <code>limma</code> package.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">limma_res</span> <span class="op">&lt;-</span> <span class="fu">gly_limma</span><span class="op">(</span><span class="va">clean_exp</span>, contrasts <span class="op">=</span> <span class="st">"H_vs_C"</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
+<p>Now let’s dive into differential expression analysis with ANOVA.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anova_res</span> <span class="op">&lt;-</span> <span class="fu">gly_anova</span><span class="op">(</span><span class="va">clean_exp</span>, contrasts <span class="op">=</span> <span class="st">"H_vs_C"</span><span class="op">)</span>  <span class="co"># from `glystats`</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of groups: <span style="color: #0000BB;">4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, <span style="color: #0000BB;">"Y"</span>, and <span style="color: #0000BB;">"C"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Pairwise comparisons will be performed, with levels coming first as reference groups.</span></span>
-<span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">limma_res</span><span class="op">)</span>  <span class="co"># only one tibble here</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 11</span></span></span>
-<span><span class="co">#&gt;    variable    glycan_composition glycan_structure  log2fc AveExpr      t  p_val</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;comp&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Man(3)GlcN… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(3)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>… -<span style="color: #BB0000;">0.183</span>   -<span style="color: #BB0000;">10.1</span>  -<span style="color: #BB0000;">1.41</span>  0.160 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Man(3)GlcN… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(7)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)[<span style="color: #0087D7;">Gl</span>… -<span style="color: #BB0000;">0.084</span><span style="color: #BB0000; text-decoration: underline;">8</span>   -<span style="color: #BB0000;">9.18</span> -<span style="color: #BB0000;">0.842</span> 0.401 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Man(5)GlcN… <span style="color: #00AF5F;">Man</span>(5)<span style="color: #0087D7;">GlcNAc</span>(2)    <span style="color: #00AF5F;">Man</span>(?1-?)[<span style="color: #00AF5F;">Man</span>(?…  0.102    -<span style="color: #BB0000;">8.10</span>  0.754 0.452 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Man(4)Gal(… <span style="color: #00AF5F;">Man</span>(4)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>… -<span style="color: #BB0000;">0.078</span><span style="color: #BB0000; text-decoration: underline;">3</span>   -<span style="color: #BB0000;">8.50</span> -<span style="color: #BB0000;">0.515</span> 0.607 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Man(3)Gal(… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #FFD700;">Gal</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>… -<span style="color: #BB0000;">0.113</span>   -<span style="color: #BB0000;">10.1</span>  -<span style="color: #BB0000;">1.15</span>  0.251 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Man(3)Gal(… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #FFD700;">Gal</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>…  0.012<span style="text-decoration: underline;">7</span>   -<span style="color: #BB0000;">9.91</span>  0.110 0.913 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Man(3)GlcN… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(3)<span style="color: #FF0000;">Fu</span>… <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>…  0.080<span style="text-decoration: underline;">0</span>  -<span style="color: #BB0000;">10.8</span>   0.637 0.525 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Man(3)GlcN… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(4)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>…  0.105   -<span style="color: #BB0000;">10.5</span>   0.693 0.489 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Man(3)Gal(… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>… -<span style="color: #BB0000;">0.027</span><span style="color: #BB0000; text-decoration: underline;">0</span>   -<span style="color: #BB0000;">5.95</span> -<span style="color: #BB0000;">0.485</span> 0.628 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Man(3)Gal(… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>…  0.266    -<span style="color: #BB0000;">8.42</span>  2.41  0.017<span style="text-decoration: underline;">0</span></span></span>
+<span><span class="co">#&gt; Warning: There were 57 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `test_result = list(safe_f(formula, data = .data$data, contrasts</span></span>
+<span><span class="co">#&gt;   = "H_vs_C"))`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In row 1.</span></span>
+<span><span class="co">#&gt; Caused by warning in `model.matrix.default()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> non-list contrasts argument ignored</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 56 remaining warnings.</span></span>
+<span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">anova_res</span>, <span class="st">"main_test"</span><span class="op">)</span>  <span class="co"># only one tibble here</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 57 × 12</span></span></span>
+<span><span class="co">#&gt;    variable         glycan_composition glycan_structure term     df sumsq meansq</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;comp&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Man(3)GlcNAc(3)  <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(3)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>… group     3 0.566 0.189 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Man(3)GlcNAc(7)  <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(7)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)[<span style="color: #0087D7;">Gl</span>… group     3 0.972 0.324 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Man(5)GlcNAc(2)  <span style="color: #00AF5F;">Man</span>(5)<span style="color: #0087D7;">GlcNAc</span>(2)    <span style="color: #00AF5F;">Man</span>(?1-?)[<span style="color: #00AF5F;">Man</span>(?… group     3 0.887 0.296 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Man(4)Gal(2)Glc… <span style="color: #00AF5F;">Man</span>(4)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>… group     3 0.920 0.307 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Man(3)Gal(1)Glc… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #FFD700;">Gal</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>… group     3 0.303 0.101 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Man(3)Gal(2)Glc… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #FFD700;">Gal</span>(?1-?)<span style="color: #0087D7;">GlcNAc</span>… group     3 1.12  0.374 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Man(3)GlcNAc(3)… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(3)<span style="color: #FF0000;">Fu</span>… <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>… group     3 0.571 0.190 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Man(3)GlcNAc(4)  <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(4)    <span style="color: #0087D7;">GlcNAc</span>(?1-?)<span style="color: #00AF5F;">Man</span>… group     3 1.25  0.416 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Man(3)Gal(2)Glc… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>… group     3 0.194 0.064<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Man(3)Gal(1)Glc… <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNA</span>… <span style="color: #AF5FAF;">Neu5Ac</span>(?2-?)<span style="color: #FFD700;">Gal</span>… group     3 3.25  1.08  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 47 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: p_adj &lt;dbl&gt;, b &lt;dbl&gt;, ref_group &lt;chr&gt;, test_group &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: statistic &lt;dbl&gt;, p_val &lt;dbl&gt;, p_adj &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   effect_size &lt;dbl&gt;, post_hoc &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Excellent! Now let’s identify significantly differentially expressed
 glycans between HCC and healthy samples.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">limma_res</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">get_tidy_result</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anova_res</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">get_tidy_result</span><span class="op">(</span><span class="st">"main_test"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">glycan_composition</span>, <span class="va">p_adj</span>, <span class="va">log2fc</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 3</span></span></span>
-<span><span class="co">#&gt;    glycan_composition                          p_adj log2fc</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;comp&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)                0.000<span style="text-decoration: underline;">000</span>042<span style="text-decoration: underline;">5</span>  1.24 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)                      0.006<span style="text-decoration: underline;">78</span>       0.645</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)                0.000<span style="text-decoration: underline;">185</span>      0.689</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)          0.002<span style="text-decoration: underline;">67</span>       0.540</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(2) 0.034<span style="text-decoration: underline;">9</span>        0.241</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)                0.011<span style="text-decoration: underline;">2</span>        0.482</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)          0.007<span style="text-decoration: underline;">20</span>       0.427</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #AF5FAF;">Neu5Ac</span>(1)       0.002<span style="text-decoration: underline;">67</span>      -<span style="color: #BB0000;">0.245</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #AF5FAF;">Neu5Ac</span>(2)       0.000<span style="text-decoration: underline;">816</span>     -<span style="color: #BB0000;">0.427</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(2) 0.000<span style="text-decoration: underline;">000</span>140   0.739</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #AF5FAF;">Neu5Ac</span>(3)       0.003<span style="text-decoration: underline;">81</span>      -<span style="color: #BB0000;">0.532</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(4)<span style="color: #0087D7;">GlcNAc</span>(6)<span style="color: #AF5FAF;">Neu5Ac</span>(2)       0.028<span style="text-decoration: underline;">3</span>        0.335</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(3) 0.000<span style="text-decoration: underline;">000</span>042<span style="text-decoration: underline;">5</span>  1.06 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(2)<span style="color: #AF5FAF;">Neu5Ac</span>(3) 0.000<span style="text-decoration: underline;">748</span>      0.638</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">glycan_composition</span>, <span class="va">p_adj</span>, <span class="va">effect_size</span>, <span class="va">post_hoc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 4</span></span></span>
+<span><span class="co">#&gt;    glycan_composition                          p_adj effect_size post_hoc       </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;comp&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(1) 0.006<span style="text-decoration: underline;">79</span>           0.102  M_vs_C         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)                0.000<span style="text-decoration: underline;">000</span>229       0.246  H_vs_Y;H_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)                      0.001<span style="text-decoration: underline;">85</span>           0.127  H_vs_C;M_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #AF5FAF;">Neu5Ac</span>(1)       0.026<span style="text-decoration: underline;">7</span>            0.081<span style="text-decoration: underline;">7</span> M_vs_C         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> <span style="color: #00AF5F;">Man</span>(4)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(3)<span style="color: #AF5FAF;">Neu5Ac</span>(1)       0.038<span style="text-decoration: underline;">5</span>            0.074<span style="text-decoration: underline;">8</span> H_vs_Y;M_vs_Y  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)                0.000<span style="text-decoration: underline;">739</span>          0.145  H_vs_Y;H_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)          0.004<span style="text-decoration: underline;">23</span>           0.112  H_vs_Y;H_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(5)                0.005<span style="text-decoration: underline;">84</span>           0.105  H_vs_C;M_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(1)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)          0.038<span style="text-decoration: underline;">5</span>            0.075<span style="text-decoration: underline;">2</span> H_vs_Y;H_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #AF5FAF;">Neu5Ac</span>(1)       0.005<span style="text-decoration: underline;">28</span>           0.108  H_vs_C;M_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(2)<span style="color: #0087D7;">GlcNAc</span>(4)<span style="color: #FF0000;">Fuc</span>(1)          0.001<span style="text-decoration: underline;">85</span>           0.127  M_vs_C;Y_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #AF5FAF;">Neu5Ac</span>(2)       0.003<span style="text-decoration: underline;">32</span>           0.117  H_vs_M;H_vs_Y;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(2) 0.000<span style="text-decoration: underline;">000</span>045<span style="text-decoration: underline;">5</span>      0.268  H_vs_C;M_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #AF5FAF;">Neu5Ac</span>(3)       0.026<span style="text-decoration: underline;">7</span>            0.081<span style="text-decoration: underline;">6</span> H_vs_M;H_vs_C  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(4)<span style="color: #0087D7;">GlcNAc</span>(6)<span style="color: #AF5FAF;">Neu5Ac</span>(2)       0.001<span style="text-decoration: underline;">85</span>           0.128  H_vs_C;M_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(3) 0.000<span style="text-decoration: underline;">000</span>017<span style="text-decoration: underline;">1</span>      0.286  H_vs_C;M_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(3)<span style="color: #0087D7;">GlcNAc</span>(5)<span style="color: #FF0000;">Fuc</span>(2)<span style="color: #AF5FAF;">Neu5Ac</span>(3) 0.000<span style="text-decoration: underline;">010</span>9         0.199  H_vs_C;M_vs_C;…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #00AF5F;">Man</span>(3)<span style="color: #FFD700;">Gal</span>(4)<span style="color: #0087D7;">GlcNAc</span>(6)<span style="color: #FF0000;">Fuc</span>(1)<span style="color: #AF5FAF;">Neu5Ac</span>(2) 0.001<span style="text-decoration: underline;">85</span>           0.126  M_vs_C</span></span></code></pre></div>
 <p>For the full statistical arsenal, check out <a href="https://glycoverse.github.io/glystats/articles/glystats.html" class="external-link">Get
 Started with glystats</a> and <a href="https://glycoverse.github.io/glyvis/articles/glyvis.html" class="external-link">Get
 Started with glyvis</a>.</p>
@@ -407,7 +420,7 @@ Started with glyvis</a>.</p>
 shines when it comes to advanced glycan structure analysis.</p>
 <p>Before diving into motifs, let’s get acquainted with
 <code><a href="https://glycoverse.github.io/glyrepr/reference/glycan_structure.html" class="external-link">glyrepr::glycan_structure()</a></code> vectors.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_var_info</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">glycan_structure</span><span class="op">)</span></span>
@@ -456,7 +469,7 @@ guide</a> to get started—it’s easier than it looks!</p>
 </ol>
 <p><img src="branch_motifs.png"></p>
 <p>Here’s how we express these motifs in IUPAC-condensed notation:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motifs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  motif1 <span class="op">=</span> <span class="st">"Neu5Ac(??-?)Gal(??-?)GlcNAc(??-"</span>,</span>
 <span>  motif2 <span class="op">=</span> <span class="st">"Gal(??-?)GlcNAc(??-"</span>,</span>
@@ -469,7 +482,7 @@ differential expression across conditions?</strong> Without
 <code>glycoverse</code>, this would be a nightmare to tackle manually.
 Take a moment to imagine the pain of doing this by hand!</p>
 <p>Now, the <code>glycoverse</code> solution:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motif_anova_res</span> <span class="op">&lt;-</span> <span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">quantify_motifs</span><span class="op">(</span><span class="va">motifs</span>, alignments <span class="op">=</span> <span class="st">"terminal"</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># quantify these motifs</span></span>
 <span>  <span class="fu">gly_anova</span><span class="op">(</span><span class="op">)</span>  <span class="co"># and perform ANOVA</span></span>
@@ -479,11 +492,11 @@ Take a moment to imagine the pain of doing this by hand!</p>
 <span></span>
 <span><span class="fu">get_tidy_result</span><span class="op">(</span><span class="va">motif_anova_res</span>, <span class="st">"main_test"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
-<span><span class="co">#&gt;   variable motif  motif_structure   term     df  sumsq  meansq statistic   p_val</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> motif1   motif1 <span style="color: #AF5FAF;">Neu5Ac</span>(??-?)<span style="color: #FFD700;">Gal</span>(… group     3 0.020<span style="text-decoration: underline;">5</span> 0.006<span style="text-decoration: underline;">82</span>      1.17 0.324  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> motif2   motif2 <span style="color: #FFD700;">Gal</span>(??-?)<span style="color: #0087D7;">GlcNAc</span>(… group     3 0.026<span style="text-decoration: underline;">1</span> 0.008<span style="text-decoration: underline;">70</span>      2.03 0.112  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> motif3   motif3 <span style="color: #0087D7;">GlcNAc</span>(??-        group     3 0.095<span style="text-decoration: underline;">8</span> 0.031<span style="text-decoration: underline;">9</span>       5.60 0.001<span style="text-decoration: underline;">18</span></span></span>
+<span><span class="co">#&gt;   variable motif  motif_structure    term     df  sumsq meansq statistic   p_val</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> motif1   motif1 <span style="color: #AF5FAF;">Neu5Ac</span>(??-?)<span style="color: #FFD700;">Gal</span>(?… group     3 0.055<span style="text-decoration: underline;">0</span> 0.018<span style="text-decoration: underline;">3</span>      1.14 3.33<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> motif2   motif2 <span style="color: #FFD700;">Gal</span>(??-?)<span style="color: #0087D7;">GlcNAc</span>(?… group     3 0.420  0.140       2.23 8.75<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> motif3   motif3 <span style="color: #0087D7;">GlcNAc</span>(??-         group     3 3.12   1.04        5.88 8.26<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: p_adj &lt;dbl&gt;, effect_size &lt;dbl&gt;, post_hoc &lt;chr&gt;</span></span></span></code></pre></div>
 <p><code>quantify_motifs()</code> transforms your data into a new
 <code>experiment()</code> object. Instead of quantification of glycans,
@@ -493,21 +506,21 @@ work seamlessly—including <code>gly_anova()</code>.</p>
 <p>Now we can answer our question using standard <code>tidyverse</code>
 operations, since <code>motif_anova_res$tidy_result$main_test</code> is
 just a regular tibble:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">motif_anova_res</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_tidy_result</span><span class="op">(</span><span class="st">"main_test"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">p_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
-<span><span class="co">#&gt;   variable motif  motif_structure term     df  sumsq meansq statistic   p_val</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> motif3   motif3 <span style="color: #0087D7;">GlcNAc</span>(??-      group     3 0.095<span style="text-decoration: underline;">8</span> 0.031<span style="text-decoration: underline;">9</span>      5.60 0.001<span style="text-decoration: underline;">18</span></span></span>
+<span><span class="co">#&gt;   variable motif  motif_structure term     df sumsq meansq statistic    p_val</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;struct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> motif3   motif3 <span style="color: #0087D7;">GlcNAc</span>(??-      group     3  3.12   1.04      5.88 0.000<span style="text-decoration: underline;">826</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: p_adj &lt;dbl&gt;, effect_size &lt;dbl&gt;, post_hoc &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Here’s another common question: <strong>Which of the three branching
 motifs appears the most in all glycans?</strong></p>
 <p>For this analysis, we don’t need motif quantification—we just need to
 know which glycans have these motifs.
 <code><a href="https://glycoverse.github.io/glymotif/reference/add_motifs_int.html" class="external-link">glymotif::add_motifs_lgl()</a></code> is perfect for this.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">add_motifs_lgl</span><span class="op">(</span><span class="va">motifs</span>, alignments <span class="op">=</span> <span class="st">"terminal"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_var_info</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -540,7 +553,7 @@ Classic examples include:</p>
 </ul>
 <p><code>glydet</code> calculates derived traits in a flash. Using it
 couldn’t be simpler:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_exp</span> <span class="op">&lt;-</span> <span class="fu">derive_traits</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span>  <span class="co"># from `glydet`</span></span>
 <span><span class="va">trait_exp</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -552,7 +565,7 @@ couldn’t be simpler:</p>
 <code>derive_traits()</code> creates a new <code>experiment()</code>
 object, but now with trait values per sample.</p>
 <p>The variable information shows what we’re working with:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">get_var_info</span><span class="op">(</span><span class="va">trait_exp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14 × 3</span></span></span>
 <span><span class="co">#&gt;    variable trait explanation                                                   </span></span>
@@ -621,7 +634,7 @@ glycans</li>
 literature.</p>
 <p>Let’s identify traits with significantly different values across
 conditions:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_exp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">gly_anova</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">get_tidy_result</span><span class="op">(</span><span class="st">"main_test"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -630,16 +643,16 @@ conditions:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Groups: <span style="color: #0000BB;">"H"</span>, <span style="color: #0000BB;">"M"</span>, <span style="color: #0000BB;">"Y"</span>, and <span style="color: #0000BB;">"C"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Pairwise comparisons will be performed, with levels coming first as reference groups.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 12</span></span></span>
-<span><span class="co">#&gt;   variable trait explanation       term     df   sumsq  meansq statistic   p_val</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> CA2      CA2   Proportion of bi… group     3 8.62<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 2.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.72 1.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CA3      CA3   Proportion of tr… group     3 2.05<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 6.83<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      5.35 1.61<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CA4      CA4   Proportion of te… group     3 1.18<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 3.93<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      4.17 7.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> TF       TF    Proportion of fu… group     3 1.07<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.58<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.87 6.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> TFc      TFc   Proportion of co… group     3 1.07<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span> 3.58<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span>      7.87 6.84<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> TFa      TFa   Proportion of ar… group     3 1.27<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> 4.25<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>      5.44 1.44<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> TB       TB    Proportion of gl… group     3 1.12<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span> 3.72<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      3.57 1.58<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> AG       AG    Abundance-weight… group     3 4.96<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> 1.65<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span>      3.62 1.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span></span>
+<span><span class="co">#&gt;   variable trait explanation        term     df  sumsq  meansq statistic   p_val</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;glue&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> CA2      CA2   Proportion of bi-… group     3 0.040<span style="text-decoration: underline;">4</span> 0.013<span style="text-decoration: underline;">5</span>       5.71 1.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CA3      CA3   Proportion of tri… group     3 1.75   0.584        5.38 1.56<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CA4      CA4   Proportion of tet… group     3 1.12   0.372        4.82 3.19<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> TF       TF    Proportion of fuc… group     3 2.15   0.716        8.45 3.36<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> TFc      TFc   Proportion of cor… group     3 2.15   0.716        8.45 3.36<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> TFa      TFa   Proportion of arm… group     3 2.72   0.906        7.46 1.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> TB       TB    Proportion of gly… group     3 1.64   0.545        3.68 1.37<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> AG       AG    Abundance-weighte… group     3 0.022<span style="text-decoration: underline;">2</span> 0.007<span style="text-decoration: underline;">39</span>      3.61 1.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-2</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: p_adj &lt;dbl&gt;, effect_size &lt;dbl&gt;, post_hoc &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Once again, it’s just that straightforward.</p>
 <p>This just scratches the surface of <code>glydet</code>’s
@@ -697,6 +710,9 @@ it’s fascinating!)</li>
 <li>
 <strong><a href="https://glycoverse.github.io/glyanno/articles/glyanno.html" class="external-link">glyanno</a></strong>
 — Annotate glycan structures</li>
+<li>
+<strong><a href="https://glycoverse.github.io/glyfun/articles/glyfun.html" class="external-link">glyfun</a></strong>
+— Perform functional enrichment analysis</li>
 <li>
 <strong><a href="https://glycoverse.github.io/glysmith/articles/glysmith.html" class="external-link">glysmith</a></strong>
 — Master the full analytical pipeline</li>

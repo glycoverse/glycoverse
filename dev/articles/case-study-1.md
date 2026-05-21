@@ -86,7 +86,7 @@ library(glycoverse)
 #> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
 #> ✔ glydet   0.11.0     ✔ glyread  0.11.0
 #> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
-#> ✔ glyexp   0.14.1     ✔ glystats 0.10.0
+#> ✔ glyexp   0.14.1     ✔ glystats 0.10.1
 #> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
@@ -286,6 +286,11 @@ autoplot(pca_res)  # from `glyvis`
 
 ![](case-study-1_files/figure-html/unnamed-chunk-10-1.png)
 
+``` r
+
+# you can also use `plot_pca(pca_res)`
+```
+
 We actually recommend the two-step approach, since it gives you more
 flexibility with the results. You can create custom `ggplot2`
 visualizations for publications or extract the underlying data when
@@ -374,31 +379,30 @@ pathways they’re involved in.
 
 ``` r
 
-clean_exp |>
-  filter_sig_vars(limma_res, p_adj_cutoff = 0.05, fc_cutoff = 2) |>
-  gly_enrich_go() |>
-  autoplot()
-#> Warning: `gly_enrich_go()` was deprecated in glystats 0.10.0.
-#> ℹ Please use `glyfun::enrich_ora_go()` instead.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
+library(glyfun)
+
+limma_res |>
+  enrich_ora_go(dea_p_cutoff = 0.05, dea_log2fc_cutoff = c(-2, 2)) |>
+  clusterProfiler::dotplot()
 #> 
-#> Warning in bitr(gene, fromType = fromType, toType = "ENTREZID", OrgDb = OrgDb):
-#> 8.89% of input gene IDs are fail to map...
+#> 
+#> 'select()' returned 1:1 mapping between keys and columns
 ```
 
 ![](case-study-1_files/figure-html/unnamed-chunk-13-1.png)
 
-And that’s it—pathway enrichment in just a few lines! Here we filtered
-the experiment to keep only significant variables and then performed
-pathway enrichment. As this operation is so common, `glystats` provides
-a dedicated function for it: `filter_sig_vars()`.
+And that’s it—pathway enrichment in just a few lines! We used
+[`enrich_ora_go()`](https://glycoverse.github.io/glyfun/reference/enrich_ora_go.html)
+from `glyfun` to perform GO over-representation analysis on the
+significant hits from our `gly_limma()` results. `glyfun` is not a core
+`glycoverse` package, so you need to load it separately.
 
 For the full statistical arsenal, check out [Get Started with
 glystats](https://glycoverse.github.io/glystats/articles/glystats.html)
 and [Get Started with
-glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html).
+glyvis](https://glycoverse.github.io/glyvis/articles/glyvis.html). To
+explore more functional enrichment options, see [Get Started with
+glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html).
 
 ## Advanced Motif Analysis
 
@@ -533,9 +537,9 @@ motif_anova_res |>
 #> # Groups:   motif [3]
 #>   motif            n
 #>   <chr>        <int>
-#> 1 lewis_ax        27
-#> 2 lewis_by         9
-#> 3 sia_lewis_ax    28
+#> 1 lewis_ax        25
+#> 2 lewis_by         8
+#> 3 sia_lewis_ax    29
 ```
 
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
@@ -546,20 +550,20 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05, motif == "lewis_ax") |>
   select(protein, protein_site)
-#> # A tibble: 27 × 2
+#> # A tibble: 25 × 2
 #>    protein protein_site
 #>    <chr>          <int>
-#>  1 O75882           731
-#>  2 P00734           143
-#>  3 P00734           155
-#>  4 P00738           241
-#>  5 P01011           271
-#>  6 P01042           294
-#>  7 P01877           205
-#>  8 P01877            92
-#>  9 P02675           394
-#> 10 P02679            78
-#> # ℹ 17 more rows
+#>  1 P00734           143
+#>  2 P00738           241
+#>  3 P01011           271
+#>  4 P01042           294
+#>  5 P01877           131
+#>  6 P01877           205
+#>  7 P01877            92
+#>  8 P02675           394
+#>  9 P02679            78
+#> 10 P02749           162
+#> # ℹ 15 more rows
 ```
 
 Here’s another common question: **Which pathways are enriched in
@@ -683,29 +687,22 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 20 × 15
+#> # A tibble: 13 × 15
 #>    variable     protein protein_site trait gene  explanation term     df   sumsq
 #>    <glue>       <chr>          <int> <chr> <chr> <chr>       <chr> <dbl>   <dbl>
-#>  1 P00450-397-… P00450           397 TFc   CP    Proportion… group     3 2.21e-2
-#>  2 P00738-211-… P00738           211 TFc   HP    Proportion… group     3 8.53e-2
-#>  3 P00738-241-… P00738           241 TFc   HP    Proportion… group     3 7.84e-4
-#>  4 P00748-249-… P00748           249 TFc   F12   Proportion… group     3 5.48e-4
-#>  5 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 7.70e-2
-#>  6 P01877-92-T… P01877            92 TFc   IGHA2 Proportion… group     3 2.02e-3
-#>  7 P02679-78-T… P02679            78 TFc   FGG   Proportion… group     3 3.65e-3
-#>  8 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 9.41e-5
-#>  9 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 6.29e-2
-#> 10 P03952-494-… P03952           494 TFc   KLKB1 Proportion… group     3 2.24e-3
-#> 11 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 6.49e-3
-#> 12 P04278-396-… P04278           396 TFc   SHBG  Proportion… group     3 2.99e-2
-#> 13 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 1.70e-2
-#> 14 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 5.36e-2
-#> 15 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 1.74e-2
-#> 16 P0C0L4-1391… P0C0L4          1391 TFc   C4A   Proportion… group     3 4.17e-5
-#> 17 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 6.44e-2
-#> 18 P25311-112-… P25311           112 TFc   AZGP1 Proportion… group     3 3.05e-2
-#> 19 P25311-128-… P25311           128 TFc   AZGP1 Proportion… group     3 5.19e-4
-#> 20 P43652-33-T… P43652            33 TFc   AFM   Proportion… group     3 5.48e-3
+#>  1 P00748-249-… P00748           249 TFc   F12   Proportion… group     3 4.30e+0
+#>  2 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 1.09e+0
+#>  3 P01877-92-T… P01877            92 TFc   IGHA2 Proportion… group     3 9.01e-3
+#>  4 P02679-78-T… P02679            78 TFc   FGG   Proportion… group     3 1.53e+1
+#>  5 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 1.64e+0
+#>  6 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 4.25e-1
+#>  7 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 7.02e-1
+#>  8 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 8.64e-2
+#>  9 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 1.02e+2
+#> 10 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 5.21e+1
+#> 11 P0C0L4-1391… P0C0L4          1391 TFc   C4A   Proportion… group     3 1.71e+1
+#> 12 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 1.66e+1
+#> 13 P20851-64-T… P20851            64 TFc   C4BPB Proportion… group     3 7.42e+1
 #> # ℹ 6 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
 #> #   effect_size <dbl>, post_hoc <chr>
 ```
@@ -753,6 +750,8 @@ Here’s your roadmap to mastering each component:
   Access glycan databases
 - **[glyanno](https://glycoverse.github.io/glyanno/articles/glyanno.html)**
   — Annotate glycan structures
+- **[glyfun](https://glycoverse.github.io/glyfun/articles/glyfun.html)**
+  — Perform functional enrichment analysis
 - **[glysmith](https://glycoverse.github.io/glysmith/articles/glysmith.html)**
   — Master the full analytical pipeline
 
