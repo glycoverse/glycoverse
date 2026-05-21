@@ -18,7 +18,8 @@ Suggests:
     factoextra,
     clusterProfiler,
     org.Hs.eg.db,
-    missForest
+    missForest,
+    glyfun
 Imports:
     cli,
     dplyr,
