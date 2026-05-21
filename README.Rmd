@@ -70,35 +70,109 @@ dea_res <- exp |>
 
 The glycoverse ecosystem is organized into two main categories:
 
-**Omics Data Analysis**
+#### 🔬 Omics Data Analysis
 
-| Package | Description |
-|---------|-------------|
-| [glyexp](https://github.com/glycoverse/glyexp) | Data management and experiment objects |
-| [glyread](https://github.com/glycoverse/glyread) | Data import from various sources |
-| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing |
-| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis |
-| [glyvis](https://github.com/glycoverse/glyvis) | Data visualization |
+Ecosystem units focusing on experimental data structures, automated cleaning, robust statistical calculation and interactive downstream plotting.
 
-**Glycan Structure Analysis**
+<table width="100%">
+<tr>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyexp"><img src="man/figures/logos/glyexp.png" height="110" alt="glyexp logo"></a><br>
+<a href="https://github.com/glycoverse/glyexp"><strong><code>glyexp</code></strong></a><br>
+<sub>Data management &amp;<br>experiment S4 objects</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyread"><img src="man/figures/logos/glyread.png" height="110" alt="glyread logo"></a><br>
+<a href="https://github.com/glycoverse/glyread"><strong><code>glyread</code></strong></a><br>
+<sub>Raw mass spectrometry<br>result importer</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyclean"><img src="man/figures/logos/glyclean.png" height="110" alt="glyclean logo"></a><br>
+<a href="https://github.com/glycoverse/glyclean"><strong><code>glyclean</code></strong></a><br>
+<sub>Rule-based cleaning &amp;<br>normalization</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glystats"><img src="man/figures/logos/glystats.png" height="110" alt="glystats logo"></a><br>
+<a href="https://github.com/glycoverse/glystats"><strong><code>glystats</code></strong></a><br>
+<sub>Hypothesis testing,<br>ANOVA &amp; PCA</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyvis"><img src="man/figures/logos/glyvis.png" height="110" alt="glyvis logo"></a><br>
+<a href="https://github.com/glycoverse/glyvis"><strong><code>glyvis</code></strong></a><br>
+<sub>Volcano, trend &amp;<br>cluster plots</sub>
+</td>
+</tr>
+</table>
 
-| Package | Description |
-|---------|-------------|
-| [glyrepr](https://github.com/glycoverse/glyrepr) | Glycan structure representation |
-| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing |
-| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis |
-| [glydet](https://github.com/glycoverse/glydet) | Derived trait analysis |
-| [glydraw](https://github.com/glycoverse/glydraw) | Structure visualization |
+#### 🧬 Glycan Structure Analysis
+
+Packages for representing, parsing, matching, deriving and drawing glycan structures and traits.
+
+<table width="100%">
+<tr>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyrepr"><img src="man/figures/logos/glyrepr.png" height="110" alt="glyrepr logo"></a><br>
+<a href="https://github.com/glycoverse/glyrepr"><strong><code>glyrepr</code></strong></a><br>
+<sub>Glycan structure<br>representation</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyparse"><img src="man/figures/logos/glyparse.png" height="110" alt="glyparse logo"></a><br>
+<a href="https://github.com/glycoverse/glyparse"><strong><code>glyparse</code></strong></a><br>
+<sub>IUPAC, WURCS &amp;<br>GlycoCT parser</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glymotif"><img src="man/figures/logos/glymotif.png" height="110" alt="glymotif logo"></a><br>
+<a href="https://github.com/glycoverse/glymotif"><strong><code>glymotif</code></strong></a><br>
+<sub>Motif matching<br>and analysis</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glydet"><img src="man/figures/logos/glydet.png" height="110" alt="glydet logo"></a><br>
+<a href="https://github.com/glycoverse/glydet"><strong><code>glydet</code></strong></a><br>
+<sub>Derived trait<br>calculation</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glydraw"><img src="man/figures/logos/glydraw.png" height="110" alt="glydraw logo"></a><br>
+<a href="https://github.com/glycoverse/glydraw"><strong><code>glydraw</code></strong></a><br>
+<sub>Glycan structure<br>visualization</sub>
+</td>
+</tr>
+</table>
 
 ### Optional Packages
 
-| Package | Description |
-|---------|-------------|
-| [glydb](https://github.com/glycoverse/glydb) | Glycan database |
-| [glyanno](https://github.com/glycoverse/glyanno) | Glycan annotation |
-| [glyenzy](https://github.com/glycoverse/glyenzy) | Biosynthesis pathway analysis |
-| [glyfun](https://github.com/glycoverse/glyfun) | Functional enrichment analysis |
-| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline |
+#### 🧰 Optional Workflow Extensions
+
+Additional packages for reference data, annotation, pathway context, enrichment and full pipeline assembly.
+
+<table width="100%">
+<tr>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glydb"><img src="man/figures/logos/glydb.png" height="110" alt="glydb logo"></a><br>
+<a href="https://github.com/glycoverse/glydb"><strong><code>glydb</code></strong></a><br>
+<sub>Curated glycan<br>database</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyanno"><img src="man/figures/logos/glyanno.png" height="110" alt="glyanno logo"></a><br>
+<a href="https://github.com/glycoverse/glyanno"><strong><code>glyanno</code></strong></a><br>
+<sub>Composition and<br>structure annotation</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyenzy"><img src="man/figures/logos/glyenzy.png" height="110" alt="glyenzy logo"></a><br>
+<a href="https://github.com/glycoverse/glyenzy"><strong><code>glyenzy</code></strong></a><br>
+<sub>Biosynthesis pathway<br>analysis</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glyfun"><img src="man/figures/logos/glyfun.png" height="110" alt="glyfun logo"></a><br>
+<a href="https://github.com/glycoverse/glyfun"><strong><code>glyfun</code></strong></a><br>
+<sub>Functional enrichment<br>analysis</sub>
+</td>
+<td align="center" valign="top" width="20%">
+<a href="https://github.com/glycoverse/glysmith"><img src="man/figures/logos/glysmith.png" height="110" alt="glysmith logo"></a><br>
+<a href="https://github.com/glycoverse/glysmith"><strong><code>glysmith</code></strong></a><br>
+<sub>Full analytical<br>pipeline</sub>
+</td>
+</tr>
+</table>
 
 ### glycoverse Meta-Package
 
@@ -204,7 +278,7 @@ pak::pkg_install("glyfun")
 
 Load all core packages:
 
-```{r}
+```{r, warning = FALSE}
 library(glycoverse)
 ```
 
