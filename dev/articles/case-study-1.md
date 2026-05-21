@@ -537,9 +537,9 @@ motif_anova_res |>
 #> # Groups:   motif [3]
 #>   motif            n
 #>   <chr>        <int>
-#> 1 lewis_ax        14
-#> 2 lewis_by         4
-#> 3 sia_lewis_ax    16
+#> 1 lewis_ax        25
+#> 2 lewis_by         8
+#> 3 sia_lewis_ax    29
 ```
 
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
@@ -550,23 +550,20 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05, motif == "lewis_ax") |>
   select(protein, protein_site)
-#> # A tibble: 14 × 2
+#> # A tibble: 25 × 2
 #>    protein protein_site
 #>    <chr>          <int>
-#>  1 P00738           241
-#>  2 P01011           271
-#>  3 P01042           294
-#>  4 P01877           205
-#>  5 P02675           394
-#>  6 P02679            78
-#>  7 P02763            93
-#>  8 P03952           494
-#>  9 P04114          3411
-#> 10 P05090            98
-#> 11 P05156           177
-#> 12 P10909            86
-#> 13 P20851            64
-#> 14 Q08380           125
+#>  1 P00734           143
+#>  2 P00738           241
+#>  3 P01011           271
+#>  4 P01042           294
+#>  5 P01877           131
+#>  6 P01877           205
+#>  7 P01877            92
+#>  8 P02675           394
+#>  9 P02679            78
+#> 10 P02749           162
+#> # ℹ 15 more rows
 ```
 
 Here’s another common question: **Which pathways are enriched in
@@ -690,19 +687,22 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 10 × 15
+#> # A tibble: 13 × 15
 #>    variable     protein protein_site trait gene  explanation term     df   sumsq
 #>    <glue>       <chr>          <int> <chr> <chr> <chr>       <chr> <dbl>   <dbl>
 #>  1 P00748-249-… P00748           249 TFc   F12   Proportion… group     3 4.30e+0
 #>  2 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 1.09e+0
-#>  3 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 1.64e+0
-#>  4 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 4.25e-1
-#>  5 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 7.02e-1
-#>  6 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 8.64e-2
-#>  7 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 1.02e+2
-#>  8 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 5.21e+1
-#>  9 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 1.66e+1
-#> 10 P20851-64-T… P20851            64 TFc   C4BPB Proportion… group     3 7.42e+1
+#>  3 P01877-92-T… P01877            92 TFc   IGHA2 Proportion… group     3 9.01e-3
+#>  4 P02679-78-T… P02679            78 TFc   FGG   Proportion… group     3 1.53e+1
+#>  5 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 1.64e+0
+#>  6 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 4.25e-1
+#>  7 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 7.02e-1
+#>  8 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 8.64e-2
+#>  9 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 1.02e+2
+#> 10 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 5.21e+1
+#> 11 P0C0L4-1391… P0C0L4          1391 TFc   C4A   Proportion… group     3 1.71e+1
+#> 12 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 1.66e+1
+#> 13 P20851-64-T… P20851            64 TFc   C4BPB Proportion… group     3 7.42e+1
 #> # ℹ 6 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
 #> #   effect_size <dbl>, post_hoc <chr>
 ```
