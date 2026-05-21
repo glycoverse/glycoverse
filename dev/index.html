@@ -61,15 +61,41 @@
 <img src="logo.png" class="logo" alt=""><h1 id="glycoverse">glycoverse<a class="anchor" aria-label="anchor" href="#glycoverse"></a>
 </h1>
 </div>
+<p><strong>Glyco-Omics Data Analysis Made Easy</strong></p>
+<p>A Tidyverse-style ecosystem for glycobiologists to turn raw MS data into biological insights.</p>
 <!-- badges: start -->
 
-<p><strong>Glyco-Omics Data Analysis Made Easy</strong></p>
+<p><img src="reference/figures/logo_banner.png" style="width:100.0%"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p><code>glycoverse</code> is a comprehensive R ecosystem designed for glycomics and glycoproteomics data analysis. It provides a unified pipeline that covers the entire analytical workflow, from data import and cleaning to statistical analysis and visualization. It also provides a dedicated infrastructure for glycan structure analysis.</p>
+<div class="section level3">
+<h3 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h3>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Import results from Byonic and GlycoQuant</span></span>
+<span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu">read_byonic_pglycoquant</span><span class="op">(</span><span class="st">"result.csv"</span>, sample_info <span class="op">=</span> <span class="st">"sample_info.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Preprocess</span></span>
+<span><span class="va">clean_exp</span> <span class="op">&lt;-</span> <span class="fu">auto_clean</span><span class="op">(</span><span class="va">exp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Derived trait analysis</span></span>
+<span><span class="va">trait_exp</span> <span class="op">&lt;-</span> <span class="fu">derive_traits</span><span class="op">(</span><span class="va">clean_exp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Statistical analysis</span></span>
+<span><span class="va">dea_res</span> <span class="op">&lt;-</span> <span class="fu">gly_anova</span><span class="op">(</span><span class="va">trait_exp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use pipeline for a more concise workflow</span></span>
+<span><span class="va">dea_res</span> <span class="op">&lt;-</span> <span class="va">exp</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">auto_clean</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">derive_traits</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">gly_anova</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="core-packages">Core Packages<a class="anchor" aria-label="anchor" href="#core-packages"></a>
 </h3>
@@ -197,7 +223,7 @@
 <div class="section level3">
 <h3 id="install-from-r-universe-recommended">Install from r-universe (Recommended)<a class="anchor" aria-label="anchor" href="#install-from-r-universe-recommended"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/repo_add.html" class="external-link">repo_add</a></span><span class="op">(</span>glycoverse <span class="op">=</span> <span class="st">"https://glycoverse.r-universe.dev"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glycoverse"</span><span class="op">)</span></span></code></pre></div>
@@ -207,7 +233,7 @@
 <div class="section level3">
 <h3 id="install-individual-packages">Install Individual Packages<a class="anchor" aria-label="anchor" href="#install-individual-packages"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/repo_add.html" class="external-link">repo_add</a></span><span class="op">(</span>glycoverse <span class="op">=</span> <span class="st">"https://glycoverse.r-universe.dev"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glymotif"</span><span class="op">)</span>  <span class="co"># Also installs dependencies: glyrepr, glyparse, glyexp</span></span></code></pre></div>
 </div>
@@ -218,12 +244,12 @@
 Click to expand detailed GitHub installation instructions
 </summary><p><strong>Prerequisite:</strong> To install packages from GitHub, you’ll need the proper compilation tools installed on your system. This means <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">RTools</a> for Windows and <a href="https://developer.apple.com/documentation/xcode/installing-the-command-line-tools" class="external-link">Xcode Command Line Tools</a> for macOS. Without them, you’ll likely see a “Could not find tools necessary to compile a package” error. If you’re unsure about the process, a quick search for “install R package from GitHub” will provide helpful context on why these tools are necessary.</p>
 <p>Installing from <a href="https://github.com/glycoverse/glycoverse" class="external-link">GitHub</a> is a little tricky. Package dependencies within glycoverse are resolved assuming all packages are on r-universe (some on CRAN or Bioconductor). It means that when running the following code:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Do NOT run:</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glycoverse/glyxxx@*release"</span><span class="op">)</span>  <span class="co"># common practice to install a GitHub package</span></span></code></pre></div>
 <p>Installing glyxxx from GitHub in this way does not bypass R-universe entirely, as its dependencies are still hosted there. If you are experiencing network issues with R-universe, switching to the GitHub version of glyxxx will not resolve the problem.</p>
 <p>To truely install a glycoverse package from GitHub (along with all its dependencies), you have to install them one by one following the dependency tree:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyrepr"</span><span class="op">)</span>  <span class="co"># from CRAN</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyparse"</span><span class="op">)</span>  <span class="co"># from CRAN</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glycoverse/glyexp@*release"</span><span class="op">)</span></span>
@@ -252,7 +278,7 @@ Click to expand detailed GitHub installation instructions
 <h3 id="install-optional-packages">Install optional packages<a class="anchor" aria-label="anchor" href="#install-optional-packages"></a>
 </h3>
 <p><code>glydb</code>, <code>glyanno</code>, <code>glyenzy</code>, <code>glyfun</code>, and <code>glysmith</code> are installed separately:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glydb"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyanno"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"glyfun"</span><span class="op">)</span></span></code></pre></div>
@@ -262,22 +288,31 @@ Click to expand detailed GitHub installation instructions
 <h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
 <div class="section level3">
-<h3 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h3 id="using-the-meta-package">Using the meta-package<a class="anchor" aria-label="anchor" href="#using-the-meta-package"></a>
 </h3>
 <p>Load all core packages:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──</span></span>
-<span><span class="co">#&gt; ✔ glyclean 0.13.0          ✔ glyparse 0.5.7      </span></span>
-<span><span class="co">#&gt; ✔ glydet   0.10.4          ✔ glyread  0.10.0     </span></span>
-<span><span class="co">#&gt; ✔ glydraw  0.4.0           ✔ glyrepr  0.10.1.9000</span></span>
-<span><span class="co">#&gt; ✔ glyexp   0.14.1          ✔ glystats 0.9.0      </span></span>
-<span><span class="co">#&gt; ✔ glymotif 0.13.1          ✔ glyvis   0.5.1      </span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyexp'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyread'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyclean'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyvis'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glyparse'是用R版本4.5.2 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glymotif'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glydet'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; Warning: 程序包'glydraw'是用R版本4.5.3 来建造的</span></span>
+<span><span class="co">#&gt; ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──</span></span>
+<span><span class="co">#&gt; ✔ glyclean 0.14.1          ✔ glyparse 0.6.0      </span></span>
+<span><span class="co">#&gt; ✔ glydet   0.11.0          ✔ glyread  0.11.0     </span></span>
+<span><span class="co">#&gt; ✔ glydraw  0.4.0           ✔ glyrepr  0.12.0     </span></span>
+<span><span class="co">#&gt; ✔ glyexp   0.14.1          ✔ glystats 0.10.0.9000</span></span>
+<span><span class="co">#&gt; ✔ glymotif 0.14.1          ✔ glyvis   0.6.0      </span></span>
 <span><span class="co">#&gt; ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; ✖ glyclean::aggregate() masks stats::aggregate()</span></span>
 <span><span class="co">#&gt; ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</span></span></code></pre></div>
 <p>Check your installation:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/glycoverse_sitrep.html">glycoverse_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -306,7 +341,7 @@ Click to expand detailed GitHub installation instructions
 <div class="section level3">
 <h3 id="updating-packages">Updating Packages<a class="anchor" aria-label="anchor" href="#updating-packages"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Update all glycoverse packages</span></span>
 <span><span class="fu"><a href="reference/glycoverse_update.html">glycoverse_update</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
