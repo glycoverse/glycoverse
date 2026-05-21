@@ -7,6 +7,11 @@
 
 # glycoverse
 
+**Glyco-Omics Data Analysis Made Easy**
+
+A Tidyverse-style ecosystem for glycobiologists to turn raw MS data into
+biological insights.
+
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -25,7 +30,7 @@ license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit
 Glyco](https://img.shields.io/badge/Awesome-Glyco-pink)](https://github.com/amanzadi/awesome-glyco)
 <!-- badges: end -->
 
-**Glyco-Omics Data Analysis Made Easy**
+<img src="man/figures/logo_banner.png" style="width:100.0%" />
 
 </div>
 
@@ -36,6 +41,30 @@ glycoproteomics data analysis. It provides a unified pipeline that
 covers the entire analytical workflow, from data import and cleaning to
 statistical analysis and visualization. It also provides a dedicated
 infrastructure for glycan structure analysis.
+
+### Quick Start
+
+``` r
+library(glycoverse)
+
+# Import results from Byonic and GlycoQuant
+exp <- read_byonic_pglycoquant("result.csv", sample_info = "sample_info.csv")
+
+# Preprocess
+clean_exp <- auto_clean(exp)
+
+# Derived trait analysis
+trait_exp <- derive_traits(clean_exp)
+
+# Statistical analysis
+dea_res <- gly_anova(trait_exp)
+
+# Use pipeline for a more concise workflow
+dea_res <- exp |> 
+  auto_clean() |> 
+  derive_traits() |> 
+  gly_anova()
+```
 
 ### Core Packages
 
@@ -188,18 +217,27 @@ pak::pkg_install("glyfun")
 
 ## Getting Started
 
-### Quick Start
+### Using the meta-package
 
 Load all core packages:
 
 ``` r
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.13.0          ✔ glyparse 0.5.7      
-#> ✔ glydet   0.10.4          ✔ glyread  0.10.0     
-#> ✔ glydraw  0.4.0           ✔ glyrepr  0.10.1.9000
-#> ✔ glyexp   0.14.1          ✔ glystats 0.9.0      
-#> ✔ glymotif 0.13.1          ✔ glyvis   0.5.1      
+#> Warning: 程序包'glyexp'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyread'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyclean'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyvis'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glyparse'是用R版本4.5.2 来建造的
+#> Warning: 程序包'glymotif'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
+#> Warning: 程序包'glydraw'是用R版本4.5.3 来建造的
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──
+#> ✔ glyclean 0.14.1          ✔ glyparse 0.6.0      
+#> ✔ glydet   0.11.0          ✔ glyread  0.11.0     
+#> ✔ glydraw  0.4.0           ✔ glyrepr  0.12.0     
+#> ✔ glyexp   0.14.1          ✔ glystats 0.10.0.9000
+#> ✔ glymotif 0.14.1          ✔ glyvis   0.6.0      
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors

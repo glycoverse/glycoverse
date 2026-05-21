@@ -19,6 +19,11 @@ knitr::opts_chunk$set(
 
 # glycoverse
 
+**Glyco-Omics Data Analysis Made Easy**
+
+A Tidyverse-style ecosystem for glycobiologists to turn raw MS data into biological insights.
+
+
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R version](https://img.shields.io/badge/R_language-4.5-blue?logo=R)](https://www.r-project.org)
@@ -29,13 +34,37 @@ knitr::opts_chunk$set(
 [![Awesome Glyco](https://img.shields.io/badge/Awesome-Glyco-pink)](https://github.com/amanzadi/awesome-glyco)
 <!-- badges: end -->
 
-**Glyco-Omics Data Analysis Made Easy**
+![](man/figures/logo_banner.png){width=100%}
 
 </div>
 
 ## Overview
 
 `glycoverse` is a comprehensive R ecosystem designed for glycomics and glycoproteomics data analysis. It provides a unified pipeline that covers the entire analytical workflow, from data import and cleaning to statistical analysis and visualization. It also provides a dedicated infrastructure for glycan structure analysis.
+
+### Quick Start
+
+```r
+library(glycoverse)
+
+# Import results from Byonic and GlycoQuant
+exp <- read_byonic_pglycoquant("result.csv", sample_info = "sample_info.csv")
+
+# Preprocess
+clean_exp <- auto_clean(exp)
+
+# Derived trait analysis
+trait_exp <- derive_traits(clean_exp)
+
+# Statistical analysis
+dea_res <- gly_anova(trait_exp)
+
+# Use pipeline for a more concise workflow
+dea_res <- exp |> 
+  auto_clean() |> 
+  derive_traits() |> 
+  gly_anova()
+```
 
 ### Core Packages
 
@@ -171,7 +200,7 @@ pak::pkg_install("glyfun")
 
 ## Getting Started
 
-### Quick Start
+### Using the meta-package
 
 Load all core packages:
 
