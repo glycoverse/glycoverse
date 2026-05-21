@@ -223,15 +223,6 @@ Load all core packages:
 
 ``` r
 library(glycoverse)
-#> Warning: 程序包'glyexp'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyread'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyclean'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyvis'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glyrepr'是用R版本4.5.2 来建造的
-#> Warning: 程序包'glyparse'是用R版本4.5.2 来建造的
-#> Warning: 程序包'glymotif'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glydet'是用R版本4.5.3 来建造的
-#> Warning: 程序包'glydraw'是用R版本4.5.3 来建造的
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──
 #> ✔ glyclean 0.14.1          ✔ glyparse 0.6.0      
 #> ✔ glydet   0.11.0          ✔ glyread  0.11.0     
