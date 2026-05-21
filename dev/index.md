@@ -46,35 +46,29 @@ dea_res <- exp |>
 
 The glycoverse ecosystem is organized into two main categories:
 
-**Omics Data Analysis**
+#### 🔬 Omics Data Analysis
 
-| Package | Description |
-|----|----|
-| [glyexp](https://github.com/glycoverse/glyexp) | Data management and experiment objects |
-| [glyread](https://github.com/glycoverse/glyread) | Data import from various sources |
-| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing |
-| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis |
-| [glyvis](https://github.com/glycoverse/glyvis) | Data visualization |
+Ecosystem units focusing on experimental data structures, automated
+cleaning, robust statistical calculation and interactive downstream
+plotting.
 
-**Glycan Structure Analysis**
+[TABLE]
 
-| Package | Description |
-|----|----|
-| [glyrepr](https://github.com/glycoverse/glyrepr) | Glycan structure representation |
-| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing |
-| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis |
-| [glydet](https://github.com/glycoverse/glydet) | Derived trait analysis |
-| [glydraw](https://github.com/glycoverse/glydraw) | Structure visualization |
+#### 🧬 Glycan Structure Analysis
+
+Packages for representing, parsing, matching, deriving and drawing
+glycan structures and traits.
+
+[TABLE]
 
 ### Optional Packages
 
-| Package | Description |
-|----|----|
-| [glydb](https://github.com/glycoverse/glydb) | Glycan database |
-| [glyanno](https://github.com/glycoverse/glyanno) | Glycan annotation |
-| [glyenzy](https://github.com/glycoverse/glyenzy) | Biosynthesis pathway analysis |
-| [glyfun](https://github.com/glycoverse/glyfun) | Functional enrichment analysis |
-| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline |
+#### 🧰 Optional Workflow Extensions
+
+Additional packages for reference data, annotation, pathway context,
+enrichment and full pipeline assembly.
+
+[TABLE]
 
 ### glycoverse Meta-Package
 
