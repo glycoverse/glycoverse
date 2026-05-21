@@ -42,9 +42,7 @@ dea_res <- exp |>
   gly_anova()
 ```
 
-### Core Packages
-
-The glycoverse ecosystem is organized into two main categories:
+### Packages
 
 #### 🔬 Omics Data Analysis
 
@@ -60,8 +58,6 @@ Packages for representing, parsing, matching, deriving and drawing
 glycan structures and traits.
 
 [TABLE]
-
-### Optional Packages
 
 #### 🧰 Optional Workflow Extensions
 
