@@ -83,11 +83,11 @@ collection of specialized packages all at once.
 
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──
-#> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
-#> ✔ glydet   0.11.0     ✔ glyread  0.11.0
-#> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
-#> ✔ glyexp   0.14.1     ✔ glystats 0.10.1
-#> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
+#> ✔ glyclean 0.15.0     ✔ glyparse 0.7.1 
+#> ✔ glydet   0.12.0     ✔ glyread  0.11.0
+#> ✔ glydraw  0.6.2      ✔ glyrepr  0.13.0
+#> ✔ glyexp   0.15.0     ✔ glystats 0.11.0
+#> ✔ glymotif 0.17.0     ✔ glyvis   0.7.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -146,18 +146,18 @@ You can get these data components by using `get_expr_mat()`,
 ``` r
 
 get_expr_mat(real_experiment)[1:5, 1:5]
-#>                                               C1         C2           C3
-#> P08185-N176-Hex(5)HexNAc(4)NeuAc(2)           NA         NA     10655.62
-#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-1  414080036  609889761  78954431.49
-#> P04196-N344-Hex(5)HexNAc(4)            581723113  604842244 167889901.32
-#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-2 3299649335 2856490652 957651065.86
-#> P10909-N291-Hex(6)HexNAc(5)-1           30427048   34294394   6390129.81
-#>                                                 H1         H2
-#> P08185-N176-Hex(5)HexNAc(4)NeuAc(2)   3.105412e+04         NA
-#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-1           NA   11724908
-#> P04196-N344-Hex(5)HexNAc(4)           6.977076e+08  703566323
-#> P04196-N344-Hex(5)HexNAc(4)NeuAc(1)-2 2.600523e+09 3229968280
-#> P10909-N291-Hex(6)HexNAc(5)-1         5.159133e+07   37479075
+#>                                              C1         C2           C3
+#> P08185-176-Hex(5)HexNAc(4)NeuAc(2)           NA         NA     10655.62
+#> P04196-344-Hex(5)HexNAc(4)NeuAc(1)-1  414080036  609889761  78954431.49
+#> P04196-344-Hex(5)HexNAc(4)            581723113  604842244 167889901.32
+#> P04196-344-Hex(5)HexNAc(4)NeuAc(1)-2 3299649335 2856490652 957651065.86
+#> P10909-291-Hex(6)HexNAc(5)-1           30427048   34294394   6390129.81
+#>                                                H1         H2
+#> P08185-176-Hex(5)HexNAc(4)NeuAc(2)   3.105412e+04         NA
+#> P04196-344-Hex(5)HexNAc(4)NeuAc(1)-1           NA   11724908
+#> P04196-344-Hex(5)HexNAc(4)           6.977076e+08  703566323
+#> P04196-344-Hex(5)HexNAc(4)NeuAc(1)-2 2.600523e+09 3229968280
+#> P10909-291-Hex(6)HexNAc(5)-1         5.159133e+07   37479075
 ```
 
 ``` r
@@ -186,16 +186,16 @@ get_var_info(real_experiment)
 #> # A tibble: 4,262 × 8
 #>    variable   peptide peptide_site protein protein_site gene  glycan_composition
 #>    <chr>      <chr>          <int> <chr>          <int> <chr> <comp>            
-#>  1 P08185-N1… NKTQGK             1 P08185           176 SERP… Hex(5)HexNAc(4)Ne…
-#>  2 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  3 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)   
-#>  4 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  5 P10909-N2… HNSTGC…            2 P10909           291 CLU   Hex(6)HexNAc(5)   
-#>  6 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
-#>  7 P04196-N3… HSHNNN…            6 P04196           345 HRG   Hex(5)HexNAc(4)   
-#>  8 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)dH…
-#>  9 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(3)   
-#> 10 P04196-N3… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(4)Ne…
+#>  1 P08185-17… NKTQGK             1 P08185           176 SERP… Hex(5)HexNAc(4)Ne…
+#>  2 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  3 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)   
+#>  4 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  5 P10909-29… HNSTGC…            2 P10909           291 CLU   Hex(6)HexNAc(5)   
+#>  6 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)Ne…
+#>  7 P04196-34… HSHNNN…            6 P04196           345 HRG   Hex(5)HexNAc(4)   
+#>  8 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(5)HexNAc(4)dH…
+#>  9 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(3)   
+#> 10 P04196-34… HSHNNN…            5 P04196           344 HRG   Hex(4)HexNAc(4)Ne…
 #> # ℹ 4,252 more rows
 #> # ℹ 1 more variable: glycan_structure <struct>
 ```
@@ -216,17 +216,17 @@ comprehensive preprocessing pipeline. Just call `auto_clean()` on your
 
 clean_exp <- auto_clean(real_experiment)
 #> 
-#> ── Normalizing data ──
-#> 
-#> ℹ Normalization method: `normalize_median()`
-#> ℹ Reason: default for "glycoproteomics".
-#> ✔ Normalization completed.
-#> 
 #> ── Removing variables with too many missing values ──
 #> 
 #> ℹ Applying preset "discovery"...
 #> ℹ Total removed: 24 (0.56%) variables.
 #> ✔ Variable removal completed.
+#> 
+#> ── Normalizing data ──
+#> 
+#> ℹ Normalization method: `normalize_median()`
+#> ℹ Reason: default for "glycoproteomics".
+#> ✔ Normalization completed.
 #> 
 #> ── Imputing missing values ──
 #> 
@@ -323,7 +323,7 @@ get_tidy_result(pca_res, "samples")  # many tibbles, so we specify one of them
 #>  1 C1     C         1 -21.8 
 #>  2 C1     C         2  24.6 
 #>  3 C1     C         3   1.47
-#>  4 C1     C         4   2.15
+#>  4 C1     C         4   2.16
 #>  5 C1     C         5  10.8 
 #>  6 C1     C         6 -25.1 
 #>  7 C1     C         7   5.79
@@ -500,8 +500,8 @@ motif_anova_res <- clean_exp |>
 
 get_tidy_result(motif_anova_res, "main_test")
 #> # A tibble: 828 × 15
-#>    variable         protein protein_site motif gene  motif_structure term     df
-#>    <glue>           <chr>          <int> <chr> <chr> <struct>        <chr> <dbl>
+#>    variable         protein protein_site trait gene  motif_structure term     df
+#>    <chr>            <chr>          <int> <chr> <chr> <struct>        <chr> <dbl>
 #>  1 A6NJW9-49-lewis… A6NJW9            49 lewi… CD8B2 dHex(??-?)Hex(… group     3
 #>  2 A6NJW9-49-lewis… A6NJW9            49 lewi… CD8B2 Hex(??-?)[dHex… group     3
 #>  3 A6NJW9-49-sia_l… A6NJW9            49 sia_… CD8B2 NeuAc(??-?)Hex… group     3
@@ -531,15 +531,15 @@ since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
-  group_by(motif) |>
+  group_by(trait) |>
   count()
 #> # A tibble: 3 × 2
-#> # Groups:   motif [3]
-#>   motif            n
+#> # Groups:   trait [3]
+#>   trait            n
 #>   <chr>        <int>
-#> 1 lewis_ax        14
-#> 2 lewis_by         4
-#> 3 sia_lewis_ax    16
+#> 1 lewis_ax        25
+#> 2 lewis_by         8
+#> 3 sia_lewis_ax    29
 ```
 
 Want the specific glycosites with significant Lewis a/x epitopes? Easy:
@@ -548,56 +548,23 @@ Want the specific glycosites with significant Lewis a/x epitopes? Easy:
 
 motif_anova_res |>
   get_tidy_result("main_test") |>
-  filter(p_adj < 0.05, motif == "lewis_ax") |>
+  filter(p_adj < 0.05, trait == "lewis_ax") |>
   select(protein, protein_site)
-#> # A tibble: 14 × 2
+#> # A tibble: 25 × 2
 #>    protein protein_site
 #>    <chr>          <int>
-#>  1 P00738           241
-#>  2 P01011           271
-#>  3 P01042           294
-#>  4 P01877           205
-#>  5 P02675           394
-#>  6 P02679            78
-#>  7 P02763            93
-#>  8 P03952           494
-#>  9 P04114          3411
-#> 10 P05090            98
-#> 11 P05156           177
-#> 12 P10909            86
-#> 13 P20851            64
-#> 14 Q08380           125
+#>  1 P00734           143
+#>  2 P00738           241
+#>  3 P01011           271
+#>  4 P01042           294
+#>  5 P01877           131
+#>  6 P01877           205
+#>  7 P01877            92
+#>  8 P02675           394
+#>  9 P02679            78
+#> 10 P02749           162
+#> # ℹ 15 more rows
 ```
-
-Here’s another common question: **Which pathways are enriched in
-proteins that carry Lewis a/x epitopes?**
-
-For this analysis, we don’t need motif quantification—we just need to
-know which proteins have these motifs.
-[`glymotif::add_motifs_lgl()`](https://glycoverse.github.io/glymotif/reference/add_motifs_int.html)
-is perfect for this.
-
-``` r
-
-kegg_res <- clean_exp |>
-  add_motifs_lgl(motifs) |>
-  filter_var(lewis_ax) |>
-  gly_enrich_kegg()
-#> Warning: `gly_enrich_kegg()` was deprecated in glystats 0.10.0.
-#> ℹ Please use `glyfun::enrich_ora_kegg()` instead.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
-
-autoplot(kegg_res)
-```
-
-![](case-study-1_files/figure-html/unnamed-chunk-19-1.png)
-
-`add_motifs_lgl()` adds three new TRUE/FALSE columns (`lewis_by`,
-`lewis_ax`, `sia_lewis_ax`) to the variable information. `filter_var()`
-keeps only glycoforms with Lewis a/x epitopes. Finally,
-`gly_enrich_kegg()` runs pathway enrichment on the remaining proteins.
 
 `glymotif` has much more to offer beyond these examples. Dive deeper
 with [Get Started with
@@ -641,7 +608,7 @@ The variable information shows what we’re working with:
 get_var_info(trait_exp)
 #> # A tibble: 3,864 × 6
 #>    variable      protein protein_site trait gene  explanation                   
-#>    <glue>        <chr>          <int> <chr> <chr> <chr>                         
+#>    <chr>         <chr>          <int> <chr> <chr> <chr>                         
 #>  1 A6NJW9-49-TM  A6NJW9            49 TM    CD8B2 Proportion of high-mannose gl…
 #>  2 A6NJW9-49-TH  A6NJW9            49 TH    CD8B2 Proportion of hybrid glycans …
 #>  3 A6NJW9-49-TC  A6NJW9            49 TC    CD8B2 Proportion of complex glycans…
@@ -690,19 +657,22 @@ trait_exp |>
 #> ℹ Number of groups: 4
 #> ℹ Groups: "H", "M", "Y", and "C"
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
-#> # A tibble: 10 × 15
+#> # A tibble: 13 × 15
 #>    variable     protein protein_site trait gene  explanation term     df   sumsq
-#>    <glue>       <chr>          <int> <chr> <chr> <chr>       <chr> <dbl>   <dbl>
+#>    <chr>        <chr>          <int> <chr> <chr> <chr>       <chr> <dbl>   <dbl>
 #>  1 P00748-249-… P00748           249 TFc   F12   Proportion… group     3 4.30e+0
 #>  2 P01591-71-T… P01591            71 TFc   JCHA… Proportion… group     3 1.09e+0
-#>  3 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 1.64e+0
-#>  4 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 4.25e-1
-#>  5 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 7.02e-1
-#>  6 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 8.64e-2
-#>  7 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 1.02e+2
-#>  8 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 5.21e+1
-#>  9 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 1.66e+1
-#> 10 P20851-64-T… P20851            64 TFc   C4BPB Proportion… group     3 7.42e+1
+#>  3 P01877-92-T… P01877            92 TFc   IGHA2 Proportion… group     3 9.01e-3
+#>  4 P02679-78-T… P02679            78 TFc   FGG   Proportion… group     3 1.53e+1
+#>  5 P02765-176-… P02765           176 TFc   AHSG  Proportion… group     3 1.64e+0
+#>  6 P02790-240-… P02790           240 TFc   HPX   Proportion… group     3 4.25e-1
+#>  7 P04004-86-T… P04004            86 TFc   VTN   Proportion… group     3 7.02e-1
+#>  8 P05090-98-T… P05090            98 TFc   APOD  Proportion… group     3 8.64e-2
+#>  9 P06681-621-… P06681           621 TFc   C2    Proportion… group     3 1.02e+2
+#> 10 P0C0L4-1328… P0C0L4          1328 TFc   C4A   Proportion… group     3 5.21e+1
+#> 11 P0C0L4-1391… P0C0L4          1391 TFc   C4A   Proportion… group     3 1.71e+1
+#> 12 P19652-103-… P19652           103 TFc   ORM2  Proportion… group     3 1.66e+1
+#> 13 P20851-64-T… P20851            64 TFc   C4BPB Proportion… group     3 7.42e+1
 #> # ℹ 6 more variables: meansq <dbl>, statistic <dbl>, p_val <dbl>, p_adj <dbl>,
 #> #   effect_size <dbl>, post_hoc <chr>
 ```

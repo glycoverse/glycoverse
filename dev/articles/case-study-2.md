@@ -38,7 +38,7 @@ pca_res <- gly_pca(clean_exp)
 autoplot(pca_res)
 
 # Perform differential expression analysis
-anova_res <- gly_lanova(clean_exp)
+anova_res <- gly_anova(clean_exp)
 get_tidy_result(anova_res, "main_test")
 
 # Perform motif analysis
@@ -83,11 +83,11 @@ collection of specialized packages all at once.
 
 library(glycoverse)
 #> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──
-#> ✔ glyclean 0.14.1     ✔ glyparse 0.6.0 
-#> ✔ glydet   0.11.0     ✔ glyread  0.11.0
-#> ✔ glydraw  0.4.0      ✔ glyrepr  0.12.0
-#> ✔ glyexp   0.14.1     ✔ glystats 0.10.1
-#> ✔ glymotif 0.14.1     ✔ glyvis   0.6.0 
+#> ✔ glyclean 0.15.0     ✔ glyparse 0.7.1 
+#> ✔ glydet   0.12.0     ✔ glyread  0.11.0
+#> ✔ glydraw  0.6.2      ✔ glyrepr  0.13.0
+#> ✔ glyexp   0.15.0     ✔ glystats 0.11.0
+#> ✔ glymotif 0.17.0     ✔ glyvis   0.7.0 
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate()  masks stats::aggregate()
 #> ✖ dplyr::filter()        masks stats::filter()
@@ -488,8 +488,8 @@ motif_anova_res <- clean_exp |>
 
 get_tidy_result(motif_anova_res, "main_test")
 #> # A tibble: 3 × 12
-#>   variable motif  motif_structure    term     df  sumsq meansq statistic   p_val
-#>   <glue>   <chr>  <struct>           <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>
+#>   variable trait  motif_structure    term     df  sumsq meansq statistic   p_val
+#>   <chr>    <chr>  <struct>           <chr> <dbl>  <dbl>  <dbl>     <dbl>   <dbl>
 #> 1 motif1   motif1 Neu5Ac(??-?)Gal(?… group     3 0.0550 0.0183      1.14 3.33e-1
 #> 2 motif2   motif2 Gal(??-?)GlcNAc(?… group     3 0.420  0.140       2.23 8.75e-2
 #> 3 motif3   motif3 GlcNAc(??-         group     3 3.12   1.04        5.88 8.26e-4
@@ -510,38 +510,11 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05)
 #> # A tibble: 1 × 12
-#>   variable motif  motif_structure term     df sumsq meansq statistic    p_val
-#>   <glue>   <chr>  <struct>        <chr> <dbl> <dbl>  <dbl>     <dbl>    <dbl>
+#>   variable trait  motif_structure term     df sumsq meansq statistic    p_val
+#>   <chr>    <chr>  <struct>        <chr> <dbl> <dbl>  <dbl>     <dbl>    <dbl>
 #> 1 motif3   motif3 GlcNAc(??-      group     3  3.12   1.04      5.88 0.000826
 #> # ℹ 3 more variables: p_adj <dbl>, effect_size <dbl>, post_hoc <chr>
 ```
-
-Here’s another common question: **Which of the three branching motifs
-appears the most in all glycans?**
-
-For this analysis, we don’t need motif quantification—we just need to
-know which glycans have these motifs.
-[`glymotif::add_motifs_lgl()`](https://glycoverse.github.io/glymotif/reference/add_motifs_int.html)
-is perfect for this.
-
-``` r
-
-clean_exp |>
-  add_motifs_lgl(motifs, alignments = "terminal") |>
-  get_var_info() |>
-  select(glycan_composition, motif1, motif2, motif3) |>
-  pivot_longer(-glycan_composition, names_to = "motif", values_to = "has_motif") |>
-  summarise(n = sum(has_motif), .by = "motif")
-#> # A tibble: 3 × 2
-#>   motif      n
-#>   <chr>  <int>
-#> 1 motif1    30
-#> 2 motif2    25
-#> 3 motif3    24
-```
-
-`add_motifs_lgl()` adds three new TRUE/FALSE columns (`motif1`,
-`motif2`, `motif3`) to the variable information.
 
 `glymotif` has much more to offer beyond these examples. Dive deeper
 with [Get Started with
@@ -581,7 +554,7 @@ The variable information shows what we’re working with:
 get_var_info(trait_exp)
 #> # A tibble: 14 × 3
 #>    variable trait explanation                                                   
-#>    <glue>   <chr> <chr>                                                         
+#>    <chr>    <chr> <chr>                                                         
 #>  1 TM       TM    Proportion of high-mannose glycans among all glycans.         
 #>  2 TH       TH    Proportion of hybrid glycans among all glycans.               
 #>  3 TC       TC    Proportion of complex glycans among all glycans.              
@@ -634,7 +607,7 @@ trait_exp |>
 #> ℹ Pairwise comparisons will be performed, with levels coming first as reference groups.
 #> # A tibble: 8 × 12
 #>   variable trait explanation        term     df  sumsq  meansq statistic   p_val
-#>   <glue>   <chr> <chr>              <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>
+#>   <chr>    <chr> <chr>              <chr> <dbl>  <dbl>   <dbl>     <dbl>   <dbl>
 #> 1 CA2      CA2   Proportion of bi-… group     3 0.0404 0.0135       5.71 1.02e-3
 #> 2 CA3      CA3   Proportion of tri… group     3 1.75   0.584        5.38 1.56e-3
 #> 3 CA4      CA4   Proportion of tet… group     3 1.12   0.372        4.82 3.19e-3
