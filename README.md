@@ -325,9 +325,9 @@ glycoverse_sitrep()
 
 1.  Read the case studies:
     -   [Glycoproteomics
-        Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-1.html)
+        Analysis](https://glycoverse.github.io/glycoverse-tutorial/tutorials/glycoproteomics.html)
     -   [Glycomics
-        Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-2.html)
+        Analysis](https://glycoverse.github.io/glycoverse-tutorial/tutorials/glycomics.html)
 2.  Follow the recommended learning order:
     -   Omics: [glyexp](https://github.com/glycoverse/glyexp) →
         [glyread](https://github.com/glycoverse/glyread) →
