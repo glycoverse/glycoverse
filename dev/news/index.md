@@ -2,6 +2,11 @@
 
 ## glycoverse (development version)
 
+- Move the glycomics and glycoproteomics case studies to the standalone
+  [Glycoverse
+  Tutorials](https://glycoverse.github.io/glycoverse-tutorial/) website.
+  (#6)
+
 ## glycoverse 0.3.1
 
 - `glyfun` is now managed as a non-core glycoverse package.
