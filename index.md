@@ -4,6 +4,11 @@
 
 **Glyco-Omics Data Analysis Made Easy**
 
+A Tidyverse-style ecosystem for glycobiologists to turn raw MS data into
+biological insights.
+
+![](reference/figures/logo_banner.png)
+
 ## Overview
 
 `glycoverse` is a comprehensive R ecosystem designed for glycomics and
@@ -12,39 +17,54 @@ covers the entire analytical workflow, from data import and cleaning to
 statistical analysis and visualization. It also provides a dedicated
 infrastructure for glycan structure analysis.
 
-### Core Packages
+### Quick Start
 
-The glycoverse ecosystem is organized into two main categories:
+``` r
 
-**Omics Data Analysis**
+library(glycoverse)
 
-| Package | Description |
-|----|----|
-| [glyexp](https://github.com/glycoverse/glyexp) | Data management and experiment objects |
-| [glyread](https://github.com/glycoverse/glyread) | Data import from various sources |
-| [glyclean](https://github.com/glycoverse/glyclean) | Data cleaning and preprocessing |
-| [glystats](https://github.com/glycoverse/glystats) | Statistical analysis |
-| [glyvis](https://github.com/glycoverse/glyvis) | Data visualization |
+# Import results from Byonic and GlycoQuant
+exp <- read_byonic_pglycoquant("result.csv", sample_info = "sample_info.csv")
 
-**Glycan Structure Analysis**
+# Preprocess
+clean_exp <- auto_clean(exp)
 
-| Package | Description |
-|----|----|
-| [glyrepr](https://github.com/glycoverse/glyrepr) | Glycan structure representation |
-| [glyparse](https://github.com/glycoverse/glyparse) | Glycan structure parsing |
-| [glymotif](https://github.com/glycoverse/glymotif) | Motif analysis |
-| [glydet](https://github.com/glycoverse/glydet) | Derived trait analysis |
-| [glydraw](https://github.com/glycoverse/glydraw) | Structure visualization |
+# Derived trait analysis
+trait_exp <- derive_traits(clean_exp)
 
-### Optional Packages
+# Statistical analysis
+dea_res <- gly_anova(trait_exp)
 
-| Package | Description |
-|----|----|
-| [glydb](https://github.com/glycoverse/glydb) | Glycan database |
-| [glyanno](https://github.com/glycoverse/glyanno) | Glycan annotation |
-| [glyenzy](https://github.com/glycoverse/glyenzy) | Biosynthesis pathway analysis |
-| [glyfun](https://github.com/glycoverse/glyfun) | Functional enrichment analysis |
-| [glysmith](https://github.com/glycoverse/glysmith) | Full analytical pipeline |
+# Use pipeline for a more concise workflow
+dea_res <- exp |> 
+  auto_clean() |> 
+  derive_traits() |> 
+  gly_anova()
+```
+
+### Packages
+
+#### 🔬 Omics Data Analysis
+
+Ecosystem units focusing on experimental data structures, automated
+cleaning, robust statistical calculation and interactive downstream
+plotting.
+
+[TABLE]
+
+#### 🧬 Glycan Structure Analysis
+
+Packages for representing, parsing, matching, deriving and drawing
+glycan structures and traits.
+
+[TABLE]
+
+#### 🧰 Optional Workflow Extensions
+
+Additional packages for reference data, annotation, pathway context,
+enrichment and full pipeline assembly.
+
+[TABLE]
 
 ### glycoverse Meta-Package
 
@@ -163,19 +183,19 @@ pak::pkg_install("glyfun")
 
 ## Getting Started
 
-### Quick Start
+### Using the meta-package
 
 Load all core packages:
 
 ``` r
 
 library(glycoverse)
-#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.0.9000 ──
-#> ✔ glyclean 0.13.0          ✔ glyparse 0.5.7      
-#> ✔ glydet   0.10.4          ✔ glyread  0.10.0     
-#> ✔ glydraw  0.4.0           ✔ glyrepr  0.10.1.9000
-#> ✔ glyexp   0.14.1          ✔ glystats 0.9.0      
-#> ✔ glymotif 0.13.1          ✔ glyvis   0.5.1      
+#> ── Attaching core glycoverse packages ───────────────── glycoverse 0.3.1.9000 ──
+#> ✔ glyclean 0.14.1          ✔ glyparse 0.6.0      
+#> ✔ glydet   0.11.0          ✔ glyread  0.11.0     
+#> ✔ glydraw  0.4.0           ✔ glyrepr  0.12.0     
+#> ✔ glyexp   0.14.1          ✔ glystats 0.10.0.9000
+#> ✔ glymotif 0.14.1          ✔ glyvis   0.6.0      
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
@@ -199,9 +219,9 @@ glycoverse_sitrep()
 
 1.  Read the case studies:
     - [Glycoproteomics
-      Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-1.html)
+      Analysis](https://glycoverse.github.io/glycoverse-tutorial/tutorials/glycoproteomics.html)
     - [Glycomics
-      Analysis](https://github.com/glycoverse/glycoverse/articles/case-study-2.html)
+      Analysis](https://glycoverse.github.io/glycoverse-tutorial/tutorials/glycomics.html)
 2.  Follow the recommended learning order:
     - Omics: [glyexp](https://github.com/glycoverse/glyexp) →
       [glyread](https://github.com/glycoverse/glyread) →
