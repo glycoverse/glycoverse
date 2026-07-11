@@ -1,8 +1,6 @@
-# glycoverse (development version)
+# glycoverse 0.3.2
 
-* Move the glycomics and glycoproteomics case studies to the standalone
-  [Glycoverse Tutorials](https://glycoverse.github.io/glycoverse-tutorial/)
-  website. (#6)
+* The glycomics and glycoproteomics case studies now live on the standalone [Glycoverse Tutorials](https://glycoverse.github.io/glycoverse-tutorial/) website. (#6)
 
 # glycoverse 0.3.1
 
