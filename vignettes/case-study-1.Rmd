@@ -318,7 +318,7 @@ since `motif_anova_res$tidy_result$main_test` is just a regular tibble:
 motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05) |>
-  group_by(motif) |>
+  group_by(trait) |>
   count()
 ```
 
@@ -327,32 +327,9 @@ Want the specific glycosites with significant Lewis a/x epitopes? Easy:
 ```{r}
 motif_anova_res |>
   get_tidy_result("main_test") |>
-  filter(p_adj < 0.05, motif == "lewis_ax") |>
+  filter(p_adj < 0.05, trait == "lewis_ax") |>
   select(protein, protein_site)
 ```
-
-Here's another common question:
-**Which pathways are enriched in proteins that carry Lewis a/x epitopes?**
-
-For this analysis, we don't need motif quantification—we just need to know
-which proteins have these motifs.
-`glymotif::add_motifs_lgl()` is perfect for this.
-
-```{r}
-#| fig-width: 6
-#| fig-height: 4
-kegg_res <- clean_exp |>
-  add_motifs_lgl(motifs) |>
-  filter_var(lewis_ax) |>
-  gly_enrich_kegg()
-
-autoplot(kegg_res)
-```
-
-`add_motifs_lgl()` adds three new TRUE/FALSE columns (`lewis_by`, `lewis_ax`, `sia_lewis_ax`)
-to the variable information.
-`filter_var()` keeps only glycoforms with Lewis a/x epitopes.
-Finally, `gly_enrich_kegg()` runs pathway enrichment on the remaining proteins.
 
 `glymotif` has much more to offer beyond these examples.
 Dive deeper with [Get Started with glymotif](https://glycoverse.github.io/glymotif/articles/glymotif.html).

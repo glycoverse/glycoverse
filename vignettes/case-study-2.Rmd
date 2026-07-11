@@ -51,7 +51,7 @@ pca_res <- gly_pca(clean_exp)
 autoplot(pca_res)
 
 # Perform differential expression analysis
-anova_res <- gly_lanova(clean_exp)
+anova_res <- gly_anova(clean_exp)
 get_tidy_result(anova_res, "main_test")
 
 # Perform motif analysis
@@ -303,24 +303,6 @@ motif_anova_res |>
   get_tidy_result("main_test") |>
   filter(p_adj < 0.05)
 ```
-
-Here's another common question:
-**Which of the three branching motifs appears the most in all glycans?**
-
-For this analysis, we don't need motif quantification—we just need to know
-which glycans have these motifs.
-`glymotif::add_motifs_lgl()` is perfect for this.
-
-```{r}
-clean_exp |>
-  add_motifs_lgl(motifs, alignments = "terminal") |>
-  get_var_info() |>
-  select(glycan_composition, motif1, motif2, motif3) |>
-  pivot_longer(-glycan_composition, names_to = "motif", values_to = "has_motif") |>
-  summarise(n = sum(has_motif), .by = "motif")
-```
-
-`add_motifs_lgl()` adds three new TRUE/FALSE columns (`motif1`, `motif2`, `motif3`) to the variable information.
 
 `glymotif` has much more to offer beyond these examples.
 Dive deeper with [Get Started with glymotif](https://glycoverse.github.io/glymotif/articles/glymotif.html).
