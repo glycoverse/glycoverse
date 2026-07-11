@@ -47,4 +47,3 @@ RoxygenNote: 7.3.3
 URL: https://glycoverse.github.io/glycoverse/
 Depends: 
     R (>= 4.1)
-VignetteBuilder: knitr
