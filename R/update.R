@@ -109,10 +109,24 @@ glycoverse_update <- function(
   tryCatch(
     {
       pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
+      pak::meta_update()
       pak::pkg_install(behind$package, ask = FALSE)
-      cli::cli_alert_success(cli::pluralize(
-        "Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"
-      ))
+
+      installed <- installed_package_versions(behind$package)
+      updated <- !is.na(installed) & installed == behind$upstream
+
+      if (all(updated)) {
+        cli::cli_alert_success(cli::pluralize(
+          "Successfully updated {cli::qty(nrow(behind))}{nrow(behind)} package{?s}"
+        ))
+      } else {
+        failed <- behind$package[!updated]
+        cli::cli_alert_danger(
+          "Automatic update did not finish. These packages are still not at the requested versions: {.val {failed}}"
+        )
+        cli::cat_line()
+        show_manual_install_commands(failed)
+      }
     },
     error = function(e) {
       cli::cli_alert_danger("Automatic update failed: {conditionMessage(e)}")
@@ -122,6 +136,19 @@ glycoverse_update <- function(
   )
 
   invisible()
+}
+
+installed_package_versions <- function(packages) {
+  vapply(
+    packages,
+    function(package) {
+      tryCatch(
+        as.character(utils::packageVersion(package)),
+        error = function(...) NA_character_
+      )
+    },
+    character(1)
+  )
 }
 
 show_manual_install_commands <- function(packages) {

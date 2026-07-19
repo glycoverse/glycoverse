@@ -1,5 +1,7 @@
 # glycoverse (development version)
 
+* `glycoverse_update()` now reports success only after requested packages reach their target versions. (#8)
+
 # glycoverse 0.3.2
 
 * The glycomics and glycoproteomics case studies now live on the standalone [Glycoverse Tutorials](https://glycoverse.github.io/glycoverse-tutorial/) website. (#6)

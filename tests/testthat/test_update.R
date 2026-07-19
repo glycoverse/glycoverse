@@ -151,7 +151,9 @@ test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
   )
 
   repo_add_called <- FALSE
+  meta_update_called <- FALSE
   pkg_install_called <- FALSE
+  calls <- character()
 
   # Mock glycoverse_deps in glycoverse namespace
   local_mocked_bindings(
@@ -163,10 +165,17 @@ test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
   local_mocked_bindings(
     repo_add = function(...) {
       repo_add_called <<- TRUE
+      calls <<- c(calls, "repo_add")
+      invisible()
+    },
+    meta_update = function(...) {
+      meta_update_called <<- TRUE
+      calls <<- c(calls, "meta_update")
       invisible()
     },
     pkg_install = function(...) {
       pkg_install_called <<- TRUE
+      calls <<- c(calls, "pkg_install")
       invisible()
     },
     .package = "pak"
@@ -181,7 +190,70 @@ test_that("glycoverse_update uses pak::repo_add for r-universe packages", {
   suppressMessages(glycoverse_update())
 
   expect_true(repo_add_called)
+  expect_true(meta_update_called)
   expect_true(pkg_install_called)
+  expect_equal(calls, c("repo_add", "meta_update", "pkg_install"))
+})
+
+test_that("glycoverse_update verifies installed versions before reporting success", {
+  skip_if_not_installed("pak")
+
+  mock_deps <- tibble::tibble(
+    package = "glyrepr",
+    source = "runiverse",
+    upstream = "0.10.0",
+    local = "0.9.0",
+    behind = TRUE
+  )
+
+  local_mocked_bindings(
+    glycoverse_deps = function(...) mock_deps,
+    installed_package_versions = function(...) c(glyrepr = "0.9.0"),
+    .package = "glycoverse"
+  )
+  local_mocked_bindings(
+    repo_add = function(...) invisible(),
+    meta_update = function(...) invisible(),
+    pkg_install = function(...) invisible(),
+    .package = "pak"
+  )
+  local_mocked_bindings(menu = function(...) 1, .package = "utils")
+
+  messages <- capture_messages(glycoverse_update())
+  messages <- paste(messages, collapse = "\n")
+
+  expect_match(messages, "did not finish")
+  expect_no_match(messages, "Successfully updated")
+})
+
+test_that("glycoverse_update reports success after versions reach their targets", {
+  skip_if_not_installed("pak")
+
+  mock_deps <- tibble::tibble(
+    package = "glyrepr",
+    source = "runiverse",
+    upstream = "0.10.0",
+    local = "0.9.0",
+    behind = TRUE
+  )
+
+  local_mocked_bindings(
+    glycoverse_deps = function(...) mock_deps,
+    installed_package_versions = function(...) c(glyrepr = "0.10.0"),
+    .package = "glycoverse"
+  )
+  local_mocked_bindings(
+    repo_add = function(...) invisible(),
+    meta_update = function(...) invisible(),
+    pkg_install = function(...) invisible(),
+    .package = "pak"
+  )
+  local_mocked_bindings(menu = function(...) 1, .package = "utils")
+
+  messages <- capture_messages(glycoverse_update())
+  messages <- paste(messages, collapse = "\n")
+
+  expect_match(messages, "Successfully updated")
 })
 
 test_that("is_dev_version detects development versions correctly", {
@@ -227,6 +299,9 @@ test_that("glycoverse_update with dev_to_latest = TRUE includes dev versions", {
       invisible()
     },
     repo_add = function(...) {
+      invisible()
+    },
+    meta_update = function(...) {
       invisible()
     },
     .package = "pak"
