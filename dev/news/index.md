@@ -2,6 +2,10 @@
 
 ## glycoverse (development version)
 
+- [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md)
+  now reports success only after requested packages reach their target
+  versions. (#8)
+
 ## glycoverse 0.3.2
 
 - The glycomics and glycoproteomics case studies now live on the
