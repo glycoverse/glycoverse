@@ -2,6 +2,8 @@
 
 ## glycoverse (development version)
 
+## glycoverse 0.3.3
+
 - [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md)
   now reports success only after requested packages reach their target
   versions. (#8)
