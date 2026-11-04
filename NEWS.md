@@ -1,5 +1,7 @@
 # glycoverse (development version)
 
+* Conflict reports now exclude non-function objects and identical re-exports while preserving the correct masking order.
+
 # glycoverse 0.3.3
 
 * `glycoverse_update()` now reports success only after requested packages reach their target versions. (#8)
