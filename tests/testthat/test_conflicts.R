@@ -1,5 +1,8 @@
 .with_conflict_packages <- function(objects, code) {
-  package_names <- paste0("package:glycoverse_conflict_test_", seq_along(objects))
+  package_names <- paste0(
+    "package:glycoverse_conflict_test_",
+    seq_along(objects)
+  )
   for (i in rev(seq_along(objects))) {
     attach(
       list(conflict_test_fun = objects[[i]]),
@@ -7,11 +10,14 @@
       warn.conflicts = FALSE
     )
   }
-  on.exit({
-    for (package in package_names) {
-      detach(package, character.only = TRUE)
-    }
-  }, add = TRUE)
+  on.exit(
+    {
+      for (package in package_names) {
+        detach(package, character.only = TRUE)
+      }
+    },
+    add = TRUE
+  )
   code(package_names)
 }
 
