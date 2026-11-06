@@ -2,6 +2,9 @@
 
 ## glycoverse (development version)
 
+- Conflict reports now exclude non-function objects and identical
+  re-exports while preserving the correct masking order.
+
 ## glycoverse 0.3.3
 
 - [`glycoverse_update()`](https://glycoverse.github.io/glycoverse/dev/reference/glycoverse_update.md)
