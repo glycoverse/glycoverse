@@ -94,18 +94,19 @@ print.glycoverse_conflicts <- function(x, ..., startup = FALSE) {
 
 confirm_conflict <- function(packages, name) {
   # Only look at functions
-  objs <- packages |>
-    purrr::map(\(pkg) get(name, pos = pkg)) |>
-    purrr::keep(is.function)
+  objs <- purrr::map(packages, \(pkg) get(name, pos = pkg))
+  is_function <- vapply(objs, is.function, logical(1))
+  objs <- objs[is_function]
+  packages <- packages[is_function]
 
   if (length(objs) <= 1) {
     return()
   }
 
-  # Remove identical functions
-  objs <- objs[!duplicated(objs)]
-  packages <- packages[!duplicated(packages)]
-  if (length(objs) == 1) {
+  # Keep package names aligned when removing identical re-exported functions.
+  distinct <- !duplicated(objs)
+  packages <- packages[distinct]
+  if (length(packages) == 1) {
     return()
   }
 
