@@ -1,6 +1,9 @@
-# glycoverse (development version)
+# glycoverse 0.3.4
 
-* Conflict reports now exclude non-function objects and identical re-exports while preserving the correct masking order.
+## Minor improvements and bug fixes
+
+* Conflict reports exclude non-function objects and identical re-exports while preserving the correct masking order.
+* Minimum package versions select releases compatible with the glyexp 0.20.0 object and identifier contracts.
 
 # glycoverse 0.3.3
 

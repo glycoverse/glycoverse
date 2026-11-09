@@ -1,6 +1,6 @@
 Package: glycoverse
 Title: Easy Install and Load the `Glycoverse`
-Version: 0.3.3.9000
+Version: 0.3.4
 Authors@R: 
     person("Bin", "Fu", , "23110220018@m.fudan.edu.cn", role = c("aut", "cre"),
             comment = c(ORCID = "0000-0001-8567-2997"))
@@ -19,7 +19,7 @@ Suggests:
     clusterProfiler,
     org.Hs.eg.db,
     missForest,
-    glyfun
+    glyfun (>= 0.2.0)
 Imports:
     cli,
     dplyr,
@@ -27,15 +27,15 @@ Imports:
     rlang,
     rstudioapi,
     tibble,
-    glyclean (>= 0.9.1),
-    glydet (>= 0.6.5),
-    glyexp (>= 0.10.4),
+    glyclean (>= 0.17.1),
+    glydet (>= 0.14.0),
+    glyexp (>= 0.20.0),
     glymotif (>= 0.11.2),
     glyparse (>= 0.5.3),
-    glyread (>= 0.8.2),
+    glyread (>= 0.12.5),
     glyrepr (>= 0.9.0),
-    glystats (>= 0.5.5),
-    glyvis (>= 0.4.1),
+    glystats (>= 0.15.0),
+    glyvis (>= 0.8.0),
     glydraw (>= 0.1.0),
     pak,
     BiocManager,
