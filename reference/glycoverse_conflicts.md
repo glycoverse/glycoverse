@@ -29,5 +29,9 @@ code.
 glycoverse_conflicts()
 #> ── Conflicts ───────────────────────────────────────── glycoverse_conflicts() ──
 #> ✖ glyclean::aggregate() masks stats::aggregate()
+#> ✖ glyexp::cbind()       masks base::cbind()
+#> ✖ glyexp::colnames<-()  masks base::colnames<-()
+#> ✖ glyexp::rbind()       masks base::rbind()
+#> ✖ glyexp::rownames<-()  masks base::rownames<-()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
