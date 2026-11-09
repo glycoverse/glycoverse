@@ -9,7 +9,7 @@ and other packages that you have loaded."><meta property="og:image" content="htt
 
     <a class="navbar-brand me-2" href="../index.html">glycoverse</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.4.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,10 @@ existing code.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">glycoverse_conflicts</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────────────── glycoverse_conflicts() ──</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyclean</span>::<span style="color: #00BB00;">aggregate()</span> masks <span style="color: #0000BB;">stats</span>::aggregate()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyexp</span>::<span style="color: #00BB00;">cbind()</span>       masks <span style="color: #0000BB;">base</span>::cbind()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyexp</span>::<span style="color: #00BB00;">colnames&lt;-()</span>  masks <span style="color: #0000BB;">base</span>::colnames&lt;-()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyexp</span>::<span style="color: #00BB00;">rbind()</span>       masks <span style="color: #0000BB;">base</span>::rbind()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">glyexp</span>::<span style="color: #00BB00;">rownames&lt;-()</span>  masks <span style="color: #0000BB;">base</span>::rownames&lt;-()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use the conflicted package (<span style="color: #0000BB; font-style: italic;">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors</span>
 </code></pre></div>
     </div>
