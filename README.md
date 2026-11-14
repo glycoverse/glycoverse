@@ -74,48 +74,30 @@ Ecosystem units focusing on experimental data structures, automated
 cleaning, robust statistical calculation and interactive downstream
 plotting.
 
-<table>
+<table width="725">
 <tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyexp"><img src="man/figures/logos/glyexp.png" width="96" height="110" alt="glyexp logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyexp"><img src="man/figures/logos/glyexp.png" height="110" alt="glyexp logo"></a><br>
 <a href="https://github.com/glycoverse/glyexp"><strong><code>glyexp</code></strong></a><br>
 <sub>Data management &<br>experiment objects</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyread"><img src="man/figures/logos/glyread.png" width="96" height="110" alt="glyread logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyread"><img src="man/figures/logos/glyread.png" height="110" alt="glyread logo"></a><br>
 <a href="https://github.com/glycoverse/glyread"><strong><code>glyread</code></strong></a><br>
 <sub>Mass spectrometry<br>result importer</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyclean"><img src="man/figures/logos/glyclean.png" width="96" height="110" alt="glyclean logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyclean"><img src="man/figures/logos/glyclean.png" height="110" alt="glyclean logo"></a><br>
 <a href="https://github.com/glycoverse/glyclean"><strong><code>glyclean</code></strong></a><br>
 <sub>Rule-based preprocessing</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glystats"><img src="man/figures/logos/glystats.png" width="96" height="110" alt="glystats logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glystats"><img src="man/figures/logos/glystats.png" height="110" alt="glystats logo"></a><br>
 <a href="https://github.com/glycoverse/glystats"><strong><code>glystats</code></strong></a><br>
 <sub>Statistical analysis</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyvis"><img src="man/figures/logos/glyvis.png" width="96" height="110" alt="glyvis logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyvis"><img src="man/figures/logos/glyvis.png" height="110" alt="glyvis logo"></a><br>
 <a href="https://github.com/glycoverse/glyvis"><strong><code>glyvis</code></strong></a><br>
 <sub>Data visualization</sub>
 </td>
@@ -127,48 +109,30 @@ plotting.
 Packages for representing, parsing, matching, deriving and drawing
 glycan structures and traits.
 
-<table>
+<table width="725">
 <tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyrepr"><img src="man/figures/logos/glyrepr.png" width="96" height="110" alt="glyrepr logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyrepr"><img src="man/figures/logos/glyrepr.png" height="110" alt="glyrepr logo"></a><br>
 <a href="https://github.com/glycoverse/glyrepr"><strong><code>glyrepr</code></strong></a><br>
 <sub>Glycan structure<br>representation</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyparse"><img src="man/figures/logos/glyparse.png" width="96" height="110" alt="glyparse logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyparse"><img src="man/figures/logos/glyparse.png" height="110" alt="glyparse logo"></a><br>
 <a href="https://github.com/glycoverse/glyparse"><strong><code>glyparse</code></strong></a><br>
 <sub>IUPAC, WURCS,<br>GlycoCT parser</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glymotif"><img src="man/figures/logos/glymotif.png" width="96" height="110" alt="glymotif logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glymotif"><img src="man/figures/logos/glymotif.png" height="110" alt="glymotif logo"></a><br>
 <a href="https://github.com/glycoverse/glymotif"><strong><code>glymotif</code></strong></a><br>
 <sub>Motif matching<br>and analysis</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glydet"><img src="man/figures/logos/glydet.png" width="96" height="110" alt="glydet logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glydet"><img src="man/figures/logos/glydet.png" height="110" alt="glydet logo"></a><br>
 <a href="https://github.com/glycoverse/glydet"><strong><code>glydet</code></strong></a><br>
 <sub>Derived trait<br>calculation</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glydraw"><img src="man/figures/logos/glydraw.png" width="96" height="110" alt="glydraw logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glydraw"><img src="man/figures/logos/glydraw.png" height="110" alt="glydraw logo"></a><br>
 <a href="https://github.com/glycoverse/glydraw"><strong><code>glydraw</code></strong></a><br>
 <sub>Glycan structure<br>visualization</sub>
 </td>
@@ -180,48 +144,30 @@ glycan structures and traits.
 Additional packages for reference data, annotation, pathway context,
 enrichment and full pipeline assembly.
 
-<table>
+<table width="725">
 <tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glydb"><img src="man/figures/logos/glydb.png" width="96" height="110" alt="glydb logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glydb"><img src="man/figures/logos/glydb.png" height="110" alt="glydb logo"></a><br>
 <a href="https://github.com/glycoverse/glydb"><strong><code>glydb</code></strong></a><br>
 <sub>Curated glycan<br>database</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyanno"><img src="man/figures/logos/glyanno.png" width="96" height="110" alt="glyanno logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyanno"><img src="man/figures/logos/glyanno.png" height="110" alt="glyanno logo"></a><br>
 <a href="https://github.com/glycoverse/glyanno"><strong><code>glyanno</code></strong></a><br>
 <sub>Composition and<br>structure annotation</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyenzy"><img src="man/figures/logos/glyenzy.png" width="96" height="110" alt="glyenzy logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyenzy"><img src="man/figures/logos/glyenzy.png" height="110" alt="glyenzy logo"></a><br>
 <a href="https://github.com/glycoverse/glyenzy"><strong><code>glyenzy</code></strong></a><br>
 <sub>Biosynthesis pathway<br>analysis</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glyfun"><img src="man/figures/logos/glyfun.png" width="96" height="110" alt="glyfun logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glyfun"><img src="man/figures/logos/glyfun.png" height="110" alt="glyfun logo"></a><br>
 <a href="https://github.com/glycoverse/glyfun"><strong><code>glyfun</code></strong></a><br>
 <sub>Functional enrichment<br>analysis</sub>
 </td>
-</tr>
-<tr>
-<td align="center" width="120">
-<a href="https://github.com/glycoverse/glysmith"><img src="man/figures/logos/glysmith.png" width="96" height="110" alt="glysmith logo"></a>
-</td>
-<td>
+<td align="center" valign="top" width="145">
+<a href="https://github.com/glycoverse/glysmith"><img src="man/figures/logos/glysmith.png" height="110" alt="glysmith logo"></a><br>
 <a href="https://github.com/glycoverse/glysmith"><strong><code>glysmith</code></strong></a><br>
 <sub>Full analytical<br>pipeline</sub>
 </td>
