@@ -192,11 +192,20 @@ This installs the meta-package and all core packages: `glyexp`, `glyread`, `glyc
 
 **Troubleshooting:** "Failed to download" or "403" errors usually indicate network issues with r-universe rate limiting. Try switching network environments or installing from GitHub.
 
-### Install Individual Packages
+To install a single package and its dependencies:
 
 ```r
 pak::repo_add(glycoverse = "https://glycoverse.r-universe.dev")
 pak::pkg_install("glymotif")  # Also installs dependencies: glyrepr, glyparse, glyexp
+```
+
+The optional packages `glydb`, `glyanno`, `glyenzy`, `glyfun`, and `glysmith`
+are installed separately. For example:
+
+```r
+pak::pkg_install("glydb")
+pak::pkg_install("glyanno")
+pak::pkg_install("glyfun")
 ```
 
 ### Install from GitHub
@@ -258,15 +267,26 @@ For a step-by-step guide, search for "How to set up GitHub PAT for R."
 
 </details>
 
-### Install optional packages
+### Run with Docker
 
-`glydb`, `glyanno`, `glyenzy`, `glyfun`, and `glysmith` are installed separately:
+The published [Glycoverse image](https://hub.docker.com/r/fubin1999/glycoverse)
+includes R 4.6.2, the meta-package, and the core packages. The image supports
+`linux/amd64` and `linux/arm64`. With Docker running, start an interactive R
+session:
+
+```sh
+docker run --rm -it fubin1999/glycoverse:4.6.2
+```
+
+Then attach the core packages in R:
 
 ```r
-pak::pkg_install("glydb")
-pak::pkg_install("glyanno")
-pak::pkg_install("glyfun")
+library(glycoverse)
 ```
+
+See the [Glycoverse Docker repository](https://github.com/glycoverse/glycoverse-docker)
+for running local scripts, mounting data directories, and pinning an image by
+digest.
 
 ## Getting Started
 
