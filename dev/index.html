@@ -91,11 +91,18 @@
 <div class="section level3">
 <h3 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
 </h3>
-<div class="section level4">
-<h4 id="microscope-omics-data-analysis">🔬 Omics Data Analysis<a class="anchor" aria-label="anchor" href="#microscope-omics-data-analysis"></a>
+<table width="725" class="table">
+<tr>
+<td colspan="5">
+<h4>
+🔬 Omics Data Analysis
 </h4>
-<p>Ecosystem units focusing on experimental data structures, automated cleaning, robust statistical calculation and interactive downstream plotting.</p>
-<table width="725" class="table"><tr>
+<p>
+Ecosystem units focusing on experimental data structures, automated cleaning, robust statistical calculation and interactive downstream plotting.
+</p>
+</td>
+</tr>
+<tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glyexp" class="external-link"><img src="reference/figures/logos/glyexp.png" width="96" height="110" alt="glyexp logo"></a><br><a href="https://github.com/glycoverse/glyexp" class="external-link"><strong><code>glyexp</code></strong></a><br><sub>Data management &amp;<br>experiment objects</sub>
 </td>
@@ -111,13 +118,18 @@
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glyvis" class="external-link"><img src="reference/figures/logos/glyvis.png" width="96" height="110" alt="glyvis logo"></a><br><a href="https://github.com/glycoverse/glyvis" class="external-link"><strong><code>glyvis</code></strong></a><br><sub>Data visualization</sub>
 </td>
-</tr></table>
-</div>
-<div class="section level4">
-<h4 id="dna-glycan-structure-analysis">🧬 Glycan Structure Analysis<a class="anchor" aria-label="anchor" href="#dna-glycan-structure-analysis"></a>
+</tr>
+<tr>
+<td colspan="5">
+<h4>
+🧬 Glycan Structure Analysis
 </h4>
-<p>Packages for representing, parsing, matching, deriving and drawing glycan structures and traits.</p>
-<table width="725" class="table"><tr>
+<p>
+Packages for representing, parsing, matching, deriving and drawing glycan structures and traits.
+</p>
+</td>
+</tr>
+<tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glyrepr" class="external-link"><img src="reference/figures/logos/glyrepr.png" width="96" height="110" alt="glyrepr logo"></a><br><a href="https://github.com/glycoverse/glyrepr" class="external-link"><strong><code>glyrepr</code></strong></a><br><sub>Glycan structure<br>representation</sub>
 </td>
@@ -133,13 +145,18 @@
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glydraw" class="external-link"><img src="reference/figures/logos/glydraw.png" width="96" height="110" alt="glydraw logo"></a><br><a href="https://github.com/glycoverse/glydraw" class="external-link"><strong><code>glydraw</code></strong></a><br><sub>Glycan structure<br>visualization</sub>
 </td>
-</tr></table>
-</div>
-<div class="section level4">
-<h4 id="toolbox-optional-workflow-extensions">🧰 Optional Workflow Extensions<a class="anchor" aria-label="anchor" href="#toolbox-optional-workflow-extensions"></a>
+</tr>
+<tr>
+<td colspan="5">
+<h4>
+🧰 Optional Workflow Extensions
 </h4>
-<p>Additional packages for reference data, annotation, pathway context, enrichment and full pipeline assembly.</p>
-<table width="725" class="table"><tr>
+<p>
+Additional packages for reference data, annotation, pathway context, enrichment and full pipeline assembly.
+</p>
+</td>
+</tr>
+<tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glydb" class="external-link"><img src="reference/figures/logos/glydb.png" width="96" height="110" alt="glydb logo"></a><br><a href="https://github.com/glycoverse/glydb" class="external-link"><strong><code>glydb</code></strong></a><br><sub>Curated glycan<br>database</sub>
 </td>
@@ -155,8 +172,8 @@
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glysmith" class="external-link"><img src="reference/figures/logos/glysmith.png" width="96" height="110" alt="glysmith logo"></a><br><a href="https://github.com/glycoverse/glysmith" class="external-link"><strong><code>glysmith</code></strong></a><br><sub>Full analytical<br>pipeline</sub>
 </td>
-</tr></table>
-</div>
+</tr>
+</table>
 </div>
 <div class="section level3">
 <h3 id="glycoverse-meta-package">glycoverse Meta-Package<a class="anchor" aria-label="anchor" href="#glycoverse-meta-package"></a>
@@ -234,12 +251,15 @@ Click to expand detailed GitHub installation instructions
 <div class="section level3">
 <h3 id="run-with-docker">Run with Docker<a class="anchor" aria-label="anchor" href="#run-with-docker"></a>
 </h3>
-<p>The published <a href="https://hub.docker.com/r/fubin1999/glycoverse" class="external-link">Glycoverse image</a> includes R 4.6.2, the meta-package, and the core packages. The image supports <code>linux/amd64</code> and <code>linux/arm64</code>. With Docker running, start an interactive R session:</p>
+<details><summary>
+Click to expand Docker instructions
+</summary><p>The published <a href="https://hub.docker.com/r/fubin1999/glycoverse" class="external-link">Glycoverse image</a> includes R 4.6.2, the meta-package, and the core packages. The image supports <code>linux/amd64</code> and <code>linux/arm64</code>. With Docker running, start an interactive R session:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--rm</span> <span class="at">-it</span> fubin1999/glycoverse:4.6.2</span></code></pre></div>
 <p>Then attach the core packages in R:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glycoverse.github.io/glycoverse/">glycoverse</a></span><span class="op">)</span></span></code></pre></div>
 <p>See the <a href="https://github.com/glycoverse/glycoverse-docker" class="external-link">Glycoverse Docker repository</a> for running local scripts, mounting data directories, and pinning an image by digest.</p>
+</details>
 </div>
 </div>
 <div class="section level2">

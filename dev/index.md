@@ -44,26 +44,6 @@ dea_res <- exp |>
 
 ### Packages
 
-#### 🔬 Omics Data Analysis
-
-Ecosystem units focusing on experimental data structures, automated
-cleaning, robust statistical calculation and interactive downstream
-plotting.
-
-[TABLE]
-
-#### 🧬 Glycan Structure Analysis
-
-Packages for representing, parsing, matching, deriving and drawing
-glycan structures and traits.
-
-[TABLE]
-
-#### 🧰 Optional Workflow Extensions
-
-Additional packages for reference data, annotation, pathway context,
-enrichment and full pipeline assembly.
-
 [TABLE]
 
 ### glycoverse Meta-Package
@@ -180,6 +160,8 @@ to configure a Personal Access Token (PAT).
 For a step-by-step guide, search for “How to set up GitHub PAT for R.”
 
 ### Run with Docker
+
+Click to expand Docker instructions
 
 The published [Glycoverse
 image](https://hub.docker.com/r/fubin1999/glycoverse) includes R 4.6.2,
