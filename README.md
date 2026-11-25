@@ -22,6 +22,8 @@ version](https://img.shields.io/badge/R_language-4.5-blue?logo=R)](https://www.r
 release](https://img.shields.io/github/v/release/glycoverse/glycoverse?color=blue)](https://github.com/glycoverse/glycoverse/releases)
 [![R-universe
 version](https://glycoverse.r-universe.dev/glycoverse/badges/version)](https://glycoverse.r-universe.dev/glycoverse)
+[![Paper
+DOI](https://img.shields.io/badge/DOI-10.1038%2Fs41467--026--79409--5-blue)](https://doi.org/10.1038/s41467-026-79409-5)
 [![Codecov test
 coverage](https://codecov.io/gh/glycoverse/glycoverse/graph/badge.svg)](https://app.codecov.io/gh/glycoverse/glycoverse)
 [![MIT
