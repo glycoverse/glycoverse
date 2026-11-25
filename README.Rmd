@@ -69,11 +69,13 @@ dea_res <- exp |>
 
 ### Packages
 
-#### 🔬 Omics Data Analysis
-
-Ecosystem units focusing on experimental data structures, automated cleaning, robust statistical calculation and interactive downstream plotting.
-
 <table width="725">
+<tr>
+<td colspan="5">
+<h4>🔬 Omics Data Analysis</h4>
+<p>Ecosystem units focusing on experimental data structures, automated cleaning, robust statistical calculation and interactive downstream plotting.</p>
+</td>
+</tr>
 <tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glyexp"><img src="man/figures/logos/glyexp.png" width="96" height="110" alt="glyexp logo"></a><br>
@@ -101,13 +103,12 @@ Ecosystem units focusing on experimental data structures, automated cleaning, ro
 <sub>Data visualization</sub>
 </td>
 </tr>
-</table>
-
-#### 🧬 Glycan Structure Analysis
-
-Packages for representing, parsing, matching, deriving and drawing glycan structures and traits.
-
-<table width="725">
+<tr>
+<td colspan="5">
+<h4>🧬 Glycan Structure Analysis</h4>
+<p>Packages for representing, parsing, matching, deriving and drawing glycan structures and traits.</p>
+</td>
+</tr>
 <tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glyrepr"><img src="man/figures/logos/glyrepr.png" width="96" height="110" alt="glyrepr logo"></a><br>
@@ -135,13 +136,12 @@ Packages for representing, parsing, matching, deriving and drawing glycan struct
 <sub>Glycan structure<br>visualization</sub>
 </td>
 </tr>
-</table>
-
-#### 🧰 Optional Workflow Extensions
-
-Additional packages for reference data, annotation, pathway context, enrichment and full pipeline assembly.
-
-<table width="725">
+<tr>
+<td colspan="5">
+<h4>🧰 Optional Workflow Extensions</h4>
+<p>Additional packages for reference data, annotation, pathway context, enrichment and full pipeline assembly.</p>
+</td>
+</tr>
 <tr>
 <td align="center" valign="top" width="20%">
 <a href="https://github.com/glycoverse/glydb"><img src="man/figures/logos/glydb.png" width="96" height="110" alt="glydb logo"></a><br>
@@ -270,6 +270,9 @@ For a step-by-step guide, search for "How to set up GitHub PAT for R."
 
 ### Run with Docker
 
+<details>
+<summary>Click to expand Docker instructions</summary>
+
 The published [Glycoverse image](https://hub.docker.com/r/fubin1999/glycoverse)
 includes R 4.6.2, the meta-package, and the core packages. The image supports
 `linux/amd64` and `linux/arm64`. With Docker running, start an interactive R
@@ -288,6 +291,8 @@ library(glycoverse)
 See the [Glycoverse Docker repository](https://github.com/glycoverse/glycoverse-docker)
 for running local scripts, mounting data directories, and pinning an image by
 digest.
+
+</details>
 
 ## Getting Started
 
